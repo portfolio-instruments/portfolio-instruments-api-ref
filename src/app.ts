@@ -17,8 +17,8 @@ if (app.get("env") === "development") {
   app.use(morgan("tiny"));
 }
 
-app.get("/", (_, res) => {
-  res.send("Welcome placeholder...");
+app.get("/", async (_, res) => {
+  res.send("Welcome...");
 });
 
 combinedRouter(app);
