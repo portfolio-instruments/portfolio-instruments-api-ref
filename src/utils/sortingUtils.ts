@@ -7,11 +7,11 @@ export type SortingOption<T extends Object> = {
 
 export function getSortingOptions<T extends Object>(req: Request, modelSelect: T): SortingOption<T>[] {
     const sortingOptions: SortingOption<T>[] = [];
-    const fields: string[] = req.query.fields instanceof String ? req.query.fields.split(',') : [];
+    const sortingFields: string[] = typeof req.query.sort === 'string' ? req.query.sort.split(',') : [];
     
-    for (const field of fields) {
+    for (const field of sortingFields) {
         const key: string = field.slice(1);
-        const value: typeof SortDirection[keyof typeof SortDirection] = field[0] === '+' ? SortDirection.Asc : SortDirection.Desc;
+        const value: typeof SortDirection[keyof typeof SortDirection] = field[0] === '-' ? SortDirection.Desc : SortDirection.Asc;
 
         if (key in modelSelect) {
             sortingOptions.push(

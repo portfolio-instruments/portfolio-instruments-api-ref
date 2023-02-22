@@ -3,7 +3,9 @@ import { type Request } from 'express';
 export interface CursorPaginationOptions {
     take: number;
     skip: number;
-    cursor?: number;
+    cursor?: {
+        id: number;
+    };
 }
 
 const maxLimitPerPage = 20;
@@ -13,9 +15,9 @@ const defaultLimitPerPage = 10;
 const defaultSkip = 0;
 
 export function getCursorPaginationOptions(req: Request): CursorPaginationOptions { 
-    const cursor: number | undefined = req.query.cursor instanceof String ? parseInt(req.query.cursor as string) : undefined;
-    let take: number = req.query.take instanceof String ? parseInt(req.query.take as string) : defaultLimitPerPage;
-    let skip: number = req.query.skip instanceof String ? parseInt(req.query.skip as string) : defaultSkip;
+    const cursor: { id: number } | undefined = typeof req.query.cursor === 'string' ? { id: parseInt(req.query.cursor as string) } : undefined;
+    let take: number = typeof req.query.take === 'string' ? parseInt(req.query.take as string) : defaultLimitPerPage;
+    let skip: number = typeof req.query.skip === 'string' ? parseInt(req.query.skip as string) : defaultSkip;
 
     if (Math.abs(take) > maxLimitPerPage) {
         if (take < 0) {
@@ -25,7 +27,9 @@ export function getCursorPaginationOptions(req: Request): CursorPaginationOption
         }
     }
     
-    if (skip > maxSkipLimit) {
+    if (skip < 0) {
+        skip = 0;
+    } else if (skip > maxSkipLimit) {
         skip = maxSkipLimit;
     }
 
