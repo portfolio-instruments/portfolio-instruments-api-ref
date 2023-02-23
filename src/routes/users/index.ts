@@ -1,7 +1,9 @@
-import { User, type Prisma } from "@prisma/client";
-import express, { type Request, type Response } from "express";
+import type { User, Prisma } from "@prisma/client";
+import express, { NextFunction, type Response } from "express";
 import prisma from "../../config/prismaClient";
-import { getCursorPaginationOptions, CursorPaginationOptions } from "../../utils/paginationUtils";
+import ApiError from "../../error/ApiError";
+import { queryParamValidation } from "../../middleware/queryParamValidation";
+import { RequestWithQueryValidation, ValidatedQueryParams } from "../../middleware/RequestWithQueryValidation";
 import { getSortingOptions, SortingOption } from "../../utils/sortingUtils";
 
 const router = express.Router();
@@ -11,20 +13,23 @@ const tempUser = {
   name: 'Matt'
 }
 
-router.get("/", async (req: Request, res: Response) => {
-  const paginationOptions: CursorPaginationOptions = getCursorPaginationOptions(req);
-  const sortingOptions: SortingOption<User>[] = getSortingOptions(req, tempUser);
+router.get("/", queryParamValidation, async (req: RequestWithQueryValidation, res: Response, next: NextFunction) => {
+  const { skip, take, cursor, sort } = req.vQuery as ValidatedQueryParams;
+  const sortingOptions: SortingOption<User>[] | undefined = sort ? getSortingOptions(req, tempUser) : undefined;
   // which fields to include in the return
-  // sort/order by - +name, -name
 
-  const users: User[] = await prisma.user.findMany<Prisma.UserFindManyArgs>({
-    take: paginationOptions.take,
-    skip: paginationOptions.skip,
-    cursor: paginationOptions.cursor,
-    orderBy: sortingOptions
-  });
-
-  res.json(users);
+  try {
+    const users: User[] = await prisma.user.findMany<Prisma.UserFindManyArgs>({
+      take,
+      skip,
+      cursor,
+      orderBy: sortingOptions
+    });
+  
+    res.json(users);
+  } catch (err: any) {
+    next(ApiError.internal(err.message));
+  }
 });
 
 export default router;

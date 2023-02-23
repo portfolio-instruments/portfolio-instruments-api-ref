@@ -1,13 +1,13 @@
-import { type Request } from "express";
 import { SortDirection } from "../constants";
+import { RequestWithQueryValidation, ValidatedQueryParams } from "../middleware/RequestWithQueryValidation";
 
 export type SortingOption<T extends Object> = {
     [Property in keyof T]: typeof SortDirection[keyof typeof SortDirection];
 }
 
-export function getSortingOptions<T extends Object>(req: Request, modelSelect: T): SortingOption<T>[] {
+export function getSortingOptions<T extends Object>(req: RequestWithQueryValidation, modelSelect: T): SortingOption<T>[] {
     const sortingOptions: SortingOption<T>[] = [];
-    const sortingFields: string[] = typeof req.query.sort === 'string' ? req.query.sort.split(',') : [];
+    const sortingFields: string[] = ((req.vQuery as ValidatedQueryParams).sort as string).split(',');
     
     for (const field of sortingFields) {
         const key: string = field.slice(1);

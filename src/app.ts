@@ -3,6 +3,7 @@ import helmet from "helmet";
 import compression from "compression";
 import morgan from "morgan";
 import { combinedRouter } from "./routes";
+import { apiErrorHandler } from "./error/apiErrorHandler";
 
 const app = express();
 
@@ -17,11 +18,8 @@ if (app.get("env") === "development") {
   app.use(morgan("tiny"));
 }
 
-app.get("/", async (_, res) => {
-  res.send("Welcome...");
-});
-
 combinedRouter(app);
+app.use(apiErrorHandler);
 
 const PORT = process.env.PORT || 3001;
 app.listen(PORT, () => console.log(`Server started on port ${PORT}`));
