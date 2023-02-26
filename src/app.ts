@@ -2,10 +2,13 @@ import express from "express";
 import helmet from "helmet";
 import compression from "compression";
 import morgan from "morgan";
-import { combinedRouter } from "./routes";
-import { apiErrorHandler } from "./error/apiErrorHandler";
+import { combinedRouter } from "./routes/combinedRouter";
+import { errorMiddleware } from "./middleware/error";
+import { initProcessErrorHandler } from "./errors/processErrorHandler";
 
 const app = express();
+
+initProcessErrorHandler();
 
 app.use(helmet());
 app.use(compression());
@@ -19,7 +22,7 @@ if (app.get("env") === "development") {
 }
 
 combinedRouter(app);
-app.use(apiErrorHandler);
+app.use(errorMiddleware);
 
 const PORT = process.env.PORT || 3001;
 app.listen(PORT, () => console.log(`Server started on port ${PORT}`));

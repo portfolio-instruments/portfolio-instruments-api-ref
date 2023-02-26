@@ -1,6 +1,6 @@
 import type { NextFunction, Response } from 'express';
 import { z } from 'zod';
-import ApiError from '../error/ApiError';
+import ApiError from '../errors/ApiError';
 import { RequestWithQueryValidation } from './RequestWithQueryValidation';
 
 interface QueryParams {
