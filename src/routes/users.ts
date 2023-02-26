@@ -1,10 +1,10 @@
-import express from "express";
-import { getUsers } from "../controllers/users/getUsers";
-import { asyncMiddleware } from "../middleware/async";
-import { queryParamValidation } from "../middleware/queryParamValidation";
+import express from 'express';
+import { asyncWrapper } from '../middleware/asyncWrapper';
+import { validateQuery } from '../middleware/validateQuery';
+import usersController from '../controllers/users';
 
 const router = express.Router();
 
-router.get("/", queryParamValidation, asyncMiddleware(getUsers));
+router.get('/', validateQuery, asyncWrapper(usersController.readAllUsers));
 
-export default router;
+export = router;

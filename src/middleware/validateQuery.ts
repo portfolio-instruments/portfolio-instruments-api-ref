@@ -1,13 +1,25 @@
-import type { NextFunction, Response } from 'express';
+import type { NextFunction, Request, Response } from 'express';
 import { z } from 'zod';
 import ApiError from '../errors/ApiError';
-import { RequestWithQueryValidation } from './RequestWithQueryValidation';
 
 interface QueryParams {
     take?: string;
     skip?: string;
     cursor?: string;
     sort?: string;
+}
+
+export type ValidatedQueryParams = {
+    take?: number;
+    skip?: number;
+    cursor?: {
+        id: number;
+    }
+    sort?: string;
+}
+
+export interface RequestWithQueryValidation extends Request {
+    vQuery?: ValidatedQueryParams;
 }
 
 const queryParamSchema = z.object({
@@ -17,7 +29,7 @@ const queryParamSchema = z.object({
     cursor: z.coerce.number().int().optional()
 });
 
-export function queryParamValidation(req: RequestWithQueryValidation, _: Response, next: NextFunction) {
+export function validateQuery(req: RequestWithQueryValidation, _: Response, next: NextFunction) {
     const queryParams = req.query as QueryParams;
     try {
         queryParamSchema.parse(queryParams);

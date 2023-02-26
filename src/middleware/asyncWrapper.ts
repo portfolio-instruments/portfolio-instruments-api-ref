@@ -3,7 +3,7 @@ import ApiError from "../errors/ApiError";
 
 export type AsyncProcess = (req: Request, res: Response, next: NextFunction) => any;
 
-export const asyncMiddleware = (asyncProcess: AsyncProcess) => {
+export const asyncWrapper = (asyncProcess: AsyncProcess) => {
   return async (req: Request, res: Response, next: NextFunction) => {
     try {
       await asyncProcess(req, res, next);
