@@ -40,7 +40,7 @@ app.use(
 );
 
 /** Routes */
-routes(app);
+app.use('/v1', routes);
 
 /** Error handling */
 app.use(notFoundHandler);

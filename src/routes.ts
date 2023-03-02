@@ -1,14 +1,16 @@
-import type { Express, NextFunction, Request, Response } from 'express';
+import express, { NextFunction, Request, Response } from 'express';
 import userRoutes from './modules/user/user.routes';
 
-function routes(app: Express) {
-    /** Healthcheck */
-    app.get('/ping', (_: Request, res: Response, __: NextFunction): void => {
-        res.status(200).json({ message: 'pong' });
-    });
+const router = express.Router();
 
-    /** Users */
-    app.use('/v1/users', userRoutes);
+function routes() {
+  /** Healthcheck */
+  router.get('/ping', (_: Request, res: Response, __: NextFunction): void => {
+      res.status(200).json({ message: 'pong' });
+  });
+
+  /** Users */
+  router.use('/users', userRoutes);
 }
 
 export default routes;
