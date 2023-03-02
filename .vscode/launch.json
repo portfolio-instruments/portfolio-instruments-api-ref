@@ -4,7 +4,7 @@
         {
             "type": "node",
             "request": "launch",
-            "name": "Launch server (default)",
+            "name": "Launch server (dev)",
             "skipFiles": [
                 "<node_internals>/**"
             ],
@@ -12,7 +12,10 @@
             "preLaunchTask": "tsc: build - tsconfig.json",
             "outFiles": [
                 "${workspaceFolder}/dist/**/*.js"
-            ]
+            ],
+            "env": {
+                "NODE_ENV": "development"
+            }
         }
     ]
 }

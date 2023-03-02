@@ -1,29 +1,21 @@
 import express, { NextFunction, Request, Response } from 'express';
 import helmet from 'helmet';
 import compression from 'compression';
-import { errorHandler, notFoundHandler } from './middleware/error';
-import { initProcessErrorHandler } from './errors/processErrorHandler';
-import usersRouter from './routes/users';
-import Logging from './library/Logging';
+import { errorFallbackHandler, notFoundHandler } from './middleware/errorHandlers';
+import routes from './routes';
+import Logger from './utils/Logger';
+import trafficLogger from './middleware/trafficLogger';
+import initProcessErrorHandler from './errors/processErrorHandler';
 
 const app = express();
 
 /** Startup */
 initProcessErrorHandler();
 
-/** Log the request and response */
-app.use(
-  (req: Request, res: Response, next: NextFunction): void => {
-    Logging.info(`Incoming -> Method: [${req.method}] - Url: [${req.url}] - Ip: [${req.socket.remoteAddress}]`);
+/** Log inbound and outbound traffic */
+app.use(trafficLogger);
 
-    res.on('finish', () => {
-      Logging.info(`Outgoing -> Method: [${req.method}] - Url: [${req.url}] - Ip: [${req.socket.remoteAddress}] - Status: [${res.statusCode}]`);
-    });
-
-    next();
-  }
-);
-
+/** Basic security & performance  */
 app.use(helmet());
 app.use(compression());
 
@@ -31,7 +23,7 @@ app.use(compression());
 app.use(express.json());
 app.use(express.urlencoded({ extended: false }));
 
-/** API Rules */
+/** API rules */
 app.use(
   (req: Request, res: Response, next: NextFunction): void => {
     res.header('Access-Control-Allow-Origin', '*');
@@ -48,19 +40,11 @@ app.use(
 );
 
 /** Routes */
-app.use('/v1/users', usersRouter);
-
-/** Healthcheck */
-app.get(
-  '/ping',
-  (_, res, __): void => {
-    res.status(200).json({ message: 'pong' });
-  }
-);
+routes(app);
 
 /** Error handling */
 app.use(notFoundHandler);
-app.use(errorHandler);
+app.use(errorFallbackHandler);
 
 const PORT = process.env.PORT || 3001;
-app.listen(PORT, () => Logging.info(`Server started on port ${PORT}`));
+app.listen(PORT, () => Logger.info(`App server started on port ${PORT}`));

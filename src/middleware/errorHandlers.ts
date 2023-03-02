@@ -5,7 +5,7 @@ export function notFoundHandler(_: Request, __: Response, next: NextFunction): v
   next(ApiError.notFound('Sorry, the page you are looking for could not be found.'));
 }
 
-export async function errorHandler(err: Error, _: Request, res: Response, __: NextFunction): Promise<void> {
+export async function errorFallbackHandler(err: Error, _: Request, res: Response, ___: NextFunction): Promise<void> {
   if (err instanceof ApiError) {
     res.status(err.status).json({ message: err.message });
     return;

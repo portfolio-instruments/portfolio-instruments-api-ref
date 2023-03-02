@@ -15,7 +15,7 @@
       "noImplicitThis": true,
       "noUnusedLocals": true,
       "noUnusedParameters": true,
-      "noImplicitReturns": true,
+      "noImplicitReturns": false,
       "allowSyntheticDefaultImports": true,
       "esModuleInterop": true,
       "emitDecoratorMetadata": true,

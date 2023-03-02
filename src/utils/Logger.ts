@@ -5,7 +5,7 @@ import chalk from 'chalk';
  * we need to probably use Chalk 4 for now.
  */
 
-export default class Logging {
+export default class Logger {
   public static log = (args: any) => this.info(args);
 
   public static info(args: any) {
