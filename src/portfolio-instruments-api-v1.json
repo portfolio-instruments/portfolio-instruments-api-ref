@@ -1,0 +1,49 @@
+{
+    "openapi":"3.0.2",
+    "info": {
+      "title": "Portfolio Instruments API",
+      "version": "1.0.0",
+      "contact": {
+        "name": "@MicroFish91",
+        "url": "https://github.com/MicroFish91/Portfolio-Instruments-API",
+        "email": "portfolioinstruments@gmail.com"
+      },
+      "license": {
+        "name": "GPL-3.0 License",
+        "url": "https://github.com/MicroFish91/Portfolio-Instruments-API/blob/main/LICENSE"
+      }
+    },
+    "tags": [
+      {
+        "name": "users"
+      }
+    ],
+    "servers": [
+      {
+        "url": "http://localhost:3001/v1",
+        "description": "Development server"
+      },
+      {
+        "url": "https://api.portfolioinstruments.com/v1",
+        "description": "Production server"
+      }
+    ],
+    "paths": {
+      "/users": {
+        "get": {
+          "tags": [
+            "users"
+          ],
+          "description": "Get all users",
+          "responses": {
+            "200": {
+              "description": "Users were obtained"
+            },
+            "500": {
+              "description": "Server error"
+            }
+          }
+        }
+      }
+    }
+}

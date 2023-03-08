@@ -19,7 +19,7 @@ app.use(trafficLogger);
 app.use(helmet());
 app.use(compression());
 
-/** Body parser */
+/** Body Parser */
 app.use(express.json());
 app.use(express.urlencoded({ extended: false }));
 
@@ -40,7 +40,7 @@ app.use(
 );
 
 /** Routes */
-app.use('/v1', routes);
+routes(app);
 
 /** Error handling */
 app.use(notFoundHandler);

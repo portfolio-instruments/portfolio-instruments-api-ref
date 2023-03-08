@@ -3,6 +3,7 @@ import production from './production';
 import dotenv from 'dotenv';
 
 export interface Config {
+  HOSTNAME?: string;
   PORT?: number;
   JWT_ACCESS_TOKEN_SECRET?: string;
   JWT_REFRESH_TOKEN_SECRET?: string;

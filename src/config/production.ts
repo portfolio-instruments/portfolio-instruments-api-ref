@@ -3,6 +3,7 @@ import dotenv from 'dotenv';
 dotenv.config();
 
 export default {
+  HOSTNAME: 'https://api.portfolioinstruments.com',
   PORT: Number(process.env.PORT),
   JWT_ACCESS_TOKEN_SECRET: process.env.JWT_ACCESS_TOKEN_SECRET,
   JWT_REFRESH_TOKEN_SECRET: process.env.JWT_REFRESH_TOKEN_SECRET,
