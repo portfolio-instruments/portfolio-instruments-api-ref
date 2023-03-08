@@ -1,4 +1,4 @@
-import { hashPassword } from '../../utils/auth.utils';
+import { hashPassword } from '../../utils/authUtils';
 import { CreateUserContext, CreateUserRequest } from './user.schema';
 
 export function parseCreateUser(req: CreateUserRequest): CreateUserContext {
