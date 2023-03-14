@@ -9,7 +9,7 @@ import { createUserHypermediaResponse } from './user.hypermedia';
 async function getAllUsersHandler(req: Request, res: Response): Promise<void> {
     const parsedQuery: ParsedQuery = parseQuery(req, userKeys);
     const users: User[] = await getAllUsers(parsedQuery);
-    res.json(users);
+    res.status(200).json(users);
 }
 
 async function createUserHandler(req: CreateUserRequest & Request, res: Response): Promise<void> {

@@ -2,6 +2,10 @@ import type { User } from "@prisma/client";
 import { omit } from "lodash";
 import { IHypermediaResponse } from "../IHypermediaResponse";
 import config from '../../config'
+import { createSessionDescription } from "../session/session.hypermedia";
+
+export const createUserDescription: string = 'Create a new user';
+export const getUserDescription: string = 'Retrieve user information';
 
 export function createUserHypermediaResponse(user: User): IHypermediaResponse<User> {
     return {
@@ -10,20 +14,20 @@ export function createUserHypermediaResponse(user: User): IHypermediaResponse<Us
             self: {
                 href: `${config.HOSTNAME}/v1/users`,
                 type: ['application/json'],
-                title: 'Create New User',
+                description: createUserDescription,
                 method: 'POST',
                 status: 'Success'
             },
             session: {
                 href: `${config.HOSTNAME}/v1/sessions`,
                 type: ['application/json'],
-                title: 'Create New Session',
+                description: createSessionDescription,
                 method: 'POST'
             },
             user: {
-                href: `${config.HOSTNAME}/v1/users/${user.id}`,
+                href: `${config.HOSTNAME}/v1/users`,
                 type: [],
-                title: 'Read User Profile',
+                description: getUserDescription,
                 method: 'GET',
                 access: 'Restricted'
             }
