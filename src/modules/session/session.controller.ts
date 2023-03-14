@@ -1,6 +1,6 @@
 import type { Request, Response } from "express";
 import { CreateSessionContext, CreateSessionRequest } from "./session.schema";
-import { validateUserPassword } from "../user/user.service";
+import { validateUser } from "../user/user.service";
 import { signJwt } from "./session.utils";
 import { User } from "@prisma/client";
 import config from '../../config';
@@ -9,7 +9,7 @@ import { createSessionHypermediaResponse } from "./session.hypermedia";
 
 export async function createUserSessionHandler(req: CreateSessionRequest & Request, res: Response): Promise<void> {
     const sessionContext: CreateSessionContext = req.body;
-    const user: Partial<User> | null = await validateUserPassword(sessionContext.email, sessionContext.password);
+    const user: Partial<User> | null = await validateUser(sessionContext.email, sessionContext.password);
     if (!user) {
         res.status(401).json({ error: 'Invalid email and password combination' });
         return;
