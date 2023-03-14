@@ -1,7 +1,6 @@
 import type { NextFunction, Request, Response } from 'express';
-import { AnyZodObject } from 'zod';
+import { AnyZodObject, coerce, object, string } from 'zod';
 import ApiError from '../errors/ApiError';
-import { coerce, object, string } from 'zod';
 
 const querySchema = object({
   sort: string({ required_error: 'Sort query is invalid' }).optional(),
@@ -15,10 +14,7 @@ const querySchema = object({
     .min(0, 'Skip query must be at least 0')
     .max(50, 'Skip query can be at most 50')
     .optional(),
-  cursor: coerce
-    .number({ required_error: 'Cursor query is invalid' })
-    .int({ message: 'Cursor query must be a whole number' })
-    .optional(),
+  cursor: coerce.number({ required_error: 'Cursor query is invalid' }).int({ message: 'Cursor query must be a whole number' }).optional(),
 });
 
 function validateRequest(schema?: AnyZodObject) {
