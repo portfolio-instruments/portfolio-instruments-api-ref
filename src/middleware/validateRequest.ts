@@ -1,6 +1,7 @@
 import type { NextFunction, Request, Response } from 'express';
-import { AnyZodObject, coerce, object, string } from 'zod';
+import { AnyZodObject, coerce, object, string, ZodError } from 'zod';
 import ApiError from '../errors/ApiError';
+import { formatZodErrorMessage } from '../errors/formatErrors';
 
 const querySchema = object({
   sort: string({ required_error: 'Sort query is invalid' }).optional(),
@@ -26,6 +27,10 @@ function validateRequest(schema?: AnyZodObject) {
       querySchema.parse({ query: req.query });
       next();
     } catch (err: any) {
+      if (err instanceof ZodError) {
+        next(ApiError.badRequest(formatZodErrorMessage(err.issues)));
+        return;
+      }
       next(ApiError.badRequest(err.message));
     }
   };

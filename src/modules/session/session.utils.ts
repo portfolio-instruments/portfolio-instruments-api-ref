@@ -7,7 +7,7 @@ export interface VerifiedJwt<T> {
 }
 
 export function signJwt(payload: Object, secret: string, expiresIn: string): string {
-  return jwt.sign(payload, secret, { algorithm: 'RS256', expiresIn });
+  return jwt.sign(payload, secret, { expiresIn });
 }
 
 export function verifyJwt<T extends jwt.JwtPayload>(token: string, secret: string): VerifiedJwt<T> {
