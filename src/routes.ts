@@ -8,7 +8,7 @@ function routes(app: Express) {
     res.status(200).json({ message: 'pong' });
   });
 
-  /** Session */
+  /** Sessions */
   app.use('/v1/sessions', sessionRoutes);
 
   /** Users */

@@ -1,6 +1,13 @@
 import { object, string, TypeOf } from 'zod';
+import { IResponseHyperlinkField } from '../IHypermediaResponse';
 
 export const userKeys: string[] = ['id', 'email', 'name', 'password', 'role', 'createdAt', 'updatedAt'];
+
+export const createUserHypermediaSchema: IResponseHyperlinkField[] = [
+  { field: 'email', type: 'string', required: true },
+  { field: 'password', type: 'string', required: true },
+  { field: 'name', type: 'string', required: true },
+];
 
 export const createUserSchema = object({
   body: object({
