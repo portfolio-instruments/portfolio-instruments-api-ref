@@ -1,36 +1,37 @@
-import type { User } from "@prisma/client";
-import { omit } from "lodash";
-import { IHypermediaResponse } from "../IHypermediaResponse";
-import config from '../../config'
-import { createSessionDescription } from "../session/session.hypermedia";
+import type { User } from '@prisma/client';
+import { omit } from 'lodash';
+import config from '../../config';
+import { IHypermediaResponse, IResponseHyperlink } from '../IHypermediaResponse';
+import { createSessionHypermediaComponent } from '../session/session.hypermedia';
+import { createUserHypermediaSchema } from './user.schema';
 
-export const createUserDescription: string = 'Create a new user';
-export const getUserDescription: string = 'Retrieve user information';
+/** User Hypermedia Components */
+export const createUserHypermediaComponent: IResponseHyperlink = {
+  href: `${config.HOSTNAME}/v1/users`,
+  type: ['application/json'],
+  description: 'Create a new user',
+  method: 'POST',
+  fields: createUserHypermediaSchema,
+};
 
+export const getUserHypermediaComponent: IResponseHyperlink = {
+  href: `${config.HOSTNAME}/v1/users`,
+  type: [],
+  description: 'Retrieve user information',
+  method: 'GET',
+  access: 'Restricted',
+  // query?
+};
+
+/** User Hypermedia Responses */
 export function createUserHypermediaResponse(user: User): IHypermediaResponse<User> {
-    return {
-        data: omit(user, ['password', 'role']),
-        _links: {
-            self: {
-                href: `${config.HOSTNAME}/v1/users`,
-                type: ['application/json'],
-                description: createUserDescription,
-                method: 'POST',
-                status: 'Success'
-            },
-            session: {
-                href: `${config.HOSTNAME}/v1/sessions`,
-                type: ['application/json'],
-                description: createSessionDescription,
-                method: 'POST'
-            },
-            user: {
-                href: `${config.HOSTNAME}/v1/users`,
-                type: [],
-                description: getUserDescription,
-                method: 'GET',
-                access: 'Restricted'
-            }
-        }
-    };
+  return {
+    data: omit(user, ['password', 'role']),
+    _links: {
+      self: { ...createUserHypermediaComponent, status: 'Success' },
+      session: { ...createSessionHypermediaComponent },
+      get: { ...getUserHypermediaComponent },
+      // delete?
+    },
+  };
 }

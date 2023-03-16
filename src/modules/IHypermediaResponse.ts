@@ -2,10 +2,10 @@
 export interface IHypermediaResponse<T> {
   data?: Partial<T>;
   message?: string;
-  _links: Record<string, ResponseHyperlinks>;
+  _links: Record<string, IResponseHyperlink>;
 }
 
-export interface ResponseHyperlinks {
+export interface IResponseHyperlink {
   href: string;
   type: string[];
   description: string;
@@ -13,4 +13,11 @@ export interface ResponseHyperlinks {
   access?: 'Public' | 'Restricted';
   status?: 'Success' | 'Failed' | 'Pending';
   authToken?: string;
+  fields?: IResponseHyperlinkField[];
+}
+
+export interface IResponseHyperlinkField {
+  field: string;
+  type: string;
+  required?: boolean;
 }
