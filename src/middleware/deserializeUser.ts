@@ -5,8 +5,8 @@ import { VerifiedJwt, verifyJwt } from '../modules/session/session.utils';
 import { nonNullProp } from '../utils/nonNull';
 
 export interface ValidUserRequest {
-  locals: {
-    user: {
+  locals?: {
+    user?: {
       id: number;
       name: string;
       email: string;
@@ -15,7 +15,7 @@ export interface ValidUserRequest {
   };
 }
 
-export default function deserializeUser(req: Partial<ValidUserRequest> & Request, __: Response, next: NextFunction): void {
+export default function deserializeUser(req: ValidUserRequest & Request, __: Response, next: NextFunction): void {
   const accessToken = req.headers.authorization?.replace(/^Bearer\s/, '');
 
   if (!accessToken) {
@@ -26,13 +26,12 @@ export default function deserializeUser(req: Partial<ValidUserRequest> & Request
   const jwtResponse: VerifiedJwt<User> = verifyJwt(accessToken, nonNullProp(config, 'JWT_ACCESS_TOKEN_SECRET'));
   const user = nonNullProp(jwtResponse, 'decoded');
 
-  req.locals = {
-    user: {
-      id: user.id,
-      email: user.email,
-      name: user.name,
-      role: user.role,
-    },
+  req.locals ||= {};
+  req.locals.user = {
+    id: user.id,
+    name: user.name,
+    email: user.email,
+    role: user.role,
   };
 
   next();
