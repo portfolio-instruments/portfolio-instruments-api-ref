@@ -1,6 +1,6 @@
 // HATEOAS inspired response interface
 export interface IHypermediaResponse<T> {
-  data?: Partial<T>;
+  data?: Partial<T> | Partial<T>[];
   message?: string;
   _links: Record<string, IResponseHyperlink>;
 }

@@ -9,8 +9,11 @@ export function getUser(email: string): Promise<User | null> {
   return prisma.user.findUnique({ where: { email } });
 }
 
-export function getAllUsers(options?: ParsedQuery): Promise<User[]> {
+export function getAllUsers(options?: ParsedQuery & { email?: string }): Promise<User[]> {
   return prisma.user.findMany<Prisma.UserFindManyArgs>({
+    where: {
+      email: options?.email,
+    },
     take: options?.take,
     skip: options?.skip,
     cursor: options?.cursor,

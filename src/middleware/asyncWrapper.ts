@@ -1,9 +1,9 @@
-import type { NextFunction, Request, Response } from "express";
-import ApiError from "../errors/ApiError";
+import type { NextFunction, Request, Response } from 'express';
+import ApiError from '../errors/ApiError';
 
 export type AsyncProcess = (req: Request, res: Response, next: NextFunction) => any;
 
-function asyncWrapper (asyncProcess: AsyncProcess) {
+function asyncWrapper(asyncProcess: AsyncProcess) {
   return async (req: Request, res: Response, next: NextFunction) => {
     try {
       await asyncProcess(req, res, next);
@@ -15,6 +15,6 @@ function asyncWrapper (asyncProcess: AsyncProcess) {
       }
     }
   };
-};
+}
 
 export default asyncWrapper;

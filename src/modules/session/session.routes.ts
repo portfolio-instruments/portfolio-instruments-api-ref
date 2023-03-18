@@ -9,4 +9,4 @@ const router = express.Router();
 // POST /session
 router.post('/', validateRequest(sessionSchema), asyncWrapper(sessionController.createUserSessionHandler));
 
-export = router;
+export default router;
