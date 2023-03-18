@@ -1,11 +1,12 @@
+import compression from 'compression';
 import express, { NextFunction, Request, Response } from 'express';
 import helmet from 'helmet';
-import compression from 'compression';
+import initProcessErrorHandler from './errors/processErrorHandler';
+import deserializeUser from './middleware/deserializeUser';
 import { errorFallbackHandler, notFoundHandler } from './middleware/errorHandlers';
+import trafficLogger from './middleware/trafficLogger';
 import routes from './routes';
 import Logger from './utils/Logger';
-import trafficLogger from './middleware/trafficLogger';
-import initProcessErrorHandler from './errors/processErrorHandler';
 
 const app = express();
 
@@ -24,20 +25,21 @@ app.use(express.json());
 app.use(express.urlencoded({ extended: false }));
 
 /** API rules */
-app.use(
-  (req: Request, res: Response, next: NextFunction): void => {
-    res.header('Access-Control-Allow-Origin', '*');
-    res.header('Access-Control-Allow-Headers', 'Origin, X-Requested-With, Content-Type, Accept, Authorization');
+app.use((req: Request, res: Response, next: NextFunction): void => {
+  res.header('Access-Control-Allow-Origin', '*');
+  res.header('Access-Control-Allow-Headers', 'Origin, X-Requested-With, Content-Type, Accept, Authorization');
 
-    if (req.method === 'OPTIONS') {
-      res.header('Access-Control-Allow-Methods', 'PUT, POST, PATCH, DELETE, GET');
-      res.status(200).json({});
-      return;
-    }
-
-    next();
+  if (req.method === 'OPTIONS') {
+    res.header('Access-Control-Allow-Methods', 'PUT, POST, PATCH, DELETE, GET');
+    res.status(200).json({});
+    return;
   }
-);
+
+  next();
+});
+
+/** Deserialize User */
+app.use(deserializeUser);
 
 /** Routes */
 routes(app);
