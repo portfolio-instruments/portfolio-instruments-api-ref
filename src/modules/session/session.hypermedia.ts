@@ -1,3 +1,4 @@
+import { omit } from 'lodash';
 import config from '../../config';
 import { IHypermediaResponse, IResponseHyperlink } from '../IHypermediaResponse';
 import { getUsersHypermediaComponent } from '../user/user.hypermedia';
@@ -17,7 +18,7 @@ export function createSessionHypermediaResponse(authToken: string): IHypermediaR
   return {
     message: 'User session created successfully',
     _links: {
-      self: { ...createSessionHypermediaComponent, status: 'Success' },
+      self: { ...omit(createSessionHypermediaComponent, 'fields'), status: 'Success' },
       user: { ...getUsersHypermediaComponent, authToken },
     },
   };

@@ -15,7 +15,7 @@ export interface ValidUserRequest {
   };
 }
 
-export default function deserializeUser(req: ValidUserRequest & Request, __: Response, next: NextFunction): void {
+export default function deserializeUser(req: Partial<ValidUserRequest> & Request, __: Response, next: NextFunction): void {
   const accessToken = req.headers.authorization?.replace(/^Bearer\s/, '');
 
   if (!accessToken) {
@@ -24,13 +24,15 @@ export default function deserializeUser(req: ValidUserRequest & Request, __: Res
   }
 
   const jwtResponse: VerifiedJwt<User> = verifyJwt(accessToken, nonNullProp(config, 'JWT_ACCESS_TOKEN_SECRET'));
-  const user: User = nonNullProp(jwtResponse, 'decoded');
+  const user = nonNullProp(jwtResponse, 'decoded');
 
-  req.locals.user = {
-    id: user.id,
-    email: user.email,
-    name: user.name,
-    role: user.role,
+  req.locals = {
+    user: {
+      id: user.id,
+      email: user.email,
+      name: user.name,
+      role: user.role,
+    },
   };
 
   next();

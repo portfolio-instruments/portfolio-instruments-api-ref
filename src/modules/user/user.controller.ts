@@ -8,8 +8,8 @@ import { CreateUserContext, CreateUserRequest, userKeys } from './user.schema';
 import { createUser, getAllUsers, getUser } from './user.service';
 import { parseCreateUser } from './user.utils';
 
-async function getAllUsersHandler(req: ValidUserRequest & Request, res: Response): Promise<void> {
-  const email: string | undefined = res.locals.user.role === 'USER' ? res.locals.user.email : undefined;
+async function getAllUsersHandler(req: Partial<ValidUserRequest> & Request, res: Response): Promise<void> {
+  const email: string | undefined = req.locals?.user.role === 'USER' ? req.locals.user.email : undefined;
   const parsedQuery: ParsedQuery = parseQuery(req, userKeys);
   const users: User[] = await getAllUsers({ ...parsedQuery, email });
   res.status(200).json(getUsersHypermediaResponse(users));

@@ -2,6 +2,7 @@ import compression from 'compression';
 import express, { NextFunction, Request, Response } from 'express';
 import helmet from 'helmet';
 import initProcessErrorHandler from './errors/processErrorHandler';
+import deserializeUser from './middleware/deserializeUser';
 import { errorFallbackHandler, notFoundHandler } from './middleware/errorHandlers';
 import trafficLogger from './middleware/trafficLogger';
 import routes from './routes';
@@ -36,6 +37,9 @@ app.use((req: Request, res: Response, next: NextFunction): void => {
 
   next();
 });
+
+/** Deserialize User */
+app.use(deserializeUser);
 
 /** Routes */
 routes(app);

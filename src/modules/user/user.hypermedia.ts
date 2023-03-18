@@ -38,7 +38,7 @@ export function createUserHypermediaResponse(user: User): IHypermediaResponse<Us
   return {
     data: omit(user, ['password', 'role']),
     _links: {
-      self: { ...createUserHypermediaComponent, status: 'Success' },
+      self: { ...omit(createUserHypermediaComponent, 'fields'), status: 'Success' },
       session: { ...createSessionHypermediaComponent },
       get: { ...getUsersHypermediaComponent },
       // delete?
