@@ -1,4 +1,4 @@
-import { Prisma, User } from '@prisma/client';
+import { Prisma, Settings, User } from '@prisma/client';
 import bcrypt from 'bcryptjs';
 import { omit } from 'lodash';
 import { ParsedQuery } from '../../utils/parseQuery';
@@ -14,6 +14,9 @@ export function getAllUsers(options?: ParsedQuery & { email?: string }): Promise
     where: {
       email: options?.email,
     },
+    include: {
+      settings: options?.expand === 'settings',
+    },
     take: options?.take,
     skip: options?.skip,
     cursor: options?.cursor,
@@ -23,6 +26,10 @@ export function getAllUsers(options?: ParsedQuery & { email?: string }): Promise
 
 export function createUser(user: CreateUserContext): Promise<User> {
   return prisma.user.create({ data: user });
+}
+
+export function createUserSettings(userId: number): Promise<Settings> {
+  return prisma.settings.create({ data: { userId } });
 }
 
 export async function validateUser(email: string, password: string): Promise<Partial<User> | null> {

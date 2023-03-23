@@ -16,6 +16,7 @@ const querySchema = object({
     .max(50, 'Skip query can be at most 50')
     .optional(),
   cursor: coerce.number({ required_error: 'Cursor query is invalid' }).int({ message: 'Cursor query must be a whole number' }).optional(),
+  expand: string({ required_error: 'Expand query is invalid' }).optional(),
 });
 
 function validateRequest(schema?: AnyZodObject) {

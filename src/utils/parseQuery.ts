@@ -10,6 +10,7 @@ export interface ParsedQuery {
     id: number;
   };
   sort?: SortingOption[];
+  expand?: string;
 }
 
 /** Only use after validating 'querySchema' via 'validateRequest' middleware */
@@ -18,7 +19,7 @@ export function parseQuery(req: Request, validKeys: string[]): ParsedQuery {
   const take = req.query.take ? parseInt(req.query.take as string) : undefined;
   const cursor = req.query.cursor ? { id: parseInt(req.query.cursor as string) } : undefined;
   const sort = req.query.sort ? getSortingOptions(req, validKeys) : undefined;
-  return { skip, take, cursor, sort };
+  return { skip, take, cursor, sort, expand: req.query.expand as string | undefined };
 }
 
 export function getSortingOptions(req: Request, validKeys: string[]): SortingOption[] {

@@ -1,4 +1,4 @@
-import type { User } from '@prisma/client';
+import type { Settings, User } from '@prisma/client';
 import { omit } from 'lodash';
 import config from '../../config';
 import { IHypermediaResponse, IResponseHyperlink } from '../IHypermediaResponse';
@@ -8,19 +8,30 @@ import { createUserHypermediaSchema } from './user.schema';
 /** User Hypermedia Components */
 export const getUsersHypermediaComponent: IResponseHyperlink = {
   href: `${config.HOSTNAME}/v1/users`,
-  type: [],
-  description: 'Retrieve user information',
+  description: 'Retrieve users information',
   method: 'GET',
+  type: [],
   access: 'Restricted',
   // query?
 };
 
 export const createUserHypermediaComponent: IResponseHyperlink = {
   href: `${config.HOSTNAME}/v1/users`,
-  type: ['application/json'],
   description: 'Create a new user',
   method: 'POST',
   fields: createUserHypermediaSchema,
+  type: ['application/json'],
+};
+
+export const createUserSettingsHypermediaComponent = (userId: number): IResponseHyperlink => {
+  return {
+    href: `${config.HOSTNAME}/v1/users/${userId}/settings`,
+    description: 'Retrieve user settings',
+    method: 'GET',
+    type: [],
+    access: 'Restricted',
+    // query?
+  };
 };
 
 /** User Hypermedia Responses */
@@ -29,19 +40,24 @@ export function getUsersHypermediaResponse(users: User[]): IHypermediaResponse<U
     data: users.map((user) => omit(user, ['password', 'role'])),
     _links: {
       self: { ...omit(getUsersHypermediaComponent, 'access') },
+      // getUser
     },
-    // query?
   };
 }
 
-export function createUserHypermediaResponse(user: User): IHypermediaResponse<User> {
+export function createUserHypermediaResponse(user: User, settings?: Settings): IHypermediaResponse<User & { settings?: Partial<Settings> }> {
+  const data: Partial<User> & { settings?: Partial<Settings> } = {
+    ...omit(user, ['password', 'role']),
+    settings: settings ? omit(settings, ['userId']) : undefined,
+  };
+
   return {
-    data: omit(user, ['password', 'role']),
+    data,
     _links: {
       self: { ...omit(createUserHypermediaComponent, 'fields'), status: 'Success' },
-      session: { ...createSessionHypermediaComponent },
-      get: { ...getUsersHypermediaComponent },
+      getUsers: { ...getUsersHypermediaComponent },
       // delete?
+      createSession: { ...createSessionHypermediaComponent },
     },
   };
 }
