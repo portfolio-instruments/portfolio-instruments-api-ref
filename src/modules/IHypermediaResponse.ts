@@ -7,13 +7,13 @@ export interface IHypermediaResponse<T> {
 
 export interface IResponseHyperlink {
   href: string;
-  type: string[];
   description: string;
   method: 'GET' | 'POST' | 'PUT' | 'PATCH' | 'DELETE';
-  access?: 'Public' | 'Restricted';
-  status?: 'Success' | 'Failed' | 'Pending';
-  authToken?: string;
   fields?: IResponseHyperlinkField[];
+  type: string[];
+  status?: 'Success' | 'Failed' | 'Pending';
+  access?: 'Public' | 'Restricted';
+  authToken?: string;
 }
 
 export interface IResponseHyperlinkField {

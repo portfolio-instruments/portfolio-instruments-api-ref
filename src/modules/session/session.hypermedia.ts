@@ -7,10 +7,10 @@ import { createSessionHypermediaSchema } from './session.schema';
 /** Session Hypermedia Components */
 export const createSessionHypermediaComponent: IResponseHyperlink = {
   href: `${config.HOSTNAME}/v1/sessions`,
-  type: ['application/json'],
   description: 'Create a new session for the user',
   method: 'POST',
   fields: createSessionHypermediaSchema,
+  type: ['application/json'],
 };
 
 /** Session Hypermedia Responses */
@@ -19,7 +19,7 @@ export function createSessionHypermediaResponse(authToken: string): IHypermediaR
     message: 'User session created successfully',
     _links: {
       self: { ...omit(createSessionHypermediaComponent, 'fields'), status: 'Success' },
-      user: { ...getUsersHypermediaComponent, authToken },
+      getUsers: { ...getUsersHypermediaComponent, authToken },
     },
   };
 }
