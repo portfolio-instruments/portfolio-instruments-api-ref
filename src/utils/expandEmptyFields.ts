@@ -7,7 +7,7 @@ export interface ExpandFields<F> {
  * @remarks Use this function to expand empty fields that you specify with href values.
  * (Returns an object with all the correct typings)
  */
-export function expandEmptyFields<T extends object, F extends string>(obj: T, expandFields: ExpandFields<F>[]) {
+export function expandEmptyFields<T extends object, F extends string>(obj: T, expandFields: ExpandFields<F>[]): T & Record<F, { href: string }> {
   return expandEmptyFieldsUtility(
     obj,
     expandFields.map((ef) => ef.fields),
