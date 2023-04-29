@@ -1,7 +1,9 @@
 import compression from 'compression';
 import express, { NextFunction, Request, Response } from 'express';
 import helmet from 'helmet';
-import initProcessErrorHandler from './errors/processErrorHandler';
+import config from './config';
+import swaggerDocs from './docs/swaggerDocs';
+import processErrorHandlers from './errors/processErrorHandler';
 import deserializeUser from './middleware/deserializeUser';
 import { errorFallbackHandler, notFoundHandler } from './middleware/errorHandlers';
 import trafficLogger from './middleware/trafficLogger';
@@ -10,8 +12,8 @@ import Logger from './utils/Logger';
 
 const app = express();
 
-/** Startup */
-initProcessErrorHandler();
+/** Process error handlers */
+processErrorHandlers();
 
 /** Log inbound and outbound traffic */
 app.use(trafficLogger);
@@ -20,9 +22,12 @@ app.use(trafficLogger);
 app.use(helmet());
 app.use(compression());
 
-/** Body Parser */
+/** Body parser */
 app.use(express.json());
 app.use(express.urlencoded({ extended: false }));
+
+/** Swagger docs */
+swaggerDocs(app);
 
 /** API rules */
 app.use((req: Request, res: Response, next: NextFunction): void => {
@@ -38,7 +43,7 @@ app.use((req: Request, res: Response, next: NextFunction): void => {
   next();
 });
 
-/** Deserialize User */
+/** Deserialize user */
 app.use(deserializeUser);
 
 /** Routes */
@@ -48,5 +53,4 @@ routes(app);
 app.use(notFoundHandler);
 app.use(errorFallbackHandler);
 
-const PORT = process.env.PORT || 3001;
-app.listen(PORT, () => Logger.info(`App server started on port ${PORT}`));
+app.listen(config.PORT, () => Logger.info(`App server started on port ${config.PORT}`));
