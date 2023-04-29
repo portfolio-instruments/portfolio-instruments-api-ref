@@ -3,8 +3,18 @@ import sessionRoutes from './modules/session/session.routes';
 import userRoutes from './modules/user/user.routes';
 
 function routes(app: Express) {
-  /** Healthcheck */
-  app.get('/ping', (_: Request, res: Response, __: NextFunction): void => {
+  /**
+   * @openapi
+   * /ping:
+   *    get:
+   *      summary: Checks if the app is up and running
+   *      tags:
+   *        - Healthcheck
+   *      responses:
+   *        200:
+   *          description: App is up and running
+   */
+  app.get('/v1/ping', (_: Request, res: Response, __: NextFunction): void => {
     res.status(200).json({ message: 'pong' });
   });
 

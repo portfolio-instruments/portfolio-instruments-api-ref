@@ -1,4 +1,4 @@
-function initProcessErrorHandler() {
+function processErrorHandlers() {
   process.on('uncaughtException', async (err: Error) => {
     console.error(err);
     process.exit(1);
@@ -10,4 +10,4 @@ function initProcessErrorHandler() {
   });
 }
 
-export default initProcessErrorHandler;
+export default processErrorHandlers;
