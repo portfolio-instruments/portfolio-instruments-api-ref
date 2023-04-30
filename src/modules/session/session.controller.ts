@@ -4,7 +4,6 @@ import config from '../../config';
 import ApiError from '../../errors/ApiError';
 import { nonNullProp } from '../../utils/nonNull';
 import { validateUser } from '../user/user.service';
-import { createSessionHypermediaResponse } from './session.hypermedia';
 import { CreateSessionContext, CreateSessionRequest } from './session.schema';
 import { signJwt } from './session.utils';
 
@@ -16,8 +15,13 @@ export async function createUserSessionHandler(req: CreateSessionRequest & Reque
     return;
   }
 
-  const jwtToken: string = signJwt(user, nonNullProp(config, 'JWT_ACCESS_TOKEN_SECRET'), '2h');
-  res.status(201).json(createSessionHypermediaResponse(jwtToken));
+  const expiresIn: string = '2h';
+  const jwtToken: string = signJwt(user, nonNullProp(config, 'JWT_ACCESS_TOKEN_SECRET'), expiresIn);
+  res.status(201).json({
+    token: jwtToken,
+    expiresIn,
+    // Todo: Refresh token
+  });
 }
 
 export default { createUserSessionHandler };
