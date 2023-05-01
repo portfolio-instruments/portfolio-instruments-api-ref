@@ -1,5 +1,5 @@
 import type { NextFunction, Request, Response } from 'express';
-import { AnyZodObject, coerce, object, string, ZodError } from 'zod';
+import { AnyZodObject, coerce, object, string, ZodEffects, ZodError } from 'zod';
 import ApiError from '../errors/ApiError';
 import { formatZodErrorMessage } from '../errors/formatErrors';
 
@@ -19,7 +19,7 @@ const querySchema = object({
   expand: string({ required_error: 'Expand query is invalid' }).optional(),
 });
 
-function validateRequest(schema?: AnyZodObject) {
+function validateRequest(schema?: AnyZodObject | ZodEffects<AnyZodObject>) {
   return (req: Request, __: Response, next: NextFunction) => {
     try {
       if (schema) {

@@ -10,7 +10,31 @@ const router = express.Router();
 // GET /users
 router.get('/', validateRequest(), requireUser, asyncWrapper(userController.getAllUsersHandler));
 
-// POST /users
+/**
+ * @openapi
+ * /users:
+ *    post:
+ *      summary: Register a new user
+ *      tags:
+ *        - User
+ *      requestBody:
+ *          required: true
+ *          content:
+ *              application/json:
+ *                  schema:
+ *                      $ref: '#/components/schemas/CreateUserInput'
+ *      responses:
+ *          201:
+ *              description: Successfully registered a new user
+ *              content:
+ *                  application/json:
+ *                      schema:
+ *                          $ref: '#/components/schemas/CreateUserResponse'
+ *          400:
+ *              description: Bad request
+ *          409:
+ *              description: Conflict
+ */
 router.post('/', validateRequest(createUserSchema), asyncWrapper(userController.createUserHandler));
 
 export default router;
