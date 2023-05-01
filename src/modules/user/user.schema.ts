@@ -37,8 +37,10 @@ import { object, string, TypeOf } from 'zod';
  *          type: string
  *        createdAt:
  *          type: string
+ *          format: date-time
  *        updatedAt:
  *          type: string
+ *          format: date-time
  */
 export const createUserSchema = object({
   body: object({

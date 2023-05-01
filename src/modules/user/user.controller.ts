@@ -11,6 +11,7 @@ import { parseCreateUser } from './user.utils';
 // Add and only allow req.expand on getUserHandler for 'settngs'...
 
 const omitUserValues = ['password', 'role'] as const;
+const omitUserSettings = ['id', 'userId'] as const;
 
 async function getAllUsersHandler(req: ValidUserRequest & Request, res: Response): Promise<void> {
   const email: string | undefined = req.locals?.user?.role === 'USER' ? req.locals.user.email : undefined;
@@ -30,7 +31,7 @@ async function createUserHandler(req: CreateUserRequest & Request, res: Response
 
   const user: User = await createUser(userContext);
   const settings: Settings = await createUserSettings(user.id);
-  res.status(201).json({ ...omit(user, omitUserValues), settings: settings });
+  res.status(201).json({ ...omit(user, 'password'), settings: omit(settings, omitUserSettings) });
 }
 
 export default { getAllUsersHandler, createUserHandler };
