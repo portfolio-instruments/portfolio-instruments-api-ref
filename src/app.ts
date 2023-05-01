@@ -2,13 +2,13 @@ import compression from 'compression';
 import express, { NextFunction, Request, Response } from 'express';
 import helmet from 'helmet';
 import config from './config';
-import swaggerDocs from './docs/swaggerDocs';
 import processErrorHandlers from './errors/processErrorHandler';
 import deserializeUser from './middleware/deserializeUser';
 import { errorFallbackHandler, notFoundHandler } from './middleware/errorHandlers';
 import trafficLogger from './middleware/trafficLogger';
 import routes from './routes';
 import Logger from './utils/Logger';
+import swaggerDocs from './utils/swaggerDocs';
 
 const app = express();
 
