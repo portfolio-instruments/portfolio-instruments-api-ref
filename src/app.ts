@@ -10,9 +10,10 @@ import routes from './routes';
 import Logger from './utils/Logger';
 import swaggerDocs from './utils/swaggerDocs';
 
-const app = createServer();
+const app: Express = createServer();
 app.listen(config.PORT, () => Logger.info(`App server started on port ${config.PORT}`));
 
+/** Core server instance setup before port listening */
 export function createServer(): Express {
   const app = express();
 
