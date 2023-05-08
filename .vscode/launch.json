@@ -4,7 +4,7 @@
         {
             "type": "node",
             "request": "launch",
-            "name": "Launch server (dev)",
+            "name": "Run server (dev)",
             "skipFiles": [
                 "<node_internals>/**"
             ],
@@ -13,6 +13,21 @@
             "outFiles": [
                 "${workspaceFolder}/dist/**/*.js"
             ],
+            "env": {
+                "NODE_ENV": "development"
+            }
+        }, 
+        {
+            "name": "Run tests (mac/linux)",
+            "type": "node",
+            "request": "launch",
+            "runtimeArgs": [
+                "--inspect-brk",
+                "${workspaceRoot}/node_modules/.bin/jest",
+                "--runInBand"
+            ],
+            "console": "integratedTerminal",
+            "internalConsoleOptions": "neverOpen",
             "env": {
                 "NODE_ENV": "development"
             }
