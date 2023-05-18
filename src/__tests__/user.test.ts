@@ -1,6 +1,8 @@
 import { omit } from 'lodash';
 import supertest from 'supertest';
 import { createServer } from '../app';
+import config from '../config';
+import { signJwt } from '../modules/session/session.utils';
 import * as UserService from '../modules/user/user.service';
 import Mocks from './user.mocks';
 
@@ -36,6 +38,7 @@ describe('User', () => {
       it('should return a 409', async () => {
         const getUserServiceMock = jest.spyOn(UserService, 'getUser').mockResolvedValueOnce(Mocks.createUserPayload);
         const { statusCode } = await supertest(app).post('/v1/users').send(Mocks.createUserRequest);
+
         expect(statusCode).toBe(409);
         expect(getUserServiceMock).toHaveBeenCalledWith(Mocks.createUserPayload.email);
       });
@@ -43,9 +46,16 @@ describe('User', () => {
   });
 
   /** GET /users */
-  describe('Find user', () => {
-    describe('Given the user is logged in', () => {
-      // Todo
+  describe('Find users', () => {
+    describe('Given a user with default user role is logged in', () => {
+      it('should return a valid user', async () => {
+        const jwt = signJwt(Mocks.jwtUserPayload, config.JWT_ACCESS_TOKEN_SECRET, '2h');
+        jest.spyOn(UserService, 'getAllUsers').mockResolvedValueOnce([omit(Mocks.createUserPayload, 'settings')]);
+
+        const { statusCode, body } = await supertest(app).get('/v1/users').set('Authorization', `Bearer ${jwt}`);
+        expect(statusCode).toBe(200);
+        expect(body).toEqual([Mocks.getUsersPayload]);
+      });
     });
 
     describe('Given the user is not logged in', () => {

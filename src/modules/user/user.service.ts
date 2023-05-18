@@ -32,7 +32,7 @@ export function createUserSettings(userId: number): Promise<Settings> {
   return prisma.settings.create({ data: { userId } });
 }
 
-export async function validateUser(email: string, password: string): Promise<Partial<User> | null> {
+export async function validateUser(email: string, password: string): Promise<Omit<User, 'password'> | null> {
   const user: User | null = await prisma.user.findFirst({ where: { email } });
   if (!user || !(await bcrypt.compare(password, user.password))) {
     return null;

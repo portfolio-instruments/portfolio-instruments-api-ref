@@ -9,7 +9,7 @@ import { signJwt } from './session.utils';
 
 export async function createUserSessionHandler(req: CreateSessionRequest & Request, res: Response, next: NextFunction): Promise<void> {
   const sessionContext: CreateSessionContext = req.body;
-  const user: Partial<User> | null = await validateUser(sessionContext.email, sessionContext.password);
+  const user: Omit<User, 'password'> | null = await validateUser(sessionContext.email, sessionContext.password);
   if (!user) {
     next(ApiError.unauthorized('Invalid email and password combination'));
     return;
