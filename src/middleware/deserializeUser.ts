@@ -22,7 +22,7 @@ export default function deserializeUser(req: ValidUserRequest & Request, __: Res
     next();
     return;
   }
-  console.log('jwtToken: ', config.JWT_ACCESS_TOKEN_SECRET);
+
   const jwtResponse: VerifiedJwt<User> = verifyJwt(accessToken, nonNullProp(config, 'JWT_ACCESS_TOKEN_SECRET'));
   const user = nonNullProp(jwtResponse, 'decoded');
 
