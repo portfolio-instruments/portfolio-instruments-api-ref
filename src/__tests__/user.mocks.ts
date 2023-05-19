@@ -28,4 +28,7 @@ const createUserPayload: User & { settings: Omit<Settings, 'id' | 'userId'> } = 
   updatedAt: '2021-09-30T13:31:07.674Z' as unknown as Date,
 };
 
-export default { createUserRequest, createUserPayload, createSettingsPayload };
+const jwtUserPayload: Omit<User, 'password'> = omit(createUserPayload, ['password', 'settings']);
+const getUsersPayload: Omit<User, 'password' | 'role'> = omit(createUserPayload, 'password', 'role', 'settings');
+
+export default { createUserRequest, createUserPayload, createSettingsPayload, jwtUserPayload, getUsersPayload };
