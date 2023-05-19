@@ -1,14 +1,8 @@
 import { Settings, User } from '@prisma/client';
 import { omit } from 'lodash';
 
-const createUserRequest = {
-  email: 'test@example.com',
-  name: 'Bobby Newport',
-  password: 'abcd1234',
-  confirmPassword: 'abcd1234',
-};
-
-const createSettingsPayload: Settings = {
+/** Base */
+const userSettingsPayloadBase: Settings = {
   id: 1,
   userId: 1,
   vpThreshold: 10,
@@ -17,18 +11,31 @@ const createSettingsPayload: Settings = {
   updatedAt: '2021-09-30T13:31:07.674Z' as unknown as Date,
 };
 
-const createUserPayload: User & { settings: Omit<Settings, 'id' | 'userId'> } = {
+const userPayloadBase: User = {
   id: 1,
   email: 'test@example.com',
   name: 'Bobby Newport',
   password: 'abcd1234',
   role: 'USER',
-  settings: { ...omit(createSettingsPayload, ['id', 'userId']) },
   createdAt: '2021-09-30T13:31:07.674Z' as unknown as Date,
   updatedAt: '2021-09-30T13:31:07.674Z' as unknown as Date,
 };
 
-const jwtUserPayload: Omit<User, 'password'> = omit(createUserPayload, ['password', 'settings']);
-const getUsersPayload: Omit<User, 'password' | 'role'> = omit(createUserPayload, 'password', 'role', 'settings');
+/** Create user */
+const createUserRequest = {
+  email: 'test@example.com',
+  name: 'Bobby Newport',
+  password: 'abcd1234',
+  confirmPassword: 'abcd1234',
+};
 
-export default { createUserRequest, createUserPayload, createSettingsPayload, jwtUserPayload, getUsersPayload };
+const createUserPayload: User & { settings: Omit<Settings, 'id' | 'userId'> } = {
+  ...userPayloadBase,
+  settings: { ...omit(userSettingsPayloadBase, ['id', 'userId']) },
+};
+
+/** Misc */
+const jwtUserPayload: Omit<User, 'password'> = omit(userPayloadBase, 'password');
+const getUsersPayload: Omit<User, 'password' | 'role'> = omit(userPayloadBase, ['password', 'role']);
+
+export default { createUserRequest, createUserPayload, createSettingsPayload: userSettingsPayloadBase, jwtUserPayload, getUsersPayload };
