@@ -34,7 +34,7 @@ export async function createUser(user: CreateUserContext): Promise<User> {
   } catch (e: any) {
     // If the error indicates a user already exists, attempt to re-throw a cleaner conflict error
     const regex: RegExp = /Unique constraint failed on the fields:\s*\((?:[^()]*\bemail\b[^()]*)\)/i;
-    if (regex.test(e?.message ?? '')) {
+    if (regex.test(e.message ?? '')) {
       throw ApiError.conflict('A user with this email already exists');
     }
     throw e;
