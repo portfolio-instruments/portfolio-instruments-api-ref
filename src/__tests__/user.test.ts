@@ -11,6 +11,7 @@ const app = createServer();
 describe('User', () => {
   /** POST /users */
   describe('Register user', () => {
+    /** 201 */
     describe('Given the user is unique, and the username/password are valid', () => {
       it('should succeed and return the user payload', async () => {
         const createUserServiceMock = jest.spyOn(UserService, 'createUser').mockResolvedValueOnce(omit(Mocks.createUserPayload, 'settings'));
@@ -32,6 +33,15 @@ describe('User', () => {
       });
     });
 
+    /** 400 */
+    describe('Given the request body contains an incorrect payload', () => {
+      it('should return a 400', async () => {
+        const { statusCode } = await supertest(app).post('/v1/users').send({});
+        expect(statusCode).toBe(400);
+      });
+    });
+
+    /** 409 */
     describe('Given the user is not unique', () => {
       it('should return a 409', async () => {
         await supertest(app).post('/v1/users').send(Mocks.createUserRequest);
@@ -44,6 +54,7 @@ describe('User', () => {
 
   /** GET /users */
   describe('Find users', () => {
+    /** 200 */
     describe('Given a user with default user role is logged in', () => {
       it('should return a valid user', async () => {
         const jwt = signJwt(Mocks.jwtUserPayload, config.JWT_ACCESS_TOKEN_SECRET, '2h');
@@ -55,6 +66,7 @@ describe('User', () => {
       });
     });
 
+    /** 401 */
     describe('Given the user is not logged in', () => {
       it('should return a 401', async () => {
         const { statusCode } = await supertest(app).get('/v1/users');
