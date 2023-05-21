@@ -1,11 +1,10 @@
 import { Settings, User } from '@prisma/client';
-import type { NextFunction, Request, Response } from 'express';
+import type { Request, Response } from 'express';
 import { omit } from 'lodash';
-import ApiError from '../../errors/ApiError';
 import { ValidUserRequest } from '../../middleware/deserializeUser';
 import { ParsedQuery, parseQuery } from '../../utils/parseQuery';
 import { CreateUserContext, CreateUserRequest, userKeys } from './user.schema';
-import { createUser, createUserSettings, getAllUsers, getUser } from './user.service';
+import { createUser, createUserSettings, getAllUsers } from './user.service';
 import { parseCreateUser } from './user.utils';
 
 // Add and only allow req.expand on getUserHandler for 'settngs'...
@@ -21,14 +20,8 @@ async function getAllUsersHandler(req: ValidUserRequest & Request, res: Response
   res.status(200).json(redactedUsers);
 }
 
-async function createUserHandler(req: CreateUserRequest & Request, res: Response, next: NextFunction): Promise<void> {
+async function createUserHandler(req: CreateUserRequest & Request, res: Response): Promise<void> {
   const userContext: CreateUserContext = parseCreateUser(req);
-  const userAlreadyExists: boolean = !!(await getUser(userContext.email));
-  if (userAlreadyExists) {
-    next(ApiError.conflict('A user with this email already exists'));
-    return;
-  }
-
   const user: User = await createUser(userContext);
   const settings: Settings = await createUserSettings(user.id);
   res.status(201).json({ ...omit(user, 'password'), settings: omit(settings, omitUserSettings) });
