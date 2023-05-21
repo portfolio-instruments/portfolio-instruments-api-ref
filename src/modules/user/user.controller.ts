@@ -20,6 +20,28 @@ async function getAllUsersHandler(req: ValidUserRequest & Request, res: Response
   res.status(200).json(redactedUsers);
 }
 
+/**
+ * @openapi
+ * components:
+ *  schemas:
+ *    CreateUserResponse:
+ *      type: object
+ *      properties:
+ *        id:
+ *          type: number
+ *        email:
+ *          type: string
+ *        name:
+ *          type: string
+ *        role:
+ *          type: string
+ *        createdAt:
+ *          type: string
+ *          format: date-time
+ *        updatedAt:
+ *          type: string
+ *          format: date-time
+ */
 async function createUserHandler(req: CreateUserRequest & Request, res: Response): Promise<void> {
   const userContext: CreateUserContext = parseCreateUser(req);
   const user: User = await createUser(userContext);
