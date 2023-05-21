@@ -7,6 +7,18 @@ import { validateUser } from '../user/user.service';
 import { CreateSessionContext, CreateSessionRequest } from './session.schema';
 import { signJwt } from './session.utils';
 
+/**
+ * @openapi
+ * components:
+ *  schemas:
+ *    CreateSessionResponse:
+ *      type: object
+ *      properties:
+ *        token:
+ *          type: string
+ *        expiresIn:
+ *          type: string
+ */
 export async function createUserSessionHandler(req: CreateSessionRequest & Request, res: Response, next: NextFunction): Promise<void> {
   const sessionContext: CreateSessionContext = req.body;
   const user: Omit<User, 'password'> | null = await validateUser(sessionContext.email, sessionContext.password);
