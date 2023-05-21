@@ -13,7 +13,6 @@ describe('User', () => {
   describe('Register user', () => {
     describe('Given the user is unique, and the username/password are valid', () => {
       it('should succeed and return the user payload', async () => {
-        const getUserServiceMock = jest.spyOn(UserService, 'getUser').mockResolvedValueOnce(null);
         const createUserServiceMock = jest.spyOn(UserService, 'createUser').mockResolvedValueOnce(omit(Mocks.createUserPayload, 'settings'));
         const createSettingsServiceMock = jest.spyOn(UserService, 'createUserSettings').mockResolvedValueOnce(Mocks.createSettingsPayload);
 
@@ -21,7 +20,6 @@ describe('User', () => {
         expect(statusCode).toBe(201);
         expect(body).toEqual(omit(Mocks.createUserPayload, 'password'));
 
-        expect(getUserServiceMock).toHaveBeenCalledWith(Mocks.createUserPayload.email);
         expect(createSettingsServiceMock).toHaveBeenCalledWith(Mocks.createUserPayload.id);
 
         // Password will look different since we hash it before creating
@@ -36,11 +34,10 @@ describe('User', () => {
 
     describe('Given the user is not unique', () => {
       it('should return a 409', async () => {
-        const getUserServiceMock = jest.spyOn(UserService, 'getUser').mockResolvedValueOnce(Mocks.createUserPayload);
+        await supertest(app).post('/v1/users').send(Mocks.createUserRequest);
         const { statusCode } = await supertest(app).post('/v1/users').send(Mocks.createUserRequest);
 
         expect(statusCode).toBe(409);
-        expect(getUserServiceMock).toHaveBeenCalledWith(Mocks.createUserPayload.email);
       });
     });
   });
