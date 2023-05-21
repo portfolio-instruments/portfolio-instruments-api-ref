@@ -1,6 +1,7 @@
 import { Prisma, Settings, User } from '@prisma/client';
 import bcrypt from 'bcryptjs';
 import { omit } from 'lodash';
+import ApiError from '../../errors/ApiError';
 import { ParsedQuery } from '../../utils/parseQuery';
 import prisma from '../../utils/prisma';
 import { CreateUserContext } from './user.schema';
@@ -24,8 +25,20 @@ export function getAllUsers(options?: ParsedQuery & { email?: string }): Promise
   });
 }
 
-export function createUser(user: CreateUserContext): Promise<User> {
-  return prisma.user.create({ data: user });
+/**
+ * @throws 409 conflict error if user already exists
+ */
+export async function createUser(user: CreateUserContext): Promise<User> {
+  try {
+    return await prisma.user.create({ data: user });
+  } catch (e: any) {
+    // If the error indicates a user already exists, attempt to re-throw a cleaner conflict error
+    const regex: RegExp = /Unique constraint failed on the fields:\s*\((?:[^()]*\bemail\b[^()]*)\)/i;
+    if (regex.test(e?.message ?? '')) {
+      throw ApiError.conflict('A user with this email already exists');
+    }
+    throw e;
+  }
 }
 
 export function createUserSettings(userId: number): Promise<Settings> {
