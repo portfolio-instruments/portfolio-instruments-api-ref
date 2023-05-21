@@ -24,23 +24,6 @@ import { object, string, TypeOf } from 'zod';
  *        confirmPassword:
  *          type: string
  *          default: password123
- *    CreateUserResponse:
- *      type: object
- *      properties:
- *        id:
- *          type: number
- *        email:
- *          type: string
- *        name:
- *          type: string
- *        role:
- *          type: string
- *        createdAt:
- *          type: string
- *          format: date-time
- *        updatedAt:
- *          type: string
- *          format: date-time
  */
 export const createUserSchema = object({
   body: object({
