@@ -46,7 +46,7 @@ export function createUserSettings(userId: number): Promise<Settings> {
 }
 
 export async function validateUser(email: string, password: string): Promise<Omit<User, 'password'> | null> {
-  const user: User | null = await prisma.user.findFirst({ where: { email } });
+  const user: User | null = await getUser(email);
   if (!user || !(await bcrypt.compare(password, user.password))) {
     return null;
   }

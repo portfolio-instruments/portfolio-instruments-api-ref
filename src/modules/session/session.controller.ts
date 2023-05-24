@@ -14,7 +14,7 @@ import { signJwt } from './session.utils';
  *    CreateSessionResponse:
  *      type: object
  *      properties:
- *        token:
+ *        accessToken:
  *          type: string
  *        expiresIn:
  *          type: string
@@ -30,7 +30,7 @@ export async function createUserSessionHandler(req: CreateSessionRequest & Reque
   const expiresIn: string = '2h';
   const jwtToken: string = signJwt(user, nonNullProp(config, 'JWT_ACCESS_TOKEN_SECRET'), expiresIn);
   res.status(201).json({
-    token: jwtToken,
+    accessToken: jwtToken,
     expiresIn,
     // Todo: Refresh token
   });
