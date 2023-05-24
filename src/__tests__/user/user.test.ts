@@ -1,12 +1,10 @@
 import { omit } from 'lodash';
 import supertest from 'supertest';
-import { createServer } from '../app';
-import config from '../config';
-import { signJwt } from '../modules/session/session.utils';
-import * as UserService from '../modules/user/user.service';
-import Mocks from './user.mocks';
-
-const app = createServer();
+import config from '../../config';
+import { signJwt } from '../../modules/session/session.utils';
+import * as UserService from '../../modules/user/user.service';
+import * as Mocks from './user.mocks';
+import app from '../testApp';
 
 describe('User', () => {
   /** POST /users */
@@ -15,7 +13,7 @@ describe('User', () => {
     describe('Given the user is unique, and the username/password are valid', () => {
       it('should succeed and return the user payload', async () => {
         const createUserServiceMock = jest.spyOn(UserService, 'createUser').mockResolvedValueOnce(omit(Mocks.createUserPayload, 'settings'));
-        const createSettingsServiceMock = jest.spyOn(UserService, 'createUserSettings').mockResolvedValueOnce(Mocks.createSettingsPayload);
+        const createSettingsServiceMock = jest.spyOn(UserService, 'createUserSettings').mockResolvedValueOnce(Mocks.userSettingsPayloadBase);
 
         const { statusCode, body } = await supertest(app).post('/v1/users').send(Mocks.createUserRequest);
         expect(statusCode).toBe(201);
