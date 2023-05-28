@@ -27,4 +27,4 @@ jobs:
       - name: Run tests
         uses: borales/actions-yarn@v3
         with:
-          cmd: test --coverage --maxWorkers=1 # `yarn test`
+          cmd: test # `yarn test`

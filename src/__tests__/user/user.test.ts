@@ -3,8 +3,9 @@ import supertest from 'supertest';
 import config from '../../config';
 import { signJwt } from '../../modules/session/session.utils';
 import * as UserService from '../../modules/user/user.service';
-import * as Mocks from './user.mocks';
+import Logger from '../../utils/Logger';
 import app from '../testApp';
+import * as Mocks from './user.mocks';
 
 describe('User', () => {
   /** POST /users */
@@ -15,7 +16,11 @@ describe('User', () => {
         const createUserServiceMock = jest.spyOn(UserService, 'createUser').mockResolvedValueOnce(omit(Mocks.createUserPayload, 'settings'));
         const createSettingsServiceMock = jest.spyOn(UserService, 'createUserSettings').mockResolvedValueOnce(Mocks.userSettingsPayloadBase);
 
-        const { statusCode, body } = await supertest(app).post('/v1/users').send(Mocks.createUserRequest);
+        const { statusCode, body, error } = await supertest(app).post('/v1/users').send(Mocks.createUserRequest);
+        if (error) {
+          Logger.error(error);
+        }
+
         expect(statusCode).toBe(201);
         expect(body).toEqual(omit(Mocks.createUserPayload, 'password'));
 
@@ -34,7 +39,11 @@ describe('User', () => {
     /** 400 */
     describe('Given the request body contains an incorrect payload', () => {
       it('should return a 400', async () => {
-        const { statusCode } = await supertest(app).post('/v1/users').send({});
+        const { statusCode, error } = await supertest(app).post('/v1/users').send({});
+        if (statusCode !== 400 && error) {
+          Logger.error(error);
+        }
+
         expect(statusCode).toBe(400);
       });
     });
@@ -43,7 +52,10 @@ describe('User', () => {
     describe('Given the user is not unique', () => {
       it('should return a 409', async () => {
         await supertest(app).post('/v1/users').send(Mocks.createUserRequest);
-        const { statusCode } = await supertest(app).post('/v1/users').send(Mocks.createUserRequest);
+        const { statusCode, error } = await supertest(app).post('/v1/users').send(Mocks.createUserRequest);
+        if (statusCode !== 409 && error) {
+          Logger.error(error);
+        }
 
         expect(statusCode).toBe(409);
       });
@@ -58,7 +70,11 @@ describe('User', () => {
         const jwt = signJwt(Mocks.jwtUserPayload, config.JWT_ACCESS_TOKEN_SECRET, '2h');
         jest.spyOn(UserService, 'getAllUsers').mockResolvedValueOnce([omit(Mocks.createUserPayload, 'settings')]);
 
-        const { statusCode, body } = await supertest(app).get('/v1/users').set('Authorization', `Bearer ${jwt}`);
+        const { statusCode, body, error } = await supertest(app).get('/v1/users').set('Authorization', `Bearer ${jwt}`);
+        if (error) {
+          Logger.error(error);
+        }
+
         expect(statusCode).toBe(200);
         expect(body).toEqual([Mocks.getUsersPayload]);
       });
@@ -67,7 +83,11 @@ describe('User', () => {
     /** 401 */
     describe('Given the user is not logged in', () => {
       it('should return a 401', async () => {
-        const { statusCode } = await supertest(app).get('/v1/users');
+        const { statusCode, error } = await supertest(app).get('/v1/users');
+        if (statusCode !== 401 && error) {
+          Logger.error(error);
+        }
+
         expect(statusCode).toBe(401);
       });
     });
