@@ -5,14 +5,7 @@ jobs:
     runs-on: ubuntu-latest
     steps:
     - uses: actions/checkout@v2
-<<<<<<< HEAD
     - name: Install packages
       run: yarn
     - name: Run tests
       run: yarn test --verbose --maxWorkers=2
-=======
-    - name: Install modules
-      run: yarn
-    - name: Run tests
-      run: yarn test
->>>>>>> ad8626d935fd917564a74cb00969c8eee0e05f48
