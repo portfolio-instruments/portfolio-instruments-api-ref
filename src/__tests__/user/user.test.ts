@@ -42,6 +42,7 @@ describe('User', () => {
     /** 409 */
     describe('Given the user is not unique', () => {
       it('should return a 409', async () => {
+        jest.spyOn(UserService, 'createUser').mockRejectedValueOnce({ code: 409 });
         await supertest(app).post('/v1/users').send(Mocks.createUserRequest);
         const { statusCode } = await supertest(app).post('/v1/users').send(Mocks.createUserRequest);
 
