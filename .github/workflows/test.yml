@@ -8,4 +8,4 @@ jobs:
     - name: Install packages
       run: yarn
     - name: Run tests
-      run: yarn test:ci --verbose --maxWorkers=2
+      run: yarn test --verbose --maxWorkers=2
