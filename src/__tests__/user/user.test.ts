@@ -1,10 +1,12 @@
+import { createServer } from 'http';
 import { omit } from 'lodash';
 import supertest from 'supertest';
 import config from '../../config';
 import { signJwt } from '../../modules/session/session.utils';
 import * as UserService from '../../modules/user/user.service';
 import * as Mocks from './user.mocks';
-import app from '../testApp';
+
+const app = createServer();
 
 describe('User', () => {
   /** POST /users */

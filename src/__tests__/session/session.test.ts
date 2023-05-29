@@ -1,8 +1,10 @@
+import { createServer } from 'http';
 import supertest from 'supertest';
-import * as SessionMocks from './session.mocks';
-import * as UserMocks from '../user/user.mocks';
 import * as UserService from '../../modules/user/user.service';
-import app from '../testApp';
+import * as UserMocks from '../user/user.mocks';
+import * as SessionMocks from './session.mocks';
+
+const app = createServer();
 
 /** POST /sessions */
 describe('Session', () => {
