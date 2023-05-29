@@ -6,9 +6,9 @@ import chalk from 'chalk';
  */
 
 export default class Logger {
-  public static log = (args: any) => this.info(args);
+  public static log = (args: unknown) => this.info(args);
 
-  public static info(args: any) {
+  public static info(args: unknown) {
     console.log(
       // prettier-ignore
       chalk.blue(`[${new Date().toLocaleString()}] [INFO] `),
@@ -16,7 +16,7 @@ export default class Logger {
     );
   }
 
-  public static warn(args: any) {
+  public static warn(args: unknown) {
     console.log(
       // prettier-ignore
       chalk.yellow(`[${new Date().toLocaleString()}] [INFO] `),
@@ -24,7 +24,7 @@ export default class Logger {
     );
   }
 
-  public static error(args: any) {
+  public static error(args: unknown) {
     console.log(
       // prettier-ignore
       chalk.red(`[${new Date().toLocaleString()}] [INFO] `),

@@ -1,7 +1,7 @@
 import { Prisma } from '@prisma/client';
 import { Request } from 'express';
 
-type SortingOption = Record<string, typeof Prisma.SortOrder[keyof typeof Prisma.SortOrder]>;
+type SortingOption = Record<string, (typeof Prisma.SortOrder)[keyof typeof Prisma.SortOrder]>;
 
 export interface ParsedQuery {
   skip?: number;
@@ -28,7 +28,7 @@ export function getSortingOptions(req: Request, validKeys: string[]): SortingOpt
 
   for (const field of sortingFields) {
     const key: string = field.slice(1);
-    const value: typeof Prisma.SortOrder[keyof typeof Prisma.SortOrder] = field[0] === '-' ? Prisma.SortOrder.desc : Prisma.SortOrder.asc;
+    const value: (typeof Prisma.SortOrder)[keyof typeof Prisma.SortOrder] = field[0] === '-' ? Prisma.SortOrder.desc : Prisma.SortOrder.asc;
 
     if (validKeys.includes(key)) {
       sortingOptions.push({ [key]: value } as SortingOption);

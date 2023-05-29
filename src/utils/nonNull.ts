@@ -12,6 +12,6 @@ export function nonNullValue<T>(value: T): NonNullable<T> {
   return value as NonNullable<T>;
 }
 
-function isNullOrUndefined(value: any): boolean {
+function isNullOrUndefined(value: unknown): boolean {
   return value === null || value === undefined;
 }
