@@ -1,10 +1,11 @@
 import { omit } from 'lodash';
 import supertest from 'supertest';
 import config from '../../config';
+import ApiError from '../../errors/ApiError';
 import { signJwt } from '../../modules/session/session.utils';
 import * as UserService from '../../modules/user/user.service';
-import * as Mocks from './user.mocks';
 import app from '../testApp';
+import * as Mocks from './user.mocks';
 
 describe('User', () => {
   /** POST /users */
@@ -42,7 +43,8 @@ describe('User', () => {
     /** 409 */
     describe('Given the user is not unique', () => {
       it('should return a 409', async () => {
-        await supertest(app).post('/v1/users').send(Mocks.createUserRequest);
+        jest.spyOn(UserService, 'createUser').mockRejectedValueOnce(ApiError.conflict('User already exists'));
+
         const { statusCode } = await supertest(app).post('/v1/users').send(Mocks.createUserRequest);
 
         expect(statusCode).toBe(409);

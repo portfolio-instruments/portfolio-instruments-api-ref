@@ -6,8 +6,10 @@
   "scripts": {
     "compile": "tsc",
     "watch": "tsc -w",
-    "dev": "nodemon --watch './src/**/*.ts' --exec 'ts-node' src/app.ts",
-    "test": "jest"
+    "config:up": "docker-compose up -d && prisma migrate dev",
+    "config:down": "docker-compose down",
+    "dev": "NODE_ENV=development nodemon --watch './src/**/*.ts' --exec 'ts-node' src/app.ts",
+    "test": "NODE_ENV=development jest"
   },
   "repository": {
     "type": "git",
