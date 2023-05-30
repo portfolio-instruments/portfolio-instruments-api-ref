@@ -31,13 +31,14 @@ export function getAllUsers(options?: ParsedQuery & { email?: string }): Promise
 export async function createUser(user: CreateUserContext): Promise<User> {
   try {
     return await prisma.user.create({ data: user });
-  } catch (e: any) {
+  } catch (e: unknown) {
+    const err = e as Error;
     // If the error indicates a user already exists, attempt to re-throw a cleaner conflict error
     const regex: RegExp = /Unique constraint failed on the fields:\s*\((?:[^()]*\bemail\b[^()]*)\)/i;
-    if (regex.test(e.message ?? '')) {
+    if (regex.test(err?.message ?? '')) {
       throw ApiError.conflict('A user with this email already exists');
     }
-    throw e;
+    throw err;
   }
 }
 

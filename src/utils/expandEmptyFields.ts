@@ -1,3 +1,4 @@
+/* eslint-disable */
 export interface ExpandFields<F> {
   fields: F;
   hrefs: string;

@@ -23,11 +23,12 @@ function validateRequest(schema?: AnyZodObject | ZodEffects<AnyZodObject>) {
   return (req: Request, __: Response, next: NextFunction) => {
     try {
       if (schema) {
-        schema.parse({ body: req.body, params: req.params });
+        schema.parse({ body: req.body as unknown, params: req.params });
       }
       querySchema.parse({ query: req.query });
       next();
-    } catch (err: any) {
+    } catch (e: unknown) {
+      const err = e as Error;
       if (err instanceof ZodError) {
         next(ApiError.badRequest(formatZodErrorMessage(err.issues)));
         return;
