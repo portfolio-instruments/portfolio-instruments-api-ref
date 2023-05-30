@@ -18,7 +18,8 @@ export function verifyJwt<T extends object>(token: string, secret: string): Veri
       expired: false,
       decoded,
     };
-  } catch (err: any) {
+  } catch (e: unknown) {
+    const err = e as Error;
     return {
       valid: false,
       expired: err.message === 'jwt expired',

@@ -24,6 +24,10 @@ module.exports = {
         "@typescript-eslint/no-namespace": "off",
         "@typescript-eslint/no-unnecessary-type-assertion": "off",
         "@typescript-eslint/no-unused-vars": ["error", { "argsIgnorePattern": "^_" }],
+        "@typescript-eslint/no-misused-promises": [
+            "error",
+            { "checksVoidReturn": false}
+        ],
         "@typescript-eslint/prefer-regexp-exec": "off",
         "@typescript-eslint/require-await": "off",
         "@typescript-eslint/restrict-template-expressions": "off",
