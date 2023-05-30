@@ -5,7 +5,3 @@ The controller layer handles the incoming requests from the client, routes it to
 ## Service Layer
 
 The service layer contains the business logic for the application.  It is responsible for performing the actual tasks required by the application.  The service layer interacts with the data access layer or external APIs to perform CRUD operations and data validation.
-
-## RESTful Web API Design Resource
-
-https://learn.microsoft.com/en-us/azure/architecture/best-practices/api-design#use-hateoas-to-enable-navigation-to-related-resources
