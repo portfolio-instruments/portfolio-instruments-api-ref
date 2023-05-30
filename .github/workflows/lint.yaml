@@ -1,4 +1,4 @@
-name: Jest
+name: Lint
 
 on: pull_request
 
@@ -24,7 +24,7 @@ jobs:
         with:
           cmd: install # `yarn install`
 
-      - name: Run tests
+      - name: Run ESLint
         uses: borales/actions-yarn@v3
-        with:
-          cmd: test # `yarn test`
+        with: 
+          cmd: lint # `yarn lint`
