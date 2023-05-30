@@ -4,14 +4,14 @@
   "description": "",
   "main": "src/app.ts",
   "scripts": {
+    "actions": "act --container-architecture linux/amd64",
     "compile": "tsc",
-    "watch": "tsc -w",
     "config:up": "docker-compose up -d && prisma migrate dev",
     "config:down": "docker-compose down",
     "dev": "NODE_ENV=development nodemon --watch './src/**/*.ts' --exec 'ts-node' src/app.ts",
-    "test": "NODE_ENV=development jest",
-    "actions": "act --container-architecture linux/amd64",
-    "lint": "eslint --ext .ts ."
+    "lint": "eslint --ext .ts .",
+    "studio": "npx prisma studio",
+    "test": "NODE_ENV=development jest"
   },
   "repository": {
     "type": "git",
