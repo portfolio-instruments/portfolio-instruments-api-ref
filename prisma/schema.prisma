@@ -12,9 +12,9 @@ datasource db {
 
 model User {
   id        Int       @id @default(autoincrement())
-  email     String    @unique
-  name      String
-  password  String
+  email     String    @unique @db.VarChar(255)
+  name      String    @db.VarChar(255)
+  password  String    @db.VarChar(255)
   role      Role      @default(USER)
   settings  Settings?
   Account   Account[]
@@ -46,8 +46,9 @@ model Account {
   id          Int        @id @default(autoincrement())
   user        User       @relation(fields: [userId], references: [id])
   userId      Int
-  institution String
+  institution String     @db.VarChar(255)
   taxShelter  TaxShelter
+  description String?    @db.Text
   active      Boolean    @default(true)
   createdAt   DateTime   @default(now())
   updatedAt   DateTime   @updatedAt
