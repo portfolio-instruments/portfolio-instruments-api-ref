@@ -6,7 +6,7 @@
   "scripts": {
     "actions": "act --container-architecture linux/amd64",
     "compile": "tsc",
-    "config:up": "docker-compose up -d && prisma migrate dev",
+    "config:up": "docker-compose up -d && prisma migrate dev && prisma generate",
     "config:down": "docker-compose down",
     "dev": "NODE_ENV=development nodemon --watch './src/**/*.ts' --exec 'ts-node' src/app.ts",
     "lint": "eslint --ext .ts .",

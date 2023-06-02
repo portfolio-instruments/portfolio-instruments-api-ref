@@ -1,6 +1,7 @@
 import type { Express, NextFunction, Request, Response } from 'express';
 import sessionRoutes from './modules/session/session.routes';
 import userRoutes from './modules/user/user.routes';
+import accountRoutes from './modules/account/account.routes';
 
 function routes(app: Express) {
   /**
@@ -23,6 +24,9 @@ function routes(app: Express) {
 
   /** Users */
   app.use('/v1/users', userRoutes);
+
+  /** Accounts */
+  app.use('/v1/accounts', accountRoutes);
 }
 
 export default routes;

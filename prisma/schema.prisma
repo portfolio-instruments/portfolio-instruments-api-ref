@@ -12,11 +12,12 @@ datasource db {
 
 model User {
   id        Int       @id @default(autoincrement())
-  email     String    @unique
-  name      String
-  password  String
+  email     String    @unique @db.VarChar(255)
+  name      String    @db.VarChar(255)
+  password  String    @db.VarChar(255)
   role      Role      @default(USER)
   settings  Settings?
+  Account   Account[]
   createdAt DateTime  @default(now())
   updatedAt DateTime  @updatedAt
 }
@@ -34,4 +35,27 @@ model Settings {
 enum Role {
   USER
   ADMIN
+}
+
+// To avoid extra security complexities associated with passing and storing accountIds, 
+// we will design the account such that the user does not need to enter their true accountId
+
+// To allow for lookups against accounts, we still need a unique way of identifying holding locations
+// We will track unique combinations of institution/taxShelter as the primary method of lookup
+model Account {
+  id          Int        @id @default(autoincrement())
+  user        User       @relation(fields: [userId], references: [id])
+  userId      Int
+  institution String     @db.VarChar(255)
+  taxShelter  TaxShelter
+  description String?    @db.Text
+  active      Boolean    @default(true)
+  createdAt   DateTime   @default(now())
+  updatedAt   DateTime   @updatedAt
+}
+
+enum TaxShelter {
+  TAXABLE
+  TRADITIONAL
+  ROTH
 }
