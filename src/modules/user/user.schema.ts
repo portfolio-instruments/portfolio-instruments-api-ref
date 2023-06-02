@@ -25,7 +25,7 @@ import { object, string, TypeOf } from 'zod';
  *          type: string
  *          default: password123
  */
-export const createUserSchema = object({
+export const createUserRequestSchema = object({
   body: object({
     email: string({ required_error: 'Email is required' }).email({ message: 'Not a valid email' }),
     name: string({ required_error: 'Name is required' })
@@ -49,5 +49,5 @@ export const createUserSchema = object({
 
 export const userKeys: string[] = ['id', 'email', 'name', 'password', 'role', 'createdAt', 'updatedAt'];
 
-export type CreateUserRequest = TypeOf<typeof createUserSchema>;
+export type CreateUserRequest = TypeOf<typeof createUserRequestSchema>;
 export type CreateUserContext = Omit<CreateUserRequest['body'], 'confirmPassword'>;

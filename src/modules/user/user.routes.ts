@@ -3,7 +3,7 @@ import asyncWrapper from '../../middleware/asyncWrapper';
 import { requireUser } from '../../middleware/requireRole';
 import validateRequest from '../../middleware/validateRequest';
 import userController from './user.controller';
-import { createUserSchema } from './user.schema';
+import { createUserRequestSchema } from './user.schema';
 
 const router = express.Router();
 
@@ -35,6 +35,6 @@ router.get('/', validateRequest(), requireUser, asyncWrapper(userController.getA
  *          409:
  *              description: Conflict
  */
-router.post('/', validateRequest(createUserSchema), asyncWrapper(userController.createUserHandler));
+router.post('/', validateRequest(createUserRequestSchema), asyncWrapper(userController.createUserHandler));
 
 export default router;

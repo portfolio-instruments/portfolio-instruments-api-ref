@@ -29,9 +29,14 @@ export const createUserRequest = {
   confirmPassword: 'abcd1234',
 };
 
-export const createUserPayload: User & { settings: Omit<Settings, 'id' | 'userId'> } = {
+type createUserSettingsPayload = Omit<Settings, 'id' | 'userId' | 'createdAt' | 'updatedAt'>;
+
+export const createUserPayload: User & { settings: createUserSettingsPayload } = {
   ...userPayloadBase,
-  settings: { ...omit(userSettingsPayloadBase, ['id', 'userId']) },
+  settings: {
+    vpThreshold: userSettingsPayloadBase.vpThreshold,
+    rebalanceThreshold: userSettingsPayloadBase.rebalanceThreshold,
+  },
 };
 
 /** Misc */
