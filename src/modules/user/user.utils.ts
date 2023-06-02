@@ -1,8 +1,9 @@
 import bcrypt from 'bcryptjs';
 import config from '../../config';
-import { CreateUserContext, CreateUserRequest } from './user.schema';
+import { CreateUserRequest } from './schema/user.request.schema';
+import { NewUser } from './schema/user.db.schema';
 
-export function parseCreateUser(req: CreateUserRequest): CreateUserContext {
+export function parseCreateUser(req: CreateUserRequest): NewUser {
   const { email, name, password } = req.body;
   const hashedPassword: string = hashPassword(password);
   return { email, name, password: hashedPassword };

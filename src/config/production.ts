@@ -12,6 +12,11 @@ function getProductionEnvironment(): Config {
     JWT_REFRESH_TOKEN_SECRET: nonNullValue(process.env.JWT_REFRESH_TOKEN_SECRET),
     JWT_EMAIL_TOKEN_SECRET: nonNullValue(process.env.JWT_EMAIL_TOKEN_SECRET),
     SALT_WORK_FACTOR: Number(nonNullValue(process.env.SALT_WORK_FACTOR)),
+    DB_HOST: nonNullValue(process.env.DB_HOST),
+    DB_PORT: Number(nonNullValue(process.env.DB_PORT)),
+    DB_USER: nonNullValue(process.env.DB_USER),
+    DB_PASSWORD: nonNullValue(process.env.DB_PASSWORD),
+    DB_NAME: nonNullValue(process.env.DB_NAME),
   };
 }
 

@@ -6,29 +6,29 @@ import chalk from 'chalk';
  */
 
 export default class Logger {
-  public static log = (args: unknown) => this.info(args);
+  public static log = (...args: unknown[]) => this.info(args);
 
-  public static info(args: unknown) {
+  public static info(...args: unknown[]) {
     console.log(
       // prettier-ignore
       chalk.blue(`[${new Date().toLocaleString()}] [INFO] `),
-      typeof args === 'string' ? chalk.blueBright(args) : args
+      args.length === 1 && typeof args[0] === 'string' ? chalk.blueBright(args[0]) : args
     );
   }
 
-  public static warn(args: unknown) {
+  public static warn(...args: unknown[]) {
     console.log(
       // prettier-ignore
-      chalk.yellow(`[${new Date().toLocaleString()}] [INFO] `),
-      typeof args === 'string' ? chalk.yellowBright(args) : args
+      chalk.yellow(`[${new Date().toLocaleString()}] [WARNING] `),
+      args.length === 1 && typeof args[0] === 'string' ? chalk.yellowBright(args[0]) : args
     );
   }
 
-  public static error(args: unknown) {
+  public static error(...args: unknown[]) {
     console.log(
       // prettier-ignore
-      chalk.red(`[${new Date().toLocaleString()}] [INFO] `),
-      typeof args === 'string' ? chalk.redBright(args) : args
+      chalk.red(`[${new Date().toLocaleString()}] [ERROR] `),
+      args.length === 1 && typeof args[0] === 'string' ? chalk.redBright(args[0]) : args
     );
   }
 }

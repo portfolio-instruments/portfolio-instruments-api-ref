@@ -1,53 +1,55 @@
-import { Prisma, Settings, User } from '@prisma/client';
+import { User as PrismaUser } from '@prisma/client';
 import bcrypt from 'bcryptjs';
 import { omit } from 'lodash';
-import ApiError from '../../errors/ApiError';
 import { ParsedQuery } from '../../utils/parseQuery';
 import prisma from '../../utils/prisma';
-import { CreateUserContext } from './user.schema';
+import { NewSettings, NewUser, Settings, User, settings as settingsTable, users as usersTable } from './schema/user.db.schema';
+import db from '../../utils/drizzle';
+import { SQL, eq, sql } from 'drizzle-orm';
 
-export function getUser(email: string): Promise<User | null> {
+export function getUser(email: string): Promise<PrismaUser | null> {
   return prisma.user.findUnique({ where: { email } });
 }
 
-export function getAllUsers(options?: ParsedQuery & { email?: string }): Promise<User[]> {
-  return prisma.user.findMany<Prisma.UserFindManyArgs>({
-    where: {
-      email: options?.email,
-    },
-    include: {
-      settings: options?.expand === 'settings',
-    },
-    take: options?.take,
-    skip: options?.skip,
-    cursor: options?.cursor,
-    orderBy: options?.sort,
-  });
-}
+export async function getAllUsers(options: ParsedQuery & { email?: string }): Promise<User[]> {
+  const sqlChunks: SQL[] = [sql`select * from ${usersTable}`];
 
-/**
- * @throws 409 conflict error if user already exists
- */
-export async function createUser(user: CreateUserContext): Promise<User> {
-  try {
-    return await prisma.user.create({ data: user });
-  } catch (e: unknown) {
-    const err = e as Error;
-    // If the error indicates a user already exists, attempt to re-throw a cleaner conflict error
-    const regex: RegExp = /Unique constraint failed on the fields:\s*\((?:[^()]*\bemail\b[^()]*)\)/i;
-    if (regex.test(err?.message ?? '')) {
-      throw ApiError.conflict('A user with this email already exists');
-    }
-    throw err;
+  if (options.email) {
+    sqlChunks.push(sql`where ${eq(usersTable.email, options.email)}`);
   }
+
+  // if (options.sort) {
+  //   sqlChunks.push(sql`order by ${options.sort}`);
+  // }
+
+  const offsetSize: number = (options.pageNumber - 1) * options.pageSize;
+  sqlChunks.push(sql`limit ${options.pageSize} offset ${offsetSize}`);
+
+  const finalSql: SQL = sql.join(sqlChunks, sql.raw(' '));
+  const res = await db.execute({ getSQL: () => finalSql });
+  console.log(res);
 }
 
-export function createUserSettings(userId: number): Promise<Settings> {
-  return prisma.settings.create({ data: { userId } });
+export type CreatedUser = Omit<User, 'password' | 'role'>;
+
+export async function createUser(newUser: NewUser): Promise<CreatedUser> {
+  const users: CreatedUser[] = await db.insert(usersTable).values(newUser).returning({
+    id: usersTable.id,
+    email: usersTable.email,
+    name: usersTable.name,
+    createdAt: usersTable.createdAt,
+    updatedAt: usersTable.updatedAt,
+  });
+  return users[0];
 }
 
-export async function validateUser(email: string, password: string): Promise<Omit<User, 'password'> | null> {
-  const user: User | null = await getUser(email);
+export async function createUserSettings(newSettings: NewSettings): Promise<Settings> {
+  const settings: Settings[] = await db.insert(settingsTable).values(newSettings).returning();
+  return settings[0];
+}
+
+export async function validateUser(email: string, password: string): Promise<Omit<PrismaUser, 'password'> | null> {
+  const user: PrismaUser | null = await getUser(email);
   if (!user || !(await bcrypt.compare(password, user.password))) {
     return null;
   }

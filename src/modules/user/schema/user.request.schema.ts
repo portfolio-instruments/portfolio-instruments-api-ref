@@ -1,4 +1,5 @@
 import { object, string, TypeOf } from 'zod';
+import { settings, users } from './user.db.schema';
 
 /**
  * @openapi
@@ -25,7 +26,7 @@ import { object, string, TypeOf } from 'zod';
  *          type: string
  *          default: password123
  */
-export const createUserSchema = object({
+export const createUserRequestSchema = object({
   body: object({
     email: string({ required_error: 'Email is required' }).email({ message: 'Not a valid email' }),
     name: string({ required_error: 'Name is required' })
@@ -47,7 +48,7 @@ export const createUserSchema = object({
   }
 });
 
-export const userKeys: string[] = ['id', 'email', 'name', 'password', 'role', 'createdAt', 'updatedAt'];
+export const userKeys: string[] = [...Object.keys(users), 'settings'];
+export const settingsKeys: string[] = [...Object.keys(settings)];
 
-export type CreateUserRequest = TypeOf<typeof createUserSchema>;
-export type CreateUserContext = Omit<CreateUserRequest['body'], 'confirmPassword'>;
+export type CreateUserRequest = TypeOf<typeof createUserRequestSchema>;
