@@ -13,7 +13,7 @@ import ApiError from '../../errors/ApiError';
 type GetUsersHandlerRequest = Request & ValidUserRequest;
 
 async function getUsersHandler(req: GetUsersHandlerRequest, res: Response): Promise<void> {
-  const email: string | undefined = req.locals?.user?.role === 'USER' ? req.locals.user.email : undefined;
+  const email: string | undefined = req.user?.role === 'USER' ? req.user.email : undefined;
   const parsedQuery: ParsedQuery = parseQuery(req, queryAbleUserKeys);
   const users: User[] = await getUsers(email, parsedQuery);
   const redactedUsers: Omit<User, 'password' | 'role'>[] = users.map((user) => omit(user, ['password', 'role']));
