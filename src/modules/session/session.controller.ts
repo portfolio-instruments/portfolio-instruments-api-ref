@@ -19,7 +19,9 @@ import { signJwt } from './session.utils';
  *        expiresIn:
  *          type: string
  */
-export async function createUserSessionHandler(req: CreateSessionRequest & Request, res: Response, next: NextFunction): Promise<void> {
+type CreateUserSessionHandlerRequest = Request & CreateSessionRequest;
+
+export async function createUserSessionHandler(req: CreateUserSessionHandlerRequest, res: Response, next: NextFunction): Promise<void> {
   const sessionContext: CreateSessionContext = req.body as CreateSessionContext;
   const user: Omit<User, 'password'> | null = await validateUser(sessionContext.email, sessionContext.password);
   if (!user) {

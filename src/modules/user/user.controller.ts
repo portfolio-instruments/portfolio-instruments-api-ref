@@ -4,16 +4,18 @@ import { omit } from 'lodash';
 import { ValidUserRequest } from '../../middleware/deserializeUser';
 import { ParsedQuery, parseQuery } from '../../utils/parseQuery';
 import { CreateUserContext, CreateUserRequest, queryAbleUserKeys } from './user.request.schema';
-import { createUser, createUserSettings, getAllUsers } from './user.service';
+import { createUser, createUserSettings, getUsers } from './user.service';
 import { parseCreateUser } from './user.utils';
 import ApiError from '../../errors/ApiError';
 
 // Add and only allow req.expand on getUserHandler for 'settngs'...
 
-async function getAllUsersHandler(req: ValidUserRequest & Request, res: Response): Promise<void> {
+type GetUsersHandlerRequest = Request & ValidUserRequest;
+
+async function getUsersHandler(req: GetUsersHandlerRequest, res: Response): Promise<void> {
   const email: string | undefined = req.locals?.user?.role === 'USER' ? req.locals.user.email : undefined;
   const parsedQuery: ParsedQuery = parseQuery(req, queryAbleUserKeys);
-  const users: User[] = await getAllUsers({ ...parsedQuery, email });
+  const users: User[] = await getUsers(email, parsedQuery);
   const redactedUsers: Omit<User, 'password' | 'role'>[] = users.map((user) => omit(user, ['password', 'role']));
   res.status(200).json(redactedUsers);
 }
@@ -40,7 +42,9 @@ async function getAllUsersHandler(req: ValidUserRequest & Request, res: Response
  *          type: string
  *          format: date-time
  */
-async function createUserHandler(req: CreateUserRequest & Request, res: Response): Promise<void> {
+type CreateUserHandlerRequest = Request & CreateUserRequest;
+
+async function createUserHandler(req: CreateUserHandlerRequest, res: Response): Promise<void> {
   const userContext: CreateUserContext = parseCreateUser(req);
   try {
     const user: User = await createUser(userContext);
@@ -59,4 +63,4 @@ async function createUserHandler(req: CreateUserRequest & Request, res: Response
   }
 }
 
-export default { getAllUsersHandler, createUserHandler };
+export default { getAllUsersHandler: getUsersHandler, createUserHandler };
