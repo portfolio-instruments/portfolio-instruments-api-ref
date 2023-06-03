@@ -42,9 +42,9 @@ async function createAccountHandler(req: CreateAccountHandlerRequest, res: Respo
   res.status(201).json(account);
 }
 
-type EditAccountHandlerRequest = Request & ValidUserRequest & EditAccountRequest;
+type EditAccountByIdHandlerRequest = Request & ValidUserRequest & EditAccountRequest;
 
-async function editAccountHandler(req: EditAccountHandlerRequest, res: Response): Promise<void> {
+async function editAccountByIdHandler(req: EditAccountByIdHandlerRequest, res: Response): Promise<void> {
   const userId: number = nonNullValue(req.user?.id);
   const accountContext: EditAccountContext = {
     ...(req.body as EditAccountRequest['body']),
@@ -56,4 +56,4 @@ async function editAccountHandler(req: EditAccountHandlerRequest, res: Response)
   res.status(204).json();
 }
 
-export default { createAccountHandler, editAccountHandler, getAccountsHandler, getAccountByIdHandler };
+export default { createAccountHandler, editAccountByIdHandler, getAccountsHandler, getAccountByIdHandler };
