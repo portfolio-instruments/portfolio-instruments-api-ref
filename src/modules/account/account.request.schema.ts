@@ -16,8 +16,6 @@ export const createAccountRequestSchema = object({
 export type CreateAccountRequest = TypeOf<typeof createAccountRequestSchema>;
 export type CreateAccountContext = CreateAccountRequest['body'];
 
-/** Get All Accounts */
-
 /** Get Account By Id */
 export const getAccountByIdRequestSchema = object({
   params: object({
