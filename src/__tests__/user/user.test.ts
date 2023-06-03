@@ -58,7 +58,7 @@ describe('User', () => {
     describe('Given a user with default user role is logged in', () => {
       it('should return a valid user', async () => {
         const jwt = signJwt(Mocks.jwtUserPayload, config.JWT_ACCESS_TOKEN_SECRET, '2h');
-        jest.spyOn(UserService, 'getAllUsers').mockResolvedValueOnce([omit(Mocks.createUserPayload, 'settings')]);
+        jest.spyOn(UserService, 'getUsers').mockResolvedValueOnce([omit(Mocks.createUserPayload, 'settings')]);
 
         const { statusCode, body } = await supertest(app).get('/v1/users').set('Authorization', `Bearer ${jwt}`);
         expect(statusCode).toBe(200);

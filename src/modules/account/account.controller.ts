@@ -7,9 +7,9 @@ import { Account } from '@prisma/client';
 import ApiError from '../../errors/ApiError';
 import { ParsedQuery, parseQuery } from '../../utils/parseQuery';
 
-type GetAllAccountsHandlerRequest = Request & ValidUserRequest;
+type GetAccountsHandlerRequest = Request & ValidUserRequest;
 
-async function getAllAccountsHandler(req: GetAllAccountsHandlerRequest, res: Response): Promise<void> {
+async function getAccountsHandler(req: GetAccountsHandlerRequest, res: Response): Promise<void> {
   const parsedQuery: ParsedQuery = parseQuery(req, queryAbleAccountKeys);
   const userId: number = nonNullValue(req.locals?.user?.id);
   const accounts: Account[] = await getAllAccounts(userId, parsedQuery);
@@ -39,4 +39,4 @@ async function createAccountHandler(req: CreateAccountHandlerRequest, res: Respo
   res.status(201).json(account);
 }
 
-export default { createAccountHandler, getAllAccountsHandler, getAccountByIdHandler };
+export default { createAccountHandler, getAllAccountsHandler: getAccountsHandler, getAccountByIdHandler };

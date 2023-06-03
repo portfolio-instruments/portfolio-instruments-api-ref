@@ -5,15 +5,13 @@ import { ParsedQuery } from '../../utils/parseQuery';
 import prisma from '../../utils/prisma';
 import { CreateUserContext } from './user.request.schema';
 
-export function getUser(email: string): Promise<User | null> {
+export function getUserByEmail(email: string): Promise<User | null> {
   return prisma.user.findUnique({ where: { email } });
 }
 
-export function getAllUsers(options?: ParsedQuery & { email?: string }): Promise<User[]> {
+export function getUsers(email?: string, options?: ParsedQuery): Promise<User[]> {
   return prisma.user.findMany<Prisma.UserFindManyArgs>({
-    where: {
-      email: options?.email,
-    },
+    where: { email },
     include: {
       settings: options?.expand === 'settings',
     },
@@ -33,7 +31,7 @@ export function createUserSettings(userId: number): Promise<Settings> {
 }
 
 export async function validateUser(email: string, password: string): Promise<Omit<User, 'password'> | null> {
-  const user: User | null = await getUser(email);
+  const user: User | null = await getUserByEmail(email);
   if (!user || !(await bcrypt.compare(password, user.password))) {
     return null;
   }
