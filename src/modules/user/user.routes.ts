@@ -3,7 +3,7 @@ import asyncWrapper from '../../middleware/asyncWrapper';
 import { requireUser } from '../../middleware/requireRole';
 import validateRequest from '../../middleware/validateRequest';
 import userController from './user.controller';
-import { createUserRequestSchema } from './user.schema';
+import { createUserRequestSchema } from './user.request.schema';
 
 const router = express.Router();
 

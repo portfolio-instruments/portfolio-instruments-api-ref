@@ -2,7 +2,7 @@ import express from 'express';
 import asyncWrapper from '../../middleware/asyncWrapper';
 import validateRequest from '../../middleware/validateRequest';
 import sessionController from './session.controller';
-import { sessionSchema } from './session.schema';
+import { sessionSchema } from './session.request.schema';
 
 const router = express.Router();
 

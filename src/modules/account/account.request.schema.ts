@@ -1,6 +1,8 @@
 import { TaxShelter } from '@prisma/client';
 import { coerce, nativeEnum, object, string, TypeOf } from 'zod';
 
+export const queryAbleAccountKeys: string[] = ['id', 'institution', 'taxShelter', 'description', 'active', 'createdAt', 'updatedAt'];
+
 /** Create Account */
 export const createAccountRequestSchema = object({
   body: object({

@@ -1,16 +1,18 @@
 import type { Request, Response } from 'express';
-import type { CreateAccountContext, CreateAccountRequest, GetAccountRequest } from './account.request.schema';
+import { queryAbleAccountKeys, type CreateAccountContext, type CreateAccountRequest, type GetAccountRequest } from './account.request.schema';
 import { createAccount, getAccountById, getAllAccounts } from './account.service';
 import { ValidUserRequest } from '../../middleware/deserializeUser';
 import { nonNullValue } from '../../utils/nonNull';
 import { Account } from '@prisma/client';
 import ApiError from '../../errors/ApiError';
+import { ParsedQuery, parseQuery } from '../../utils/parseQuery';
 
 type GetAllAccountsHandlerRequest = Request & ValidUserRequest;
 
 async function getAllAccountsHandler(req: GetAllAccountsHandlerRequest, res: Response): Promise<void> {
+  const parsedQuery: ParsedQuery = parseQuery(req, queryAbleAccountKeys);
   const userId: number = nonNullValue(req.locals?.user?.id);
-  const accounts: Account[] = await getAllAccounts(userId);
+  const accounts: Account[] = await getAllAccounts(userId, parsedQuery);
   res.status(200).json(accounts);
 }
 
