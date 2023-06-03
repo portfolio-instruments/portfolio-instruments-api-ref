@@ -8,7 +8,7 @@ import { createUserRequestSchema } from './user.request.schema';
 const router = express.Router();
 
 // GET /users
-router.get('/', validateRequest(), requireUser, asyncWrapper(userController.getAllUsersHandler));
+router.get('/', validateRequest(), requireUser, asyncWrapper(userController.getUsersHandler));
 
 /**
  * @openapi

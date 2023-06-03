@@ -3,8 +3,8 @@ import type { Request, Response } from 'express';
 import { omit } from 'lodash';
 import { ValidUserRequest } from '../../middleware/deserializeUser';
 import { ParsedQuery, parseQuery } from '../../utils/parseQuery';
-import { CreateUserContext, CreateUserRequest, queryAbleUserKeys } from './user.request.schema';
-import { createUser, createUserSettings, getUsers } from './user.service';
+import { CreateUserRequest, queryAbleUserKeys } from './user.request.schema';
+import { CreateUserContext, createUser, createUserSettings, getUsers } from './user.service';
 import { parseCreateUser } from './user.utils';
 import ApiError from '../../errors/ApiError';
 
@@ -45,9 +45,9 @@ async function getUsersHandler(req: GetUsersHandlerRequest, res: Response): Prom
 type CreateUserHandlerRequest = Request & CreateUserRequest;
 
 async function createUserHandler(req: CreateUserHandlerRequest, res: Response): Promise<void> {
-  const userContext: CreateUserContext = parseCreateUser(req);
+  const createUserContext: CreateUserContext = parseCreateUser(req);
   try {
-    const user: User = await createUser(userContext);
+    const user: User = await createUser(createUserContext);
     const settings: Settings = await createUserSettings(user.id);
     res.status(201).json({ ...omit(user, 'password'), settings: omit(settings, ['id', 'userId', 'createdAt', 'updatedAt']) });
   } catch (e) {
@@ -63,4 +63,4 @@ async function createUserHandler(req: CreateUserHandlerRequest, res: Response): 
   }
 }
 
-export default { getAllUsersHandler: getUsersHandler, createUserHandler };
+export default { getUsersHandler, createUserHandler };

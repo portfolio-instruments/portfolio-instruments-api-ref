@@ -1,10 +1,9 @@
-import { CreateAccountContext } from './account.request.schema';
 import prisma from '../../utils/prisma';
 import { Account, Prisma } from '@prisma/client';
 import { ParsedQuery } from '../../utils/parseQuery';
 import { omit } from 'lodash';
 
-export type EditAccountContext = Partial<Omit<Account, 'createdAt' | 'updatedAt'>> & { accountId: number; userId: number };
+export type EditAccountContext = Partial<Omit<Account, 'id' | 'createdAt' | 'updatedAt'>> & { accountId: number; userId: number };
 
 /**
  * Prisma's update command doesn't seem to work for multiple where conditions..
@@ -37,10 +36,8 @@ export async function getAccountById(userId: number, accountId: number): Promise
   return await prisma.account.findFirst({ where: { id: accountId, userId } });
 }
 
-export type NewAccount = CreateAccountContext & { userId: number };
+export type CreateAccountContext = Omit<Account, 'id' | 'active' | 'createdAt' | 'updatedAt'> & { active?: boolean } & { userId: number };
 
-export async function createAccount(newAccount: NewAccount): Promise<Account> {
-  return await prisma.account.create({ data: newAccount });
+export async function createAccount(createAccountContext: CreateAccountContext): Promise<Account> {
+  return await prisma.account.create({ data: createAccountContext });
 }
-
-export default { createAccount };

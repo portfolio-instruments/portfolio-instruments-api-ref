@@ -3,7 +3,6 @@ import bcrypt from 'bcryptjs';
 import { omit } from 'lodash';
 import { ParsedQuery } from '../../utils/parseQuery';
 import prisma from '../../utils/prisma';
-import { CreateUserContext } from './user.request.schema';
 
 export function getUserByEmail(email: string): Promise<User | null> {
   return prisma.user.findUnique({ where: { email } });
@@ -22,8 +21,10 @@ export function getUsers(email?: string, options?: ParsedQuery): Promise<User[]>
   });
 }
 
-export async function createUser(user: CreateUserContext): Promise<User> {
-  return await prisma.user.create({ data: user });
+export type CreateUserContext = Omit<User, 'id' | 'role' | 'createdAt' | 'updatedAt'>;
+
+export async function createUser(createUserContext: CreateUserContext): Promise<User> {
+  return await prisma.user.create({ data: createUserContext });
 }
 
 export function createUserSettings(userId: number): Promise<Settings> {
