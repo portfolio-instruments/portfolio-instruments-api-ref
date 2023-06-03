@@ -39,7 +39,7 @@ export const createUserRequestSchema = object({
     confirmPassword: string({ required_error: 'Password is required' })
       .min(6, 'Password must be at least 6 characters long')
       .max(255, 'Password can be at most 255 characters long'),
-  }),
+  }).strict(),
 }).superRefine(({ body }, ctx) => {
   if (body.confirmPassword !== body.password) {
     ctx.addIssue({

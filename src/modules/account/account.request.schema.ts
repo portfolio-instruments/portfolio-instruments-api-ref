@@ -23,7 +23,7 @@ const paramsSchema = object({
 
 /** Create Account */
 export const createAccountRequestSchema = object({
-  body: bodySchema,
+  body: bodySchema.strict(),
 });
 
 export type CreateAccountRequest = TypeOf<typeof createAccountRequestSchema>;
@@ -39,7 +39,7 @@ export type EditAccountRequest = { body: TypeOf<typeof editAccountRequestSchema>
 
 /** Get Account By Id */
 export const getAccountByIdRequestSchema = object({
-  params: paramsSchema,
+  params: paramsSchema.strict(),
 });
 
 export type GetAccountRequest = { params: { accountId: string } };
