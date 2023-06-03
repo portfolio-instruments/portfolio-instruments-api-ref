@@ -17,12 +17,12 @@ import { object, string, TypeOf } from 'zod';
  *          type: string
  *          default: password123
  */
-export const sessionSchema = object({
+export const createSessionRequestSchema = object({
   body: object({
     email: string({ required_error: 'Email is required' }),
     password: string({ required_error: 'Password is required' }),
   }),
 });
 
-export type CreateSessionRequest = TypeOf<typeof sessionSchema>;
+export type CreateSessionRequest = TypeOf<typeof createSessionRequestSchema>;
 export type CreateSessionContext = CreateSessionRequest['body'];

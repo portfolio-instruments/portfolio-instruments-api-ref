@@ -11,7 +11,7 @@ type GetAccountsHandlerRequest = Request & ValidUserRequest;
 
 async function getAccountsHandler(req: GetAccountsHandlerRequest, res: Response): Promise<void> {
   const parsedQuery: ParsedQuery = parseQuery(req, queryAbleAccountKeys);
-  const userId: number = nonNullValue(req.locals?.user?.id);
+  const userId: number = nonNullValue(req.user?.id);
   const accounts: Account[] = await getAllAccounts(userId, parsedQuery);
   res.status(200).json(accounts);
 }
@@ -19,7 +19,7 @@ async function getAccountsHandler(req: GetAccountsHandlerRequest, res: Response)
 type GetAccountByIdHandlerRequest = Request & ValidUserRequest & GetAccountRequest;
 
 async function getAccountByIdHandler(req: GetAccountByIdHandlerRequest, res: Response): Promise<void> {
-  const userId: number = nonNullValue(req.locals?.user?.id);
+  const userId: number = nonNullValue(req.user?.id);
   const accountId: number = Number(req.params.accountId);
 
   const account: Account | null = await getAccountById(userId, accountId);
@@ -33,7 +33,7 @@ async function getAccountByIdHandler(req: GetAccountByIdHandlerRequest, res: Res
 type CreateAccountHandlerRequest = Request & ValidUserRequest & CreateAccountRequest;
 
 async function createAccountHandler(req: CreateAccountHandlerRequest, res: Response): Promise<void> {
-  const userId: number = nonNullValue(req.locals?.user?.id);
+  const userId: number = nonNullValue(req.user?.id);
   const accountContext: CreateAccountContext = req.body as CreateAccountContext;
   const account: Account = await createAccount({ ...accountContext, userId });
   res.status(201).json(account);
