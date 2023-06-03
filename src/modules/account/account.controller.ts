@@ -1,6 +1,12 @@
 import type { Request, Response } from 'express';
-import { queryAbleAccountKeys, type CreateAccountContext, type CreateAccountRequest, type GetAccountRequest } from './account.request.schema';
-import { createAccount, getAccountById, getAllAccounts } from './account.service';
+import {
+  queryAbleAccountKeys,
+  type CreateAccountContext,
+  type CreateAccountRequest,
+  type GetAccountRequest,
+  EditAccountRequest,
+} from './account.request.schema';
+import { EditAccountContext, createAccount, editAccount, getAccountById, getAllAccounts } from './account.service';
 import { ValidUserRequest } from '../../middleware/deserializeUser';
 import { nonNullValue } from '../../utils/nonNull';
 import { Account } from '@prisma/client';
@@ -39,4 +45,18 @@ async function createAccountHandler(req: CreateAccountHandlerRequest, res: Respo
   res.status(201).json(account);
 }
 
-export default { createAccountHandler, getAllAccountsHandler: getAccountsHandler, getAccountByIdHandler };
+type EditAccountHandlerRequest = Request & ValidUserRequest & EditAccountRequest;
+
+async function editAccountHandler(req: EditAccountHandlerRequest, res: Response): Promise<void> {
+  const userId: number = nonNullValue(req.user?.id);
+  const accountContext: EditAccountContext = {
+    ...(req.body as EditAccountRequest['body']),
+    accountId: Number(req.params.accountId),
+    userId,
+  };
+  await editAccount(accountContext);
+  // See `editAccount` service implemenation, nothing to return so we send 204 No Content
+  res.status(204).json();
+}
+
+export default { createAccountHandler, editAccountHandler, getAllAccountsHandler: getAccountsHandler, getAccountByIdHandler };
