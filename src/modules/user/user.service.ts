@@ -3,7 +3,7 @@ import bcrypt from 'bcryptjs';
 import { omit } from 'lodash';
 import { ParsedQuery } from '../../utils/parseQuery';
 import prisma from '../../utils/prisma';
-import { CreateUserContext } from './user.schema';
+import { CreateUserContext } from './user.request.schema';
 
 export function getUser(email: string): Promise<User | null> {
   return prisma.user.findUnique({ where: { email } });

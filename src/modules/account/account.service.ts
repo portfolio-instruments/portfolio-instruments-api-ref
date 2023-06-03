@@ -1,9 +1,16 @@
 import { CreateAccountContext } from './account.request.schema';
 import prisma from '../../utils/prisma';
-import { Account } from '@prisma/client';
+import { Account, Prisma } from '@prisma/client';
+import { ParsedQuery } from '../../utils/parseQuery';
 
-export async function getAllAccounts(userId: number): Promise<Account[]> {
-  return await prisma.account.findMany({ where: { userId } });
+export async function getAllAccounts(userId: number, options?: ParsedQuery): Promise<Account[]> {
+  return await prisma.account.findMany<Prisma.AccountFindManyArgs>({
+    where: { userId },
+    take: options?.take,
+    skip: options?.skip,
+    cursor: options?.cursor,
+    orderBy: options?.sort,
+  });
 }
 
 export async function getAccountById(userId: number, accountId: number): Promise<Account | null> {

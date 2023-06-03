@@ -1,5 +1,7 @@
 import { object, string, TypeOf } from 'zod';
 
+export const queryAbleUserKeys: string[] = ['id', 'email', 'name', 'password', 'role', 'createdAt', 'updatedAt'];
+
 /**
  * @openapi
  * components:
@@ -46,8 +48,6 @@ export const createUserRequestSchema = object({
     });
   }
 });
-
-export const userKeys: string[] = ['id', 'email', 'name', 'password', 'role', 'createdAt', 'updatedAt'];
 
 export type CreateUserRequest = TypeOf<typeof createUserRequestSchema>;
 export type CreateUserContext = Omit<CreateUserRequest['body'], 'confirmPassword'>;

@@ -1,4 +1,4 @@
-import { CreateSessionRequest } from '../../modules/session/session.schema';
+import { CreateSessionRequest } from '../../modules/session/session.request.schema';
 import { userPayloadBase } from '../user/user.mocks';
 
 export { jwtUserPayload } from '../user/user.mocks';

@@ -4,7 +4,7 @@ import config from '../../config';
 import ApiError from '../../errors/ApiError';
 import { nonNullProp } from '../../utils/nonNull';
 import { validateUser } from '../user/user.service';
-import { CreateSessionContext, CreateSessionRequest } from './session.schema';
+import { CreateSessionContext, CreateSessionRequest } from './session.request.schema';
 import { signJwt } from './session.utils';
 
 /**
