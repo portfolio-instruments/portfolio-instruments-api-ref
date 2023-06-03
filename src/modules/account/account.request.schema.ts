@@ -1,6 +1,7 @@
 import { TaxShelter } from '@prisma/client';
 import { coerce, nativeEnum, object, string, TypeOf } from 'zod';
 
+/** Create Account */
 export const createAccountRequestSchema = object({
   body: object({
     institution: string({ required_error: 'Institution is required' })
@@ -14,3 +15,17 @@ export const createAccountRequestSchema = object({
 
 export type CreateAccountRequest = TypeOf<typeof createAccountRequestSchema>;
 export type CreateAccountContext = CreateAccountRequest['body'];
+
+/** Get All Accounts */
+
+/** Get Account By Id */
+export const getAccountByIdRequestSchema = object({
+  params: object({
+    accountId: coerce
+      .number({ invalid_type_error: 'The accountId must be a positive whole number' })
+      .int('The accountId must be a whole number')
+      .positive('The accountId must be a positive number'),
+  }),
+});
+
+export type GetAccountRequest = { params: { accountId: string } };
