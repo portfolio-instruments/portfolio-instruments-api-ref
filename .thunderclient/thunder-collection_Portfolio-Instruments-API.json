@@ -1,0 +1,187 @@
+{
+    "client": "Thunder Client",
+    "collectionName": "Portfolio-Instruments-API",
+    "dateExported": "2023-06-03T21:18:21.600Z",
+    "version": "1.1",
+    "folders": [
+        {
+            "_id": "2e24bb37-be3c-423a-9f17-f316b71fb463",
+            "name": "Users",
+            "containerId": "",
+            "created": "2023-06-03T21:17:10.390Z",
+            "sortNum": 10000
+        },
+        {
+            "_id": "1aabd6aa-8a15-4404-bff5-5def80dff904",
+            "name": "Sessions",
+            "containerId": "",
+            "created": "2023-06-03T21:17:42.438Z",
+            "sortNum": 20000
+        },
+        {
+            "_id": "dbdcd522-4760-4e95-8e10-803f257ed686",
+            "name": "Accounts",
+            "containerId": "",
+            "created": "2023-06-03T21:17:52.953Z",
+            "sortNum": 30000
+        }
+    ],
+    "requests": [
+        {
+            "_id": "6a341832-be99-447b-b30e-e298ab38d40f",
+            "colId": "e5b85447-e708-4cc4-abde-efc1aeff664f",
+            "containerId": "1aabd6aa-8a15-4404-bff5-5def80dff904",
+            "name": "/sessions (Login)",
+            "url": "http://localhost:3001/v1/sessions",
+            "method": "POST",
+            "sortNum": 10000,
+            "created": "2023-03-15T07:49:01.938Z",
+            "modified": "2023-06-03T21:17:45.748Z",
+            "headers": [],
+            "params": [],
+            "body": {
+                "type": "json",
+                "raw": "{\n  \"email\": \"mwfisher91@gmail.com\",\n  \"password\": \"Abcd!234\"\n}",
+                "form": []
+            },
+            "tests": []
+        },
+        {
+            "_id": "1d2127fd-5e8b-47b1-ac45-3283af120558",
+            "colId": "e5b85447-e708-4cc4-abde-efc1aeff664f",
+            "containerId": "2e24bb37-be3c-423a-9f17-f316b71fb463",
+            "name": "/users (Get Users)",
+            "url": "http://localhost:3001/v1/users",
+            "method": "GET",
+            "sortNum": 10000,
+            "created": "2023-03-23T06:23:37.195Z",
+            "modified": "2023-06-03T21:17:28.834Z",
+            "headers": [],
+            "params": [],
+            "auth": {
+                "type": "bearer",
+                "bearer": "eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpZCI6MSwiZW1haWwiOiJtd2Zpc2hlcjkxQGdtYWlsLmNvbSIsIm5hbWUiOiJNYXR0IEZpc2hlciIsInJvbGUiOiJVU0VSIiwiY3JlYXRlZEF0IjoiMjAyMy0wNi0wMlQwODowMTo0OS4zOTJaIiwidXBkYXRlZEF0IjoiMjAyMy0wNi0wMlQwODowMTo0OS4zOTJaIiwiaWF0IjoxNjg1ODE3Njc4LCJleHAiOjE2ODU4MjQ4Nzh9.PEChdjs2xSS3hDfSCfleweX29YkHvUiqqYBIlOjFC_U"
+            },
+            "tests": []
+        },
+        {
+            "_id": "9d3e61f5-e5f0-4531-ad8f-187e18feded2",
+            "colId": "e5b85447-e708-4cc4-abde-efc1aeff664f",
+            "containerId": "dbdcd522-4760-4e95-8e10-803f257ed686",
+            "name": "/accounts/:id (Patch Account)",
+            "url": "http://localhost:3001/v1/accounts/4",
+            "method": "PATCH",
+            "sortNum": 10000,
+            "created": "2023-06-03T18:43:05.929Z",
+            "modified": "2023-06-03T21:18:06.427Z",
+            "headers": [],
+            "params": [],
+            "body": {
+                "type": "json",
+                "raw": "{\n  \"institution\": \"Vanguard\",\n  \"taxShelter\": \"TAXABLE\",\n  \"description\": \"Main\",\n  \"active\": false\n}",
+                "form": []
+            },
+            "auth": {
+                "type": "bearer",
+                "bearer": "eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpZCI6MSwiZW1haWwiOiJtd2Zpc2hlcjkxQGdtYWlsLmNvbSIsIm5hbWUiOiJNYXR0IEZpc2hlciIsInJvbGUiOiJVU0VSIiwiY3JlYXRlZEF0IjoiMjAyMy0wNi0wMlQwODowMTo0OS4zOTJaIiwidXBkYXRlZEF0IjoiMjAyMy0wNi0wMlQwODowMTo0OS4zOTJaIiwiaWF0IjoxNjg1ODE3Njc4LCJleHAiOjE2ODU4MjQ4Nzh9.PEChdjs2xSS3hDfSCfleweX29YkHvUiqqYBIlOjFC_U"
+            },
+            "tests": []
+        },
+        {
+            "_id": "26cc9a8f-0693-49fe-ac3b-d7b65bf991e5",
+            "colId": "e5b85447-e708-4cc4-abde-efc1aeff664f",
+            "containerId": "2e24bb37-be3c-423a-9f17-f316b71fb463",
+            "name": "/users (Create User)",
+            "url": "http://localhost:3001/v1/users",
+            "method": "POST",
+            "sortNum": 20000,
+            "created": "2023-03-15T07:06:51.394Z",
+            "modified": "2023-06-03T21:17:30.853Z",
+            "headers": [],
+            "params": [],
+            "body": {
+                "type": "json",
+                "raw": "{\n  \"name\": \"Matt Fisher\",\n  \"email\": \"mwfisher93@gmail.com\",\n  \"password\": \"Abcd!234\",\n  \"confirmPassword\": \"Abcd!234\"\n}",
+                "form": []
+            },
+            "tests": []
+        },
+        {
+            "_id": "702d0eca-56db-4db1-9f7b-f803087db430",
+            "colId": "e5b85447-e708-4cc4-abde-efc1aeff664f",
+            "containerId": "dbdcd522-4760-4e95-8e10-803f257ed686",
+            "name": "/accounts/:id (Delete Account)",
+            "url": "http://localhost:3001/v1/accounts/5",
+            "method": "DELETE",
+            "sortNum": 20000,
+            "created": "2023-06-03T20:58:29.671Z",
+            "modified": "2023-06-03T21:18:07.949Z",
+            "headers": [],
+            "params": [],
+            "auth": {
+                "type": "bearer",
+                "bearer": "eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpZCI6MSwiZW1haWwiOiJtd2Zpc2hlcjkxQGdtYWlsLmNvbSIsIm5hbWUiOiJNYXR0IEZpc2hlciIsInJvbGUiOiJVU0VSIiwiY3JlYXRlZEF0IjoiMjAyMy0wNi0wMlQwODowMTo0OS4zOTJaIiwidXBkYXRlZEF0IjoiMjAyMy0wNi0wMlQwODowMTo0OS4zOTJaIiwiaWF0IjoxNjg1ODI1OTkwLCJleHAiOjE2ODU4MzMxOTB9.RPP8OXim5x3ST-Kmf1w9H7cGxfnNe-DWLUsSV1O_Hv8"
+            },
+            "tests": []
+        },
+        {
+            "_id": "20654758-3a67-47dc-a5cb-878760610f47",
+            "colId": "e5b85447-e708-4cc4-abde-efc1aeff664f",
+            "containerId": "dbdcd522-4760-4e95-8e10-803f257ed686",
+            "name": "/accounts (Create Account)",
+            "url": "http://localhost:3001/v1/accounts",
+            "method": "POST",
+            "sortNum": 30000,
+            "created": "2023-06-02T08:04:30.192Z",
+            "modified": "2023-06-03T21:18:09.143Z",
+            "headers": [],
+            "params": [],
+            "body": {
+                "type": "json",
+                "raw": "{\n  \"institution\": \"Fidelity\",\n  \"taxShelter\": \"TRADITIONAL\",\n  \"description\": \"Main\"\n}",
+                "form": []
+            },
+            "auth": {
+                "type": "bearer",
+                "bearer": "eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpZCI6MSwiZW1haWwiOiJtd2Zpc2hlcjkxQGdtYWlsLmNvbSIsIm5hbWUiOiJNYXR0IEZpc2hlciIsInJvbGUiOiJVU0VSIiwiY3JlYXRlZEF0IjoiMjAyMy0wNi0wMlQwODowMTo0OS4zOTJaIiwidXBkYXRlZEF0IjoiMjAyMy0wNi0wMlQwODowMTo0OS4zOTJaIiwiaWF0IjoxNjg1ODIzMDI4LCJleHAiOjE2ODU4MzAyMjh9.1klqTptWMr_eG6b9cqG1qca0jeFD0nVwpXepgGxMJb4"
+            },
+            "tests": []
+        },
+        {
+            "_id": "dea29920-34cc-4f24-874f-5e335cf547fb",
+            "colId": "e5b85447-e708-4cc4-abde-efc1aeff664f",
+            "containerId": "dbdcd522-4760-4e95-8e10-803f257ed686",
+            "name": "/accounts (Get Accounts)",
+            "url": "http://localhost:3001/v1/accounts",
+            "method": "GET",
+            "sortNum": 40000,
+            "created": "2023-06-03T05:26:03.462Z",
+            "modified": "2023-06-03T21:18:10.073Z",
+            "headers": [],
+            "params": [],
+            "auth": {
+                "type": "bearer",
+                "bearer": "eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpZCI6MSwiZW1haWwiOiJtd2Zpc2hlcjkxQGdtYWlsLmNvbSIsIm5hbWUiOiJNYXR0IEZpc2hlciIsInJvbGUiOiJVU0VSIiwiY3JlYXRlZEF0IjoiMjAyMy0wNi0wMlQwODowMTo0OS4zOTJaIiwidXBkYXRlZEF0IjoiMjAyMy0wNi0wMlQwODowMTo0OS4zOTJaIiwiaWF0IjoxNjg1ODI1OTkwLCJleHAiOjE2ODU4MzMxOTB9.RPP8OXim5x3ST-Kmf1w9H7cGxfnNe-DWLUsSV1O_Hv8"
+            },
+            "tests": []
+        },
+        {
+            "_id": "689f3061-8e43-4177-855b-915df034ce84",
+            "colId": "e5b85447-e708-4cc4-abde-efc1aeff664f",
+            "containerId": "dbdcd522-4760-4e95-8e10-803f257ed686",
+            "name": "/accounts/:id (Get Account)",
+            "url": "http://localhost:3001/v1/accounts/4",
+            "method": "GET",
+            "sortNum": 50000,
+            "created": "2023-06-03T05:27:43.123Z",
+            "modified": "2023-06-03T21:18:10.924Z",
+            "headers": [],
+            "params": [],
+            "auth": {
+                "type": "bearer",
+                "bearer": "eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpZCI6MSwiZW1haWwiOiJtd2Zpc2hlcjkxQGdtYWlsLmNvbSIsIm5hbWUiOiJNYXR0IEZpc2hlciIsInJvbGUiOiJVU0VSIiwiY3JlYXRlZEF0IjoiMjAyMy0wNi0wMlQwODowMTo0OS4zOTJaIiwidXBkYXRlZEF0IjoiMjAyMy0wNi0wMlQwODowMTo0OS4zOTJaIiwiaWF0IjoxNjg1ODE3Njc4LCJleHAiOjE2ODU4MjQ4Nzh9.PEChdjs2xSS3hDfSCfleweX29YkHvUiqqYBIlOjFC_U"
+            },
+            "tests": []
+        }
+    ]
+}
