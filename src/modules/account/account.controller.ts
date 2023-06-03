@@ -1,6 +1,20 @@
 import type { Request, Response } from 'express';
-import { queryAbleAccountKeys, type CreateAccountRequest, type GetAccountRequest, EditAccountRequest } from './account.request.schema';
-import { CreateAccountContext, EditAccountContext, createAccount, editAccount, getAccountById, getAllAccounts } from './account.service';
+import {
+  queryAbleAccountKeys,
+  type CreateAccountRequest,
+  type GetAccountRequest,
+  EditAccountRequest,
+  DeleteAccountRequest,
+} from './account.request.schema';
+import {
+  CreateAccountContext,
+  EditAccountContext,
+  createAccount,
+  deleteAccount,
+  editAccount,
+  getAccountById,
+  getAllAccounts,
+} from './account.service';
 import { ValidUserRequest } from '../../middleware/deserializeUser';
 import { nonNullValue } from '../../utils/nonNull';
 import { Account } from '@prisma/client';
@@ -56,4 +70,13 @@ async function editAccountByIdHandler(req: EditAccountByIdHandlerRequest, res: R
   res.status(204).json();
 }
 
-export default { createAccountHandler, editAccountByIdHandler, getAccountsHandler, getAccountByIdHandler };
+type DeleteAccountByIdHandlerRequest = Request & ValidUserRequest & DeleteAccountRequest;
+
+async function deleteAccountByIdHandler(req: DeleteAccountByIdHandlerRequest, res: Response): Promise<void> {
+  const userId: number = nonNullValue(req.user?.id);
+  const accountId: number = Number(req.params.accountId);
+  await deleteAccount(userId, accountId);
+  res.status(204).json();
+}
+
+export default { getAccountsHandler, getAccountByIdHandler, createAccountHandler, editAccountByIdHandler, deleteAccountByIdHandler };

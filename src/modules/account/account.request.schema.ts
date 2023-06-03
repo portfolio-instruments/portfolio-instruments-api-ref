@@ -42,3 +42,10 @@ export const getAccountByIdRequestSchema = object({
 });
 
 export type GetAccountRequest = { params: { accountId: string } };
+
+/** Delete Account By Id */
+export const deleteAccountByIdRequestSchema = object({
+  params: paramsSchema.strict(),
+});
+
+export type DeleteAccountRequest = { params: { accountId: string } };
