@@ -3,6 +3,7 @@ import { NextFunction, Request, Response } from 'express';
 import config from '../config';
 import { VerifiedJwt, verifyJwt } from '../modules/session/session.utils';
 import { nonNullProp } from '../utils/nonNull';
+import ApiError from '../errors/ApiError';
 
 export interface ValidUserRequest {
   user?: {
@@ -22,6 +23,14 @@ export default function deserializeUser(req: Request & ValidUserRequest, __: Res
   }
 
   const jwtResponse: VerifiedJwt<User> = verifyJwt(accessToken, nonNullProp(config, 'JWT_ACCESS_TOKEN_SECRET'));
+  if (jwtResponse.expired) {
+    next(ApiError.unauthorized('Access token expired.'));
+    return;
+  } else if (!jwtResponse.valid) {
+    next(ApiError.unauthorized('Invalid access token.'));
+    return;
+  }
+
   const user = nonNullProp(jwtResponse, 'decoded');
 
   req.user = {
