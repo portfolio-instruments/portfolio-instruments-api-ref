@@ -1,12 +1,6 @@
 import type { Request, Response } from 'express';
-import {
-  queryAbleAccountKeys,
-  type CreateAccountContext,
-  type CreateAccountRequest,
-  type GetAccountRequest,
-  EditAccountRequest,
-} from './account.request.schema';
-import { EditAccountContext, createAccount, editAccount, getAccountById, getAllAccounts } from './account.service';
+import { queryAbleAccountKeys, type CreateAccountRequest, type GetAccountRequest, EditAccountRequest } from './account.request.schema';
+import { CreateAccountContext, EditAccountContext, createAccount, editAccount, getAccountById, getAllAccounts } from './account.service';
 import { ValidUserRequest } from '../../middleware/deserializeUser';
 import { nonNullValue } from '../../utils/nonNull';
 import { Account } from '@prisma/client';
@@ -40,14 +34,17 @@ type CreateAccountHandlerRequest = Request & ValidUserRequest & CreateAccountReq
 
 async function createAccountHandler(req: CreateAccountHandlerRequest, res: Response): Promise<void> {
   const userId: number = nonNullValue(req.user?.id);
-  const accountContext: CreateAccountContext = req.body as CreateAccountContext;
-  const account: Account = await createAccount({ ...accountContext, userId });
+  const accountContext: CreateAccountContext = {
+    ...(req.body as CreateAccountRequest['body']),
+    userId,
+  };
+  const account: Account = await createAccount(accountContext);
   res.status(201).json(account);
 }
 
-type EditAccountHandlerRequest = Request & ValidUserRequest & EditAccountRequest;
+type EditAccountByIdHandlerRequest = Request & ValidUserRequest & EditAccountRequest;
 
-async function editAccountHandler(req: EditAccountHandlerRequest, res: Response): Promise<void> {
+async function editAccountByIdHandler(req: EditAccountByIdHandlerRequest, res: Response): Promise<void> {
   const userId: number = nonNullValue(req.user?.id);
   const accountContext: EditAccountContext = {
     ...(req.body as EditAccountRequest['body']),
@@ -59,4 +56,4 @@ async function editAccountHandler(req: EditAccountHandlerRequest, res: Response)
   res.status(204).json();
 }
 
-export default { createAccountHandler, editAccountHandler, getAllAccountsHandler: getAccountsHandler, getAccountByIdHandler };
+export default { createAccountHandler, editAccountByIdHandler, getAccountsHandler, getAccountByIdHandler };

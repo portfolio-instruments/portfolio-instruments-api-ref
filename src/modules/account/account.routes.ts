@@ -7,10 +7,10 @@ import accountController from './account.controller';
 
 const router = express.Router();
 
-router.get('/', validateRequest(), requireUser, asyncWrapper(accountController.getAllAccountsHandler));
+router.get('/', validateRequest(), requireUser, asyncWrapper(accountController.getAccountsHandler));
 router.get('/:accountId', validateRequest(getAccountByIdRequestSchema), requireUser, asyncWrapper(accountController.getAccountByIdHandler));
 
-router.patch('/:accountId', validateRequest(editAccountRequestSchema), requireUser, asyncWrapper(accountController.editAccountHandler));
+router.patch('/:accountId', validateRequest(editAccountRequestSchema), requireUser, asyncWrapper(accountController.editAccountByIdHandler));
 
 router.post('/', validateRequest(createAccountRequestSchema), requireUser, asyncWrapper(accountController.createAccountHandler));
 

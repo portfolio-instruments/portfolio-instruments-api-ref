@@ -50,4 +50,3 @@ export const createUserRequestSchema = object({
 });
 
 export type CreateUserRequest = TypeOf<typeof createUserRequestSchema>;
-export type CreateUserContext = Omit<CreateUserRequest['body'], 'confirmPassword'>;

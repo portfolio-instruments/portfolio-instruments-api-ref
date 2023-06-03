@@ -27,7 +27,6 @@ export const createAccountRequestSchema = object({
 });
 
 export type CreateAccountRequest = TypeOf<typeof createAccountRequestSchema>;
-export type CreateAccountContext = CreateAccountRequest['body'];
 
 /** Edit Account */
 export const editAccountRequestSchema = object({
