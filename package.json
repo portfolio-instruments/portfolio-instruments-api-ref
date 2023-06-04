@@ -24,6 +24,9 @@
     "url": "https://github.com/MicroFish91/Portfolio-Instruments-API/issues"
   },
   "homepage": "https://github.com/MicroFish91/Portfolio-Instruments-API#readme",
+  "engines": {
+    "node": "18.x"
+  },
   "dependencies": {
     "@prisma/client": "4.10.1",
     "bcryptjs": "^2.4.3",

@@ -22,14 +22,21 @@ const paramsSchema = object({
     .positive('The accountId must be a positive number'),
 });
 
-/** Create Account */
+/** Post */
 export const createAccountRequestSchema = object({
   body: bodySchema.strict(),
 });
 
 export type CreateAccountRequest = TypeOf<typeof createAccountRequestSchema>;
 
-/** Patch Account By Id */
+/** Get */
+export const getAccountByIdRequestSchema = object({
+  params: paramsSchema.strict(),
+});
+
+export type GetAccountRequest = { params: { accountId: string } };
+
+/** Patch */
 export const patchAccountRequestSchema = object({
   body: bodySchema.partial().strict(),
   params: paramsSchema.strict(),
@@ -37,7 +44,7 @@ export const patchAccountRequestSchema = object({
 
 export type PatchAccountRequest = { body: TypeOf<typeof patchAccountRequestSchema>['body'] } & { params: { accountId: string } };
 
-/** Put Account By Id */
+/** Put */
 export const putAccountRequestSchema = object({
   body: bodySchema.strict().refine((req) => req.active !== undefined, { message: 'The active status must be provided' }),
   params: paramsSchema.strict(),
@@ -45,14 +52,7 @@ export const putAccountRequestSchema = object({
 
 export type PutAccountRequest = { body: TypeOf<typeof putAccountRequestSchema>['body'] } & { params: { accountId: string } };
 
-/** Get Account By Id */
-export const getAccountByIdRequestSchema = object({
-  params: paramsSchema.strict(),
-});
-
-export type GetAccountRequest = { params: { accountId: string } };
-
-/** Delete Account By Id */
+/** Delete */
 export const deleteAccountByIdRequestSchema = object({
   params: paramsSchema.strict(),
 });
