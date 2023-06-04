@@ -7,6 +7,7 @@ import type { CreateSessionContext, CreateSessionRequest } from './session.reque
 import { signJwt } from './session.utils';
 import { validateUser } from './session.service';
 
+/** Create */
 /**
  * @openapi
  * components:

@@ -1,6 +1,7 @@
 import type { TypeOf } from 'zod';
 import { object, string } from 'zod';
 
+/** Create */
 /**
  * @openapi
  * components:

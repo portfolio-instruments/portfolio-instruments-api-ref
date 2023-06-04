@@ -22,21 +22,21 @@ const paramsSchema = object({
     .positive('The accountId must be a positive number'),
 });
 
-/** Post */
+/** Create */
 export const createAccountRequestSchema = object({
   body: bodySchema.strict(),
 });
 
 export type CreateAccountRequest = TypeOf<typeof createAccountRequestSchema>;
 
-/** Get */
+/** Read */
 export const getAccountByIdRequestSchema = object({
   params: paramsSchema.strict(),
 });
 
 export type GetAccountRequest = { params: { accountId: string } };
 
-/** Patch */
+/** Update */
 export const patchAccountRequestSchema = object({
   body: bodySchema.partial().strict(),
   params: paramsSchema.strict(),
@@ -44,7 +44,6 @@ export const patchAccountRequestSchema = object({
 
 export type PatchAccountRequest = { body: TypeOf<typeof patchAccountRequestSchema>['body'] } & { params: { accountId: string } };
 
-/** Put */
 export const putAccountRequestSchema = object({
   body: bodySchema.strict().refine((req) => req.active !== undefined, { message: 'The active status must be provided' }),
   params: paramsSchema.strict(),
