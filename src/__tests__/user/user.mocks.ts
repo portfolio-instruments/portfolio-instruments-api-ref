@@ -1,4 +1,4 @@
-import { Settings, User } from '@prisma/client';
+import type { Settings, User } from '@prisma/client';
 import { omit } from 'lodash';
 
 /** Base */

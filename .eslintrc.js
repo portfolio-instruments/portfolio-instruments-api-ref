@@ -32,6 +32,7 @@ module.exports = {
         "@typescript-eslint/require-await": "off",
         "@typescript-eslint/restrict-template-expressions": "off",
         "@typescript-eslint/unbound-method": "off",
+        "@typescript-eslint/consistent-type-imports": "error",
         "eqeqeq": ["error", "always"],
         "no-case-declarations": "off",
         "no-constant-condition": ["error", { "checkLoops": false }],

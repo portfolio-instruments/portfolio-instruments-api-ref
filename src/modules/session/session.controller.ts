@@ -1,10 +1,10 @@
-import { User } from '@prisma/client';
+import type { User } from '@prisma/client';
 import type { NextFunction, Request, Response } from 'express';
 import config from '../../config';
 import ApiError from '../../errors/ApiError';
 import { nonNullProp } from '../../utils/nonNull';
 import { validateUser } from '../user/user.service';
-import { CreateSessionContext, CreateSessionRequest } from './session.request.schema';
+import type { CreateSessionContext, CreateSessionRequest } from './session.request.schema';
 import { signJwt } from './session.utils';
 
 /**

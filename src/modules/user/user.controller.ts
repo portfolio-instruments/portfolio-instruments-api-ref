@@ -1,10 +1,13 @@
-import { Settings, User } from '@prisma/client';
+import type { Settings, User } from '@prisma/client';
 import type { Request, Response } from 'express';
 import { omit } from 'lodash';
-import { ValidUserRequest } from '../../middleware/deserializeUser';
-import { ParsedQuery, parseQuery } from '../../utils/parseQuery';
-import { CreateUserRequest, queryAbleUserKeys } from './user.request.schema';
-import { CreateUserContext, createUser, createUserSettings, getUsers } from './user.service';
+import type { ValidUserRequest } from '../../middleware/deserializeUser';
+import type { ParsedQuery } from '../../utils/parseQuery';
+import { parseQuery } from '../../utils/parseQuery';
+import type { CreateUserRequest } from './user.request.schema';
+import { queryAbleUserKeys } from './user.request.schema';
+import type { CreateUserContext } from './user.service';
+import { createUser, createUserSettings, getUsers } from './user.service';
 import { parseCreateUser } from './user.utils';
 import ApiError from '../../errors/ApiError';
 

@@ -1,5 +1,5 @@
 import { capitalize } from 'lodash';
-import { ZodIssue } from 'zod';
+import type { ZodIssue } from 'zod';
 
 interface ResponseError {
   error: {

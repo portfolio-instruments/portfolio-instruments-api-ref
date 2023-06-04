@@ -1,6 +1,6 @@
 import prisma from '../../utils/prisma';
-import { Account, Prisma } from '@prisma/client';
-import { ParsedQuery } from '../../utils/parseQuery';
+import type { Account, Prisma } from '@prisma/client';
+import type { ParsedQuery } from '../../utils/parseQuery';
 import { omit } from 'lodash';
 import ApiError from '../../errors/ApiError';
 
