@@ -3,10 +3,11 @@ import type { NextFunction, Request, Response } from 'express';
 import config from '../../config';
 import ApiError from '../../errors/ApiError';
 import { nonNullProp } from '../../utils/nonNull';
-import { validateUser } from '../user/user.service';
 import type { CreateSessionContext, CreateSessionRequest } from './session.request.schema';
 import { signJwt } from './session.utils';
+import { validateUser } from './session.service';
 
+/** Create */
 /**
  * @openapi
  * components:

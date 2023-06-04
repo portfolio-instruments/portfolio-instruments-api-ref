@@ -1,8 +1,10 @@
 import type { TypeOf } from 'zod';
 import { object, string } from 'zod';
 
+/** Query-able keys */
 export const queryAbleUserKeys: string[] = ['id', 'email', 'name', 'password', 'role', 'createdAt', 'updatedAt'];
 
+/** Create */
 /**
  * @openapi
  * components:

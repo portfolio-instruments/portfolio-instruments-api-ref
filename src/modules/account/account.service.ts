@@ -4,46 +4,15 @@ import type { ParsedQuery } from '../../utils/parseQuery';
 import { omit } from 'lodash';
 import ApiError from '../../errors/ApiError';
 
-export type EditAccountContext = Partial<Omit<Account, 'id' | 'createdAt' | 'updatedAt'>> & { accountId: number; userId: number };
+/** Create */
+export type CreateAccountContext = Omit<Account, 'id' | 'active' | 'createdAt' | 'updatedAt'> & { active?: boolean } & { userId: number };
 
-/**
- * Prisma's update command doesn't seem to work for multiple where conditions..
- * We are forced to use `updateMany` to accomplish this so that we are able to prevent
- * users from updating accounts across user boundaries.
- *
- * The return for the batch is the number of records updated - not especially helpful
- * to return this value to the user, so just return void.
- */
-export async function editAccount(editAccountContext: EditAccountContext): Promise<void> {
-  const edited = await prisma.account.updateMany<Prisma.AccountUpdateManyArgs>({
-    where: {
-      AND: [{ id: editAccountContext.accountId }, { userId: editAccountContext.userId }],
-    },
-    data: omit(editAccountContext, 'accountId'),
-  });
-
-  if (edited.count === 0) {
-    throw ApiError.notFound(`Account with id "${editAccountContext.accountId}" not found for the logged in user.`);
-  }
+export async function createAccount(createAccountContext: CreateAccountContext): Promise<Account> {
+  return await prisma.account.create({ data: createAccountContext });
 }
 
-/**
- * Same issue as editAccount - we need to use `deleteMany` to prevent users from deleting accounts
- * across user boundaries.
- */
-export async function deleteAccount(userId: number, accountId: number): Promise<void> {
-  const deleted = await prisma.account.deleteMany<Prisma.AccountDeleteManyArgs>({
-    where: {
-      AND: [{ id: accountId }, { userId }],
-    },
-  });
-
-  if (deleted.count === 0) {
-    throw ApiError.notFound(`Account with id "${accountId}" not found for the logged in user.`);
-  }
-}
-
-export async function getAllAccounts(userId: number, options?: ParsedQuery): Promise<Account[]> {
+/** Read */
+export async function getAccounts(userId: number, options?: ParsedQuery): Promise<Account[]> {
   return await prisma.account.findMany<Prisma.AccountFindManyArgs>({
     where: { userId },
     take: options?.take,
@@ -57,8 +26,45 @@ export async function getAccountById(userId: number, accountId: number): Promise
   return await prisma.account.findFirst({ where: { id: accountId, userId } });
 }
 
-export type CreateAccountContext = Omit<Account, 'id' | 'active' | 'createdAt' | 'updatedAt'> & { active?: boolean } & { userId: number };
+/**
+ * Update
+ *
+ * Prisma's update command doesn't seem to work for multiple where conditions..
+ * We are forced to use `updateMany` to accomplish this so that we are able to prevent
+ * users from updating accounts across user boundaries.
+ *
+ * The return for the batch is the number of records updated - not especially helpful
+ * to return this value to the user, so just return void.
+ */
+export type UpdateAccountContext = Partial<Omit<Account, 'id' | 'createdAt' | 'updatedAt'>> & { accountId: number; userId: number };
 
-export async function createAccount(createAccountContext: CreateAccountContext): Promise<Account> {
-  return await prisma.account.create({ data: createAccountContext });
+export async function updateAccount(context: UpdateAccountContext): Promise<void> {
+  const updated = await prisma.account.updateMany<Prisma.AccountUpdateManyArgs>({
+    where: {
+      AND: [{ id: context.accountId }, { userId: context.userId }],
+    },
+    data: omit(context, 'accountId'),
+  });
+
+  if (updated.count === 0) {
+    throw ApiError.notFound(`Account with id "${context.accountId}" not found for the logged in user.`);
+  }
+}
+
+/**
+ * Delete
+ *
+ * Same issue as editAccount - we need to use `deleteMany` to prevent users from deleting accounts
+ * across user boundaries.
+ */
+export async function deleteAccount(userId: number, accountId: number): Promise<void> {
+  const deleted = await prisma.account.deleteMany<Prisma.AccountDeleteManyArgs>({
+    where: {
+      AND: [{ id: accountId }, { userId }],
+    },
+  });
+
+  if (deleted.count === 0) {
+    throw ApiError.notFound(`Account with id "${accountId}" not found for the logged in user.`);
+  }
 }

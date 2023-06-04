@@ -6,6 +6,7 @@ import { createSessionRequestSchema } from './session.request.schema';
 
 const router = express.Router();
 
+/** Create */
 /**
  * @openapi
  * /sessions:
