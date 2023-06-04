@@ -49,6 +49,7 @@ type CreateUserHandlerRequest = Request & CreateUserRequest;
 
 async function createUserHandler(req: CreateUserHandlerRequest, res: Response): Promise<void> {
   const createUserContext: CreateUserContext = parseCreateUser(req);
+
   try {
     const user: User = await createUser(createUserContext);
     const settings: Settings = await createUserSettings(user.id);
