@@ -1,5 +1,5 @@
 import { Prisma } from '@prisma/client';
-import { type Request } from 'express';
+import type { Request } from 'express';
 
 type SortingOption = Record<string, (typeof Prisma.SortOrder)[keyof typeof Prisma.SortOrder]>;
 
