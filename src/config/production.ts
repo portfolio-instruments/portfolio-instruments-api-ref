@@ -1,6 +1,6 @@
 import dotenv from 'dotenv';
 import { nonNullValue } from '../utils/nonNull';
-import { Config } from './IConfig';
+import type { Config } from './IConfig';
 
 dotenv.config();
 

@@ -1,5 +1,6 @@
 import compression from 'compression';
-import express, { Express, NextFunction, Request, Response } from 'express';
+import type { Express, NextFunction, Request, Response } from 'express';
+import express from 'express';
 import helmet from 'helmet';
 import processErrorHandlers from './errors/processErrorHandler';
 import deserializeUser from './middleware/deserializeUser';

@@ -1,6 +1,6 @@
 import dotenv from 'dotenv';
 import getDevelopmentEnvironment from './development';
-import { Config } from './IConfig';
+import type { Config } from './IConfig';
 import getProductionEnvironment from './production';
 
 dotenv.config();

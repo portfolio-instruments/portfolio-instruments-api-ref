@@ -1,5 +1,6 @@
 import type { NextFunction, Request, Response } from 'express';
-import { AnyZodObject, coerce, object, string, ZodEffects, ZodError } from 'zod';
+import type { AnyZodObject, ZodEffects } from 'zod';
+import { coerce, object, string, ZodError } from 'zod';
 import ApiError from '../errors/ApiError';
 import { formatZodErrorMessage } from '../errors/formatErrors';
 

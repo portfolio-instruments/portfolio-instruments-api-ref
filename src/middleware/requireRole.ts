@@ -1,7 +1,7 @@
 import { Role } from '@prisma/client';
 import type { NextFunction, Request, Response } from 'express';
 import ApiError from '../errors/ApiError';
-import { ValidUserRequest } from './deserializeUser';
+import type { ValidUserRequest } from './deserializeUser';
 
 export function requireUser(req: Request & ValidUserRequest, __: Response, next: NextFunction): void {
   if (!req.user) {

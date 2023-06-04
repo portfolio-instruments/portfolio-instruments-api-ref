@@ -1,26 +1,14 @@
 import type { Request, Response } from 'express';
-import {
-  queryAbleAccountKeys,
-  type CreateAccountRequest,
-  type GetAccountRequest,
-  PatchAccountRequest,
-  DeleteAccountRequest,
-  PutAccountRequest,
-} from './account.request.schema';
-import {
-  CreateAccountContext,
-  EditAccountContext,
-  createAccount,
-  deleteAccount,
-  editAccount,
-  getAccountById,
-  getAllAccounts,
-} from './account.service';
-import { ValidUserRequest } from '../../middleware/deserializeUser';
+import type { PatchAccountRequest, DeleteAccountRequest, PutAccountRequest } from './account.request.schema';
+import { queryAbleAccountKeys, type CreateAccountRequest, type GetAccountRequest } from './account.request.schema';
+import type { CreateAccountContext, EditAccountContext } from './account.service';
+import { createAccount, deleteAccount, editAccount, getAccountById, getAllAccounts } from './account.service';
+import type { ValidUserRequest } from '../../middleware/deserializeUser';
 import { nonNullValue } from '../../utils/nonNull';
-import { Account } from '@prisma/client';
+import type { Account } from '@prisma/client';
 import ApiError from '../../errors/ApiError';
-import { ParsedQuery, parseQuery } from '../../utils/parseQuery';
+import type { ParsedQuery } from '../../utils/parseQuery';
+import { parseQuery } from '../../utils/parseQuery';
 
 type GetAccountsHandlerRequest = Request & ValidUserRequest;
 

@@ -1,5 +1,6 @@
 import { TaxShelter } from '@prisma/client';
-import { coerce, nativeEnum, object, string, TypeOf } from 'zod';
+import type { TypeOf } from 'zod';
+import { coerce, nativeEnum, object, string } from 'zod';
 
 /** Query-able keys */
 export const queryAbleAccountKeys: string[] = ['id', 'institution', 'taxShelter', 'description', 'active', 'createdAt', 'updatedAt'];

@@ -1,7 +1,8 @@
-import { User } from '@prisma/client';
-import { NextFunction, Request, Response } from 'express';
+import type { User } from '@prisma/client';
+import type { NextFunction, Request, Response } from 'express';
 import config from '../config';
-import { VerifiedJwt, verifyJwt } from '../modules/session/session.utils';
+import type { VerifiedJwt } from '../modules/session/session.utils';
+import { verifyJwt } from '../modules/session/session.utils';
 import { nonNullProp } from '../utils/nonNull';
 import ApiError from '../errors/ApiError';
 

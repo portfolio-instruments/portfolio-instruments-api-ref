@@ -1,7 +1,7 @@
 import config from './config';
 import createServer from './createServer';
 import Logger from './utils/Logger';
-import { Express } from 'express';
+import type { Express } from 'express';
 
 /**
  * Declare production app and port listening in a separate file,

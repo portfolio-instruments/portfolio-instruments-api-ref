@@ -1,4 +1,4 @@
-import { NextFunction, Request, Response } from 'express';
+import type { NextFunction, Request, Response } from 'express';
 import ApiError from '../errors/ApiError';
 import { formatResponseError } from '../errors/formatErrors';
 

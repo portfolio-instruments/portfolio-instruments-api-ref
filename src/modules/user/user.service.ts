@@ -1,7 +1,7 @@
-import { Prisma, Settings, User } from '@prisma/client';
+import type { Prisma, Settings, User } from '@prisma/client';
 import bcrypt from 'bcryptjs';
 import { omit } from 'lodash';
-import { ParsedQuery } from '../../utils/parseQuery';
+import type { ParsedQuery } from '../../utils/parseQuery';
 import prisma from '../../utils/prisma';
 
 export function getUserByEmail(email: string): Promise<User | null> {
