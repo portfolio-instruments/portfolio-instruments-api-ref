@@ -3,8 +3,9 @@ import {
   queryAbleAccountKeys,
   type CreateAccountRequest,
   type GetAccountRequest,
-  EditAccountRequest,
+  PatchAccountRequest,
   DeleteAccountRequest,
+  PutAccountRequest,
 } from './account.request.schema';
 import {
   CreateAccountContext,
@@ -56,12 +57,14 @@ async function createAccountHandler(req: CreateAccountHandlerRequest, res: Respo
   res.status(201).json(account);
 }
 
-type EditAccountByIdHandlerRequest = Request & ValidUserRequest & EditAccountRequest;
+type PatchAccountByIdHandlerRequest = Request & ValidUserRequest & PatchAccountRequest;
+type PutAccountByIdHandlerRequest = Request & ValidUserRequest & PutAccountRequest;
+type EditAccountByIdHandlerRequest = PatchAccountByIdHandlerRequest | PutAccountByIdHandlerRequest;
 
 async function editAccountByIdHandler(req: EditAccountByIdHandlerRequest, res: Response): Promise<void> {
   const userId: number = nonNullValue(req.user?.id);
   const accountContext: EditAccountContext = {
-    ...(req.body as EditAccountRequest['body']),
+    ...(req.body as PatchAccountRequest['body']),
     accountId: Number(req.params.accountId),
     userId,
   };

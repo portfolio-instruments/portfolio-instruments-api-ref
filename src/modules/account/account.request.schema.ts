@@ -28,13 +28,21 @@ export const createAccountRequestSchema = object({
 
 export type CreateAccountRequest = TypeOf<typeof createAccountRequestSchema>;
 
-/** Edit Account */
-export const editAccountRequestSchema = object({
+/** Patch Account By Id */
+export const patchAccountRequestSchema = object({
   body: bodySchema.partial().strict(),
   params: paramsSchema.strict(),
 });
 
-export type EditAccountRequest = { body: TypeOf<typeof editAccountRequestSchema>['body'] } & { params: { accountId: string } };
+export type PatchAccountRequest = { body: TypeOf<typeof patchAccountRequestSchema>['body'] } & { params: { accountId: string } };
+
+/** Put Account By Id */
+export const putAccountRequestSchema = object({
+  body: bodySchema.strict().refine((req) => req.active !== undefined, { message: 'The active status must be provided' }),
+  params: paramsSchema.strict(),
+});
+
+export type PutAccountRequest = { body: TypeOf<typeof putAccountRequestSchema>['body'] } & { params: { accountId: string } };
 
 /** Get Account By Id */
 export const getAccountByIdRequestSchema = object({
