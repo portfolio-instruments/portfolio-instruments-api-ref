@@ -7,9 +7,7 @@ import { createUserRequestSchema } from './user.request.schema';
 
 const router = express.Router();
 
-// GET /users
-router.get('/', validateRequest(), requireUser, asyncWrapper(userController.getUsersHandler));
-
+/** Create */
 /**
  * @openapi
  * /users:
@@ -36,5 +34,8 @@ router.get('/', validateRequest(), requireUser, asyncWrapper(userController.getU
  *              description: Conflict
  */
 router.post('/', validateRequest(createUserRequestSchema), asyncWrapper(userController.createUserHandler));
+
+/** Read */
+router.get('/', validateRequest(), requireUser, asyncWrapper(userController.getUsersHandler));
 
 export default router;
