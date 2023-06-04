@@ -12,22 +12,18 @@ export async function createAccount(createAccountContext: CreateAccountContext):
 }
 
 /** Read */
-export type GetAccountsContext = { userId: number; options?: ParsedQuery };
-
-export async function getAccounts(context: GetAccountsContext): Promise<Account[]> {
+export async function getAccounts(userId: number, options?: ParsedQuery): Promise<Account[]> {
   return await prisma.account.findMany<Prisma.AccountFindManyArgs>({
-    where: { userId: context.userId },
-    take: context.options?.take,
-    skip: context.options?.skip,
-    cursor: context.options?.cursor,
-    orderBy: context.options?.sort,
+    where: { userId },
+    take: options?.take,
+    skip: options?.skip,
+    cursor: options?.cursor,
+    orderBy: options?.sort,
   });
 }
 
-export type GetAccountByIdContext = { userId: number; accountId: number };
-
-export async function getAccountById(context: GetAccountByIdContext): Promise<Account | null> {
-  return await prisma.account.findFirst({ where: { id: context.accountId, userId: context.userId } });
+export async function getAccountById(userId: number, accountId: number): Promise<Account | null> {
+  return await prisma.account.findFirst({ where: { id: accountId, userId } });
 }
 
 /**
@@ -61,16 +57,14 @@ export async function updateAccount(context: UpdateAccountContext): Promise<void
  * Same issue as editAccount - we need to use `deleteMany` to prevent users from deleting accounts
  * across user boundaries.
  */
-export type DeleteAccountContext = { userId: number; accountId: number };
-
-export async function deleteAccount(context: DeleteAccountContext): Promise<void> {
+export async function deleteAccount(userId: number, accountId: number): Promise<void> {
   const deleted = await prisma.account.deleteMany<Prisma.AccountDeleteManyArgs>({
     where: {
-      AND: [{ id: context.accountId }, { userId: context.userId }],
+      AND: [{ id: accountId }, { userId }],
     },
   });
 
   if (deleted.count === 0) {
-    throw ApiError.notFound(`Account with id "${context.accountId}" not found for the logged in user.`);
+    throw ApiError.notFound(`Account with id "${accountId}" not found for the logged in user.`);
   }
 }

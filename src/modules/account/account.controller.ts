@@ -29,7 +29,7 @@ type GetAccountsHandlerRequest = Request & ValidUserRequest;
 async function getAccountsHandler(req: GetAccountsHandlerRequest, res: Response): Promise<void> {
   const parsedQuery: ParsedQuery = parseQuery(req, queryAbleAccountKeys);
   const userId: number = nonNullValue(req.user?.id);
-  const accounts: Account[] = await getAccounts({ userId, options: parsedQuery });
+  const accounts: Account[] = await getAccounts(userId, parsedQuery);
   res.status(200).json(accounts);
 }
 
@@ -39,7 +39,7 @@ async function getAccountByIdHandler(req: GetAccountByIdHandlerRequest, res: Res
   const userId: number = nonNullValue(req.user?.id);
   const accountId: number = Number(req.params.accountId);
 
-  const account: Account | null = await getAccountById({ userId, accountId });
+  const account: Account | null = await getAccountById(userId, accountId);
   if (!account) {
     throw ApiError.notFound(`Account with id "${accountId}" not found for the logged in user.`);
   }
@@ -69,7 +69,7 @@ type DeleteAccountByIdHandlerRequest = Request & ValidUserRequest & DeleteAccoun
 async function deleteAccountByIdHandler(req: DeleteAccountByIdHandlerRequest, res: Response): Promise<void> {
   const userId: number = nonNullValue(req.user?.id);
   const accountId: number = Number(req.params.accountId);
-  await deleteAccount({ userId, accountId });
+  await deleteAccount(userId, accountId);
   res.status(204).json();
 }
 
