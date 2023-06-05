@@ -11,7 +11,7 @@ import config from '../../config';
 export type CreateSessionContext = { email: string; password: string; expiresIn: '15m' | '30m' | '1h' | '2h' | '1d' };
 
 export async function createSession(context: CreateSessionContext): Promise<string> {
-  const user: Omit<User, 'password'> | null = await validateUser(context.email, context.password);
+  const user: Omit<User, 'password'> | null = await validateCredentials(context.email, context.password);
   if (!user) {
     throw ApiError.unauthorized('Invalid email and password combination');
   }
@@ -19,7 +19,7 @@ export async function createSession(context: CreateSessionContext): Promise<stri
   return signJwt(user, nonNullProp(config, 'JWT_ACCESS_TOKEN_SECRET'), context.expiresIn);
 }
 
-export async function validateUser(email: string, password: string): Promise<Omit<User, 'password'> | null> {
+export async function validateCredentials(email: string, password: string): Promise<Omit<User, 'password'> | null> {
   const user: User | null = await getUserByEmail(email);
   if (!user || !(await bcrypt.compare(password, user.password))) {
     return null;
