@@ -1,5 +1,5 @@
 import type { Settings, User } from '@prisma/client';
-import type { Request, Response } from 'express';
+import type { Response } from 'express';
 import { omit } from 'lodash';
 import type { ValidUserRequest } from '../../middleware/deserializeUser';
 import type { ParsedQuery } from '../../utils/parseQuery';
@@ -10,6 +10,7 @@ import type { CreateUserContext } from './user.service';
 import { createUser, createUserSettings, getUsers } from './user.service';
 import { parseCreateUser } from './user.utils';
 import ApiError from '../../errors/ApiError';
+import type { BaseRequest } from '../../IBaseRequest';
 
 /** Create */
 /**
@@ -34,7 +35,7 @@ import ApiError from '../../errors/ApiError';
  *          type: string
  *          format: date-time
  */
-type CreateUserHandlerRequest = Request & CreateUserRequest;
+type CreateUserHandlerRequest = BaseRequest & CreateUserRequest;
 
 async function createUserHandler(req: CreateUserHandlerRequest, res: Response): Promise<void> {
   const createUserContext: CreateUserContext = parseCreateUser(req);
@@ -57,7 +58,7 @@ async function createUserHandler(req: CreateUserHandlerRequest, res: Response): 
 }
 
 /** Read */
-type GetUsersHandlerRequest = Request & ValidUserRequest;
+type GetUsersHandlerRequest = BaseRequest & ValidUserRequest;
 
 // Add and only allow req.expand on getUserHandler for 'settngs'...
 
