@@ -9,16 +9,14 @@ import type { Account } from '@prisma/client';
 import ApiError from '../../errors/ApiError';
 import type { ParsedQuery } from '../../utils/parseQuery';
 import { parseQuery } from '../../utils/parseQuery';
+import type { BaseRequest } from '../../IBaseRequest';
 
 /** Create */
-type CreateAccountHandlerRequest = Request & ValidUserRequest & CreateAccountRequest;
+type CreateAccountHandlerRequest = BaseRequest & ValidUserRequest & CreateAccountRequest;
 
 async function createAccountHandler(req: CreateAccountHandlerRequest, res: Response): Promise<void> {
   const userId: number = nonNullValue(req.user?.id);
-  const context: CreateAccountContext = {
-    ...(req.body as CreateAccountRequest['body']),
-    userId,
-  };
+  const context: CreateAccountContext = { ...req.body, userId };
   const account: Account = await createAccount(context);
   res.status(201).json(account);
 }
@@ -33,7 +31,7 @@ async function getAccountsHandler(req: GetAccountsHandlerRequest, res: Response)
   res.status(200).json(accounts);
 }
 
-type GetAccountByIdHandlerRequest = Request & ValidUserRequest & GetAccountRequest;
+type GetAccountByIdHandlerRequest = BaseRequest & ValidUserRequest & GetAccountRequest;
 
 async function getAccountByIdHandler(req: GetAccountByIdHandlerRequest, res: Response): Promise<void> {
   const userId: number = nonNullValue(req.user?.id);
@@ -48,14 +46,14 @@ async function getAccountByIdHandler(req: GetAccountByIdHandlerRequest, res: Res
 }
 
 /** Update */
-type PatchAccountByIdHandlerRequest = Request & ValidUserRequest & PatchAccountRequest;
-type PutAccountByIdHandlerRequest = Request & ValidUserRequest & PutAccountRequest;
+type PatchAccountByIdHandlerRequest = BaseRequest & ValidUserRequest & PatchAccountRequest;
+type PutAccountByIdHandlerRequest = BaseRequest & ValidUserRequest & PutAccountRequest;
 type UpdateAccountByIdHandlerRequest = PatchAccountByIdHandlerRequest | PutAccountByIdHandlerRequest;
 
 async function updateAccountByIdHandler(req: UpdateAccountByIdHandlerRequest, res: Response): Promise<void> {
   const userId: number = nonNullValue(req.user?.id);
   const context: UpdateAccountContext = {
-    ...(req.body as PatchAccountRequest['body']),
+    ...req.body,
     accountId: Number(req.params.accountId),
     userId,
   };
@@ -64,7 +62,7 @@ async function updateAccountByIdHandler(req: UpdateAccountByIdHandlerRequest, re
 }
 
 /** Delete */
-type DeleteAccountByIdHandlerRequest = Request & ValidUserRequest & DeleteAccountRequest;
+type DeleteAccountByIdHandlerRequest = BaseRequest & ValidUserRequest & DeleteAccountRequest;
 
 async function deleteAccountByIdHandler(req: DeleteAccountByIdHandlerRequest, res: Response): Promise<void> {
   const userId: number = nonNullValue(req.user?.id);

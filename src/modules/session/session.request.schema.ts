@@ -27,4 +27,3 @@ export const createSessionRequestSchema = object({
 });
 
 export type CreateSessionRequest = TypeOf<typeof createSessionRequestSchema>;
-export type CreateSessionContext = CreateSessionRequest['body'];
