@@ -12,6 +12,32 @@ import { parseQuery } from '../../utils/parseQuery';
 import type { BaseRequest } from '../../IBaseRequest';
 
 /** Create */
+/**
+ * @openapi
+ * components:
+ *  schemas:
+ *    CreateAccountResponse:
+ *      type: object
+ *      properties:
+ *        id:
+ *          type: number
+ *        userId:
+ *          type: number
+ *        institution:
+ *          type: string
+ *        taxShelter:
+ *          type: string
+ *        description:
+ *          type: string
+ *        active:
+ *          type: boolean
+ *        createdAt:
+ *          type: string
+ *          format: date-time
+ *        updatedAt:
+ *          type: string
+ *          format: date-time
+ */
 type CreateAccountHandlerRequest = BaseRequest & ValidUserRequest & CreateAccountRequest;
 
 async function createAccountHandler(req: CreateAccountHandlerRequest, res: Response): Promise<void> {

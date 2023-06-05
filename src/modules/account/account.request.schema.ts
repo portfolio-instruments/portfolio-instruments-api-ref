@@ -23,6 +23,34 @@ const paramsSchema = object({
 });
 
 /** Create */
+/**
+ * @openapi
+ * components:
+ *  schemas:
+ *    CreateAccountInput:
+ *      type: object
+ *      required:
+ *        - institution
+ *        - taxShelter
+ *        - description
+ *      properties:
+ *        institution:
+ *          type: string
+ *        taxShelter:
+ *          type: string
+ *          enum:
+ *            - TAXABLE
+ *            - TRADITIONAL
+ *            - ROTH
+ *        description:
+ *          type: string
+ *        active:
+ *          type: boolean
+ *      example:
+ *        institution: Vanguard
+ *        taxShelter: TAXABLE
+ *        description: Account ending in 0408
+ */
 export const createAccountRequestSchema = object({
   body: bodySchema.strict(),
 });
