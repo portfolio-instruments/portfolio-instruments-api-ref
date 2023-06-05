@@ -18,7 +18,7 @@ const router = express.Router();
  * @openapi
  * /accounts:
  *    post:
- *      summary: Register a new holding account
+ *      summary: Create a new holding account
  *      tags:
  *        - Account
  *      security:
@@ -44,6 +44,25 @@ const router = express.Router();
 router.post('/', validateRequest(createAccountRequestSchema), requireUser, asyncWrapper(accountController.createAccountHandler));
 
 /** Read */
+/**
+ * @openapi
+ * /accounts:
+ *    get:
+ *      summary: Retrieve a list of holding accounts
+ *      tags:
+ *        - Account
+ *      security:
+ *        - bearerAuth: []
+ *      responses:
+ *          200:
+ *              description: Successfully retrieved a list of holding accounts
+ *              content:
+ *                  application/json:
+ *                      schema:
+ *                          $ref: '#/components/schemas/GetAccountsResponse'
+ *          401:
+ *              description: Unauthorized
+ */
 router.get('/', validateRequest(), requireUser, asyncWrapper(accountController.getAccountsHandler));
 router.get('/:accountId', validateRequest(getAccountByIdRequestSchema), requireUser, asyncWrapper(accountController.getAccountByIdHandler));
 
