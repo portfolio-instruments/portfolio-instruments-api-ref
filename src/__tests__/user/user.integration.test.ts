@@ -5,7 +5,7 @@ import ApiError from '../../errors/ApiError';
 import { signJwt } from '../../modules/session/session.utils';
 import * as UserService from '../../modules/user/user.service';
 import app from '../testApp';
-import * as Mocks from './user.mocks';
+import * as Mocks from './user.integration.mocks';
 
 describe('User', () => {
   /** POST /users */
