@@ -48,6 +48,37 @@ async function createAccountHandler(req: CreateAccountHandlerRequest, res: Respo
 }
 
 /** Read */
+/**
+ * @openapi
+ * components:
+ *   schemas:
+ *     Account:
+ *       type: object
+ *       properties:
+ *         id:
+ *           type: integer
+ *         userId:
+ *           type: integer
+ *         institution:
+ *           type: string
+ *         taxShelter:
+ *           type: string
+ *         description:
+ *           type: string
+ *         active:
+ *           type: boolean
+ *         createdAt:
+ *           type: string
+ *           format: date-time
+ *         updatedAt:
+ *           type: string
+ *           format: date-time
+ *
+ *     GetAccountsResponse:
+ *       type: array
+ *       items:
+ *         $ref: '#/components/schemas/Account'
+ */
 type GetAccountsHandlerRequest = BaseRequest & ValidUserRequest;
 
 async function getAccountsHandler(req: GetAccountsHandlerRequest, res: Response): Promise<void> {

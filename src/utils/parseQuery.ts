@@ -13,7 +13,6 @@ export interface ParsedQuery {
   expand?: string;
 }
 
-/** Only use after validating 'querySchema' via 'validateRequest' middleware */
 export function parseQuery(req: Request, validKeys: string[]): ParsedQuery {
   const skip = req.query.skip ? parseInt(req.query.skip as string) : undefined;
   const take = req.query.take ? parseInt(req.query.take as string) : undefined;
@@ -27,8 +26,14 @@ export function getSortingOptions(req: Request, validKeys: string[]): SortingOpt
   const sortingFields: string[] = (req.query.sort as string).split(',');
 
   for (const field of sortingFields) {
-    const key: string = field.slice(1);
     const value: (typeof Prisma.SortOrder)[keyof typeof Prisma.SortOrder] = field[0] === '-' ? Prisma.SortOrder.desc : Prisma.SortOrder.asc;
+
+    /**
+     * If the first value is not a negative, that means the entire field is the key
+     * This is because we omit '+' in the query string as it is a reserved character
+     * Otherwise, truncate the first character and use the rest as the key
+     */
+    const key: string = value === Prisma.SortOrder.asc ? field : field.slice(1);
 
     if (validKeys.includes(key)) {
       sortingOptions.push({ [key]: value } as SortingOption);
