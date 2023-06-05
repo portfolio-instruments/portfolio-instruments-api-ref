@@ -1,4 +1,4 @@
-import type { Request, Response } from 'express';
+import type { Response } from 'express';
 import type { PatchAccountRequest, DeleteAccountRequest, PutAccountRequest } from './account.request.schema';
 import { queryAbleAccountKeys, type CreateAccountRequest, type GetAccountRequest } from './account.request.schema';
 import type { CreateAccountContext, UpdateAccountContext } from './account.service';
@@ -48,7 +48,7 @@ async function createAccountHandler(req: CreateAccountHandlerRequest, res: Respo
 }
 
 /** Read */
-type GetAccountsHandlerRequest = Request & ValidUserRequest;
+type GetAccountsHandlerRequest = BaseRequest & ValidUserRequest;
 
 async function getAccountsHandler(req: GetAccountsHandlerRequest, res: Response): Promise<void> {
   const parsedQuery: ParsedQuery = parseQuery(req, queryAbleAccountKeys);
