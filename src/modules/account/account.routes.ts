@@ -14,6 +14,33 @@ import accountController from './account.controller';
 const router = express.Router();
 
 /** Create */
+/**
+ * @openapi
+ * /accounts:
+ *    post:
+ *      summary: Register a new holding account
+ *      tags:
+ *        - Account
+ *      security:
+ *        - bearerAuth: []
+ *      requestBody:
+ *          required: true
+ *          content:
+ *              application/json:
+ *                  schema:
+ *                      $ref: '#/components/schemas/CreateAccountInput'
+ *      responses:
+ *          201:
+ *              description: Successfully registered a new holding account
+ *              content:
+ *                  application/json:
+ *                      schema:
+ *                          $ref: '#/components/schemas/CreateAccountResponse'
+ *          400:
+ *              description: Bad request
+ *          401:
+ *              description: Unauthorized
+ */
 router.post('/', validateRequest(createAccountRequestSchema), requireUser, asyncWrapper(accountController.createAccountHandler));
 
 /** Read */
