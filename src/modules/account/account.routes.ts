@@ -53,6 +53,11 @@ router.post('/', validateRequest(createAccountRequestSchema), requireUser, async
  *        - Account
  *      security:
  *        - bearerAuth: []
+ *      parameters:
+ *        - $ref: '#/components/parameters/skipParam'
+ *        - $ref: '#/components/parameters/takeParam'
+ *        - $ref: '#/components/parameters/cursorParam'
+ *        - $ref: '#/components/parameters/sortParam'
  *      responses:
  *          200:
  *              description: Successfully retrieved a list of holding accounts

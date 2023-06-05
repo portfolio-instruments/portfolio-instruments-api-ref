@@ -28,6 +28,54 @@ const options: swaggerJSDoc.Options = {
           bearerFormat: 'JWT',
         },
       },
+      parameters: {
+        skipParam: {
+          in: 'query',
+          name: 'skip',
+          description: 'Specify the number of items to skip or offset in the paginated results',
+          required: false,
+          schema: {
+            type: 'integer',
+          },
+        },
+        takeParam: {
+          in: 'query',
+          name: 'take',
+          description: 'Specify the maximum number of items to take or retrieve in a single page or request',
+          required: false,
+          schema: {
+            type: 'integer',
+          },
+        },
+        cursorParam: {
+          in: 'query',
+          name: 'cursor',
+          description: 'Specify the ID from which to start paginating',
+          required: false,
+          schema: {
+            type: 'integer',
+          },
+        },
+        sortParam: {
+          in: 'query',
+          name: 'sort',
+          description:
+            'Specify a sorting schema in the following format: "id,-name". There are two fields to populate - (1) the sort direction ("-" or "") and (2) the corresponding field name. Note that sorting in ascending order requires omitting the "+" sign (it is a reserved url character). Additional fields should be separated by a ",".',
+          required: false,
+          schema: {
+            type: 'string',
+          },
+        },
+        expandParam: {
+          in: 'query',
+          name: 'expand',
+          description: 'Specify the fields to expand in the following format: "settings,account". Additional fields should be separated by a ",".',
+          required: false,
+          schema: {
+            type: 'string',
+          },
+        },
+      },
     },
     servers: [
       {
