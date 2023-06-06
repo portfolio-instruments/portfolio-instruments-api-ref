@@ -18,7 +18,7 @@ const router = express.Router();
  * @openapi
  * /accounts:
  *    post:
- *      summary: Create a new holding account
+ *      summary: Create a holding account
  *      tags:
  *        - Account
  *      security:
