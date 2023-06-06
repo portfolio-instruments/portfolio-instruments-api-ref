@@ -11,7 +11,7 @@ const router = express.Router();
  * @openapi
  * /sessions:
  *    post:
- *      summary: Create a user login session
+ *      summary: Create a login session
  *      tags:
  *        - Session
  *      requestBody:
@@ -22,7 +22,7 @@ const router = express.Router();
  *                      $ref: '#/components/schemas/CreateSessionInput'
  *      responses:
  *          201:
- *              description: Successfully created a user session
+ *              description: Successfully created a login session
  *              content:
  *                  application/json:
  *                      schema:
