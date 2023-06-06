@@ -12,7 +12,7 @@ const router = express.Router();
  * @openapi
  * /users:
  *    post:
- *      summary: Register a new user
+ *      summary: Create a new user
  *      tags:
  *        - User
  *      requestBody:
@@ -23,7 +23,7 @@ const router = express.Router();
  *                      $ref: '#/components/schemas/CreateUserInput'
  *      responses:
  *          201:
- *              description: Successfully registered a new user
+ *              description: Successfully created a new user
  *              content:
  *                  application/json:
  *                      schema:

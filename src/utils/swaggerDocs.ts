@@ -20,6 +20,20 @@ const options: swaggerJSDoc.Options = {
         url: 'https://github.com/MicroFish91/Portfolio-Instruments-API/blob/main/LICENSE',
       },
     },
+    tags: [
+      {
+        name: 'Healthcheck',
+      },
+      {
+        name: 'Session',
+      },
+      {
+        name: 'User',
+      },
+      {
+        name: 'Account',
+      },
+    ],
     components: {
       securitySchemes: {
         bearerAuth: {
