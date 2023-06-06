@@ -111,11 +111,23 @@ async function updateAccountByIdHandler(req: UpdateAccountByIdHandlerRequest, re
   const userId: number = nonNullValue(req.user?.id);
   const context: UpdateAccountContext = {
     ...req.body,
-    accountId: Number(req.params.accountId),
-    userId,
+    id: Number(req.params.accountId),
   };
-  await updateAccount(context);
-  res.status(204).json();
+
+  /**
+   * Check if we can update the resource
+   * (Prisma doesn't seem to allow us to bundle the 'where' condition, so check manually)
+   */
+  const peekAccount: Account | null = await getAccountById(userId, context.id);
+  if (!peekAccount) {
+    throw ApiError.notFound(`Account with id "${context.id}" was not found.`);
+  } else if (peekAccount.userId !== userId) {
+    throw ApiError.forbidden(`Account with id "${context.id}" does not belong to the current user.`);
+  }
+
+  /** Update the resource */
+  const account: Account = await updateAccount(context);
+  res.status(200).json(account);
 }
 
 /** Delete */
@@ -124,7 +136,20 @@ type DeleteAccountByIdHandlerRequest = BaseRequest & ValidUserRequest & DeleteAc
 async function deleteAccountByIdHandler(req: DeleteAccountByIdHandlerRequest, res: Response): Promise<void> {
   const userId: number = nonNullValue(req.user?.id);
   const accountId: number = Number(req.params.accountId);
-  await deleteAccount(userId, accountId);
+
+  /**
+   * Check if we can delete the resource
+   * (Prisma doesn't seem to allow us to bundle the 'where' condition, so check manually)
+   */
+  const peekAccount: Account | null = await getAccountById(userId, accountId);
+  if (!peekAccount) {
+    throw ApiError.notFound(`Account with id "${accountId}" was not found.`);
+  } else if (peekAccount.userId !== userId) {
+    throw ApiError.forbidden(`Account with id "${accountId}" does not belong to the current user.`);
+  }
+
+  /** Delete the resource */
+  await deleteAccount(accountId);
   res.status(204).json();
 }
 
