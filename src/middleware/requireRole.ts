@@ -3,9 +3,11 @@ import type { NextFunction, Request, Response } from 'express';
 import ApiError from '../errors/ApiError';
 import type { ValidUserRequest } from './deserializeUser';
 
+const unauthorized: string = 'Missing the credentials required to access this resource.';
+
 export function requireUser(req: Request & ValidUserRequest, __: Response, next: NextFunction): void {
   if (!req.user) {
-    next(ApiError.unauthorized('Missing the credentials to access this resource.'));
+    next(ApiError.unauthorized(unauthorized));
     return;
   }
   next();
@@ -13,11 +15,11 @@ export function requireUser(req: Request & ValidUserRequest, __: Response, next:
 
 export function requireAdmin(req: Request & ValidUserRequest, __: Response, next: NextFunction): void {
   if (!req.user) {
-    next(ApiError.unauthorized('Missing the credentials required to access this qource.'));
+    next(ApiError.unauthorized(unauthorized));
     return;
   }
   if (req.user.role !== Role.ADMIN) {
-    next(ApiError.forbidden('Missing the appropriate permissions level to access this resource.'));
+    next(ApiError.forbidden('Missing the appropriate permissions level required to access this resource.'));
     return;
   }
   next();
