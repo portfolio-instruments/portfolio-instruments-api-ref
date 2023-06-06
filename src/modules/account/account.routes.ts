@@ -104,6 +104,39 @@ router.get('/', validateRequest(), requireUser, asyncWrapper(accountController.g
 router.get('/:accountId', validateRequest(getAccountByIdRequestSchema), requireUser, asyncWrapper(accountController.getAccountByIdHandler));
 
 /** Update */
+/**
+ * @openapi
+ * '/accounts/{accountId}':
+ *   patch:
+ *     tags:
+ *       - Account
+ *     summary: Partially update a holding account
+ *     security:
+ *        - bearerAuth: []
+ *     requestBody:
+ *          required: true
+ *          content:
+ *              application/json:
+ *                  schema:
+ *                      $ref: '#/components/schemas/PatchAccountInput'
+ *     parameters:
+ *       - $ref: '#/components/parameters/accountId'
+ *     responses:
+ *       '200':
+ *         description: Successfully updated a holding account
+ *         content:
+ *           application/json:
+ *             schema:
+ *               $ref: '#/components/schemas/Account'
+ *       '400':
+ *         description: Bad Request
+ *       '401':
+ *         description: Unauthorized
+ *       '403':
+ *         description: Forbidden
+ *       '404':
+ *         description: Product not found
+ */
 router.patch('/:accountId', validateRequest(patchAccountRequestSchema), requireUser, asyncWrapper(accountController.updateAccountByIdHandler));
 router.put('/:accountId', validateRequest(putAccountRequestSchema), requireUser, asyncWrapper(accountController.updateAccountByIdHandler));
 
