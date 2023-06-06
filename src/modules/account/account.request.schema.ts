@@ -65,6 +65,31 @@ export const getAccountByIdRequestSchema = object({
 export type GetAccountRequest = { params: { accountId: string } };
 
 /** Update */
+/**
+ * @openapi
+ * components:
+ *  schemas:
+ *    PatchAccountInput:
+ *      type: object
+ *      properties:
+ *        institution:
+ *          type: string
+ *        taxShelter:
+ *          type: string
+ *          enum:
+ *            - TAXABLE
+ *            - TRADITIONAL
+ *            - ROTH
+ *        description:
+ *          type: string
+ *        active:
+ *          type: boolean
+ *      example:
+ *        institution: Fidelity
+ *        taxShelter: TRADITIONAL
+ *        description: Account ending in 0406
+ *        active: true
+ */
 export const patchAccountRequestSchema = object({
   body: bodySchema.partial().strict(),
   params: paramsSchema.strict(),
