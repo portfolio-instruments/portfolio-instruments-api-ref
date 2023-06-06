@@ -91,7 +91,7 @@ router.get('/', validateRequest(), requireUser, asyncWrapper(accountController.g
  *       '401':
  *         description: Unauthorized
  *       '404':
- *         description: Product not found
+ *         description: Account not found
  *
  * components:
  *   parameters:
@@ -135,9 +135,43 @@ router.get('/:accountId', validateRequest(getAccountByIdRequestSchema), requireU
  *       '403':
  *         description: Forbidden
  *       '404':
- *         description: Product not found
+ *         description: Account not found
  */
 router.patch('/:accountId', validateRequest(patchAccountRequestSchema), requireUser, asyncWrapper(accountController.updateAccountByIdHandler));
+
+/**
+ * @openapi
+ * '/accounts/{accountId}':
+ *   put:
+ *     tags:
+ *       - Account
+ *     summary: Completely update a holding account
+ *     security:
+ *        - bearerAuth: []
+ *     requestBody:
+ *          required: true
+ *          content:
+ *              application/json:
+ *                  schema:
+ *                      $ref: '#/components/schemas/PutAccountInput'
+ *     parameters:
+ *       - $ref: '#/components/parameters/accountId'
+ *     responses:
+ *       '200':
+ *         description: Successfully updated a holding account
+ *         content:
+ *           application/json:
+ *             schema:
+ *               $ref: '#/components/schemas/Account'
+ *       '400':
+ *         description: Bad Request
+ *       '401':
+ *         description: Unauthorized
+ *       '403':
+ *         description: Forbidden
+ *       '404':
+ *         description: Account not found
+ */
 router.put('/:accountId', validateRequest(putAccountRequestSchema), requireUser, asyncWrapper(accountController.updateAccountByIdHandler));
 
 /** Delete */
