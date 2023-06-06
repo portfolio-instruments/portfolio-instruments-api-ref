@@ -88,6 +88,8 @@ router.get('/', validateRequest(), requireUser, asyncWrapper(accountController.g
  *           application/json:
  *             schema:
  *               $ref: '#/components/schemas/Account'
+ *       '400':
+ *         description: Bad Request
  *       '401':
  *         description: Unauthorized
  *       '404':
@@ -175,6 +177,29 @@ router.patch('/:accountId', validateRequest(patchAccountRequestSchema), requireU
 router.put('/:accountId', validateRequest(putAccountRequestSchema), requireUser, asyncWrapper(accountController.updateAccountByIdHandler));
 
 /** Delete */
+/**
+ * @openapi
+ * '/accounts/{accountId}':
+ *   delete:
+ *     tags:
+ *       - Account
+ *     summary: Delete a holding account
+ *     security:
+ *        - bearerAuth: []
+ *     parameters:
+ *       - $ref: '#/components/parameters/accountId'
+ *     responses:
+ *       '204':
+ *         description: Successfully deleted a holding account
+ *       '400':
+ *         description: Bad Request
+ *       '401':
+ *         description: Unauthorized
+ *       '403':
+ *         description: Forbidden
+ *       '404':
+ *         description: Account not found
+ */
 router.delete('/:accountId', validateRequest(deleteAccountByIdRequestSchema), requireUser, asyncWrapper(accountController.deleteAccountByIdHandler));
 
 export default router;
