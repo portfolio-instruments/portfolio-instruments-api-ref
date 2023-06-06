@@ -114,7 +114,10 @@ async function updateAccountByIdHandler(req: UpdateAccountByIdHandlerRequest, re
     id: Number(req.params.accountId),
   };
 
-  /** Check if we can update the resource */
+  /**
+   * Check if we can update the resource
+   * (Prisma doesn't seem to allow us to bundle the 'where' condition, so check manually)
+   */
   const peekAccount: Account | null = await getAccountById(userId, context.id);
   if (!peekAccount) {
     throw ApiError.notFound(`Account with id "${context.id}" was not found.`);
@@ -134,7 +137,10 @@ async function deleteAccountByIdHandler(req: DeleteAccountByIdHandlerRequest, re
   const userId: number = nonNullValue(req.user?.id);
   const accountId: number = Number(req.params.accountId);
 
-  /** Check if we can delete the resource */
+  /**
+   * Check if we can delete the resource
+   * (Prisma doesn't seem to allow us to bundle the 'where' condition, so check manually)
+   */
   const peekAccount: Account | null = await getAccountById(userId, accountId);
   if (!peekAccount) {
     throw ApiError.notFound(`Account with id "${accountId}" was not found.`);
