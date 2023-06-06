@@ -97,6 +97,36 @@ export const patchAccountRequestSchema = object({
 
 export type PatchAccountRequest = { body: TypeOf<typeof patchAccountRequestSchema>['body'] } & { params: { accountId: string } };
 
+/**
+ * @openapi
+ * components:
+ *  schemas:
+ *    PutAccountInput:
+ *      type: object
+ *      required:
+ *        - institution
+ *        - taxShelter
+ *        - description
+ *        - active
+ *      properties:
+ *        institution:
+ *          type: string
+ *        taxShelter:
+ *          type: string
+ *          enum:
+ *            - TAXABLE
+ *            - TRADITIONAL
+ *            - ROTH
+ *        description:
+ *          type: string
+ *        active:
+ *          type: boolean
+ *      example:
+ *        institution: Fidelity
+ *        taxShelter: TRADITIONAL
+ *        description: Account ending in 0406
+ *        active: true
+ */
 export const putAccountRequestSchema = object({
   body: bodySchema.strict().refine((req) => req.active !== undefined, { message: 'The active status must be provided' }),
   params: paramsSchema.strict(),
