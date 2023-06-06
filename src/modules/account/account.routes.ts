@@ -69,6 +69,38 @@ router.post('/', validateRequest(createAccountRequestSchema), requireUser, async
  *              description: Unauthorized
  */
 router.get('/', validateRequest(), requireUser, asyncWrapper(accountController.getAccountsHandler));
+
+/**
+ * @openapi
+ * '/accounts/{accountId}':
+ *   get:
+ *     tags:
+ *       - Account
+ *     summary: Retrieve a holding account
+ *     security:
+ *        - bearerAuth: []
+ *     parameters:
+ *       - $ref: '#/components/parameters/accountId'
+ *     responses:
+ *       '200':
+ *         description: Successfully retrieved a holding account
+ *         content:
+ *           application/json:
+ *             schema:
+ *               $ref: '#/components/schemas/Account'
+ *       '401':
+ *         description: Unauthorized
+ *       '404':
+ *         description: Product not found
+ *
+ * components:
+ *   parameters:
+ *     accountId:
+ *         name: accountId
+ *         in: path
+ *         description: The id of the holding account
+ *         required: true
+ */
 router.get('/:accountId', validateRequest(getAccountByIdRequestSchema), requireUser, asyncWrapper(accountController.getAccountByIdHandler));
 
 /** Update */
