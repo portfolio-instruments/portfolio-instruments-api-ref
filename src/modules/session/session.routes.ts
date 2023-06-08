@@ -29,8 +29,16 @@ const router = express.Router();
  *                          $ref: '#/components/schemas/CreateSessionResponse'
  *          400:
  *              description: Bad request
+ *              content:
+ *                  application/json:
+ *                      schema:
+ *                          $ref: '#/components/schemas/Error'
  *          401:
  *              description: Unauthorized
+ *              content:
+ *                  application/json:
+ *                      schema:
+ *                          $ref: '#/components/schemas/Error'
  */
 router.post('/', validateRequest(createSessionRequestSchema), asyncWrapper(sessionController.createUserSessionHandler));
 

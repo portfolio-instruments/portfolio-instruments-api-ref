@@ -38,8 +38,16 @@ const router = express.Router();
  *                          $ref: '#/components/schemas/CreateAccountResponse'
  *          400:
  *              description: Bad request
+ *              content:
+ *                  application/json:
+ *                      schema:
+ *                          $ref: '#/components/schemas/Error'
  *          401:
  *              description: Unauthorized
+ *              content:
+ *                  application/json:
+ *                      schema:
+ *                          $ref: '#/components/schemas/Error'
  */
 router.post('/', validateRequest(createAccountRequestSchema), requireUser, asyncWrapper(accountController.createAccountHandler));
 
@@ -67,6 +75,10 @@ router.post('/', validateRequest(createAccountRequestSchema), requireUser, async
  *                          $ref: '#/components/schemas/GetAccountsResponse'
  *          401:
  *              description: Unauthorized
+ *              content:
+ *                  application/json:
+ *                      schema:
+ *                          $ref: '#/components/schemas/Error'
  */
 router.get('/', validateRequest(), requireUser, asyncWrapper(accountController.getAccountsHandler));
 
@@ -90,10 +102,22 @@ router.get('/', validateRequest(), requireUser, asyncWrapper(accountController.g
  *               $ref: '#/components/schemas/Account'
  *       '400':
  *         description: Bad Request
+ *         content:
+ *             application/json:
+ *                 schema:
+ *                     $ref: '#/components/schemas/Error'
  *       '401':
  *         description: Unauthorized
+ *         content:
+ *             application/json:
+ *                 schema:
+ *                     $ref: '#/components/schemas/Error'
  *       '404':
  *         description: Account not found
+ *         content:
+ *             application/json:
+ *                 schema:
+ *                     $ref: '#/components/schemas/Error'
  *
  * components:
  *   parameters:
@@ -132,12 +156,28 @@ router.get('/:accountId', validateRequest(getAccountByIdRequestSchema), requireU
  *               $ref: '#/components/schemas/Account'
  *       '400':
  *         description: Bad Request
+ *         content:
+ *             application/json:
+ *                 schema:
+ *                     $ref: '#/components/schemas/Error'
  *       '401':
  *         description: Unauthorized
+ *         content:
+ *             application/json:
+ *                 schema:
+ *                     $ref: '#/components/schemas/Error'
  *       '403':
  *         description: Forbidden
+ *         content:
+ *             application/json:
+ *                 schema:
+ *                     $ref: '#/components/schemas/Error'
  *       '404':
  *         description: Account not found
+ *         content:
+ *             application/json:
+ *                 schema:
+ *                     $ref: '#/components/schemas/Error'
  */
 router.patch('/:accountId', validateRequest(patchAccountRequestSchema), requireUser, asyncWrapper(accountController.updateAccountByIdHandler));
 
@@ -167,12 +207,28 @@ router.patch('/:accountId', validateRequest(patchAccountRequestSchema), requireU
  *               $ref: '#/components/schemas/Account'
  *       '400':
  *         description: Bad Request
+ *         content:
+ *           application/json:
+ *             schema:
+ *               $ref: '#/components/schemas/Error'
  *       '401':
  *         description: Unauthorized
+ *         content:
+ *           application/json:
+ *             schema:
+ *               $ref: '#/components/schemas/Error'
  *       '403':
  *         description: Forbidden
+ *         content:
+ *           application/json:
+ *             schema:
+ *               $ref: '#/components/schemas/Error'
  *       '404':
  *         description: Account not found
+ *         content:
+ *           application/json:
+ *             schema:
+ *               $ref: '#/components/schemas/Error'
  */
 router.put('/:accountId', validateRequest(putAccountRequestSchema), requireUser, asyncWrapper(accountController.updateAccountByIdHandler));
 
@@ -193,12 +249,28 @@ router.put('/:accountId', validateRequest(putAccountRequestSchema), requireUser,
  *         description: Successfully deleted a holding account
  *       '400':
  *         description: Bad Request
+ *         content:
+ *             application/json:
+ *                 schema:
+ *                     $ref: '#/components/schemas/Error'
  *       '401':
  *         description: Unauthorized
+ *         content:
+ *             application/json:
+ *                 schema:
+ *                     $ref: '#/components/schemas/Error'
  *       '403':
  *         description: Forbidden
+ *         content:
+ *             application/json:
+ *                 schema:
+ *                     $ref: '#/components/schemas/Error'
  *       '404':
  *         description: Account not found
+ *         content:
+ *             application/json:
+ *                 schema:
+ *                     $ref: '#/components/schemas/Error'
  */
 router.delete('/:accountId', validateRequest(deleteAccountByIdRequestSchema), requireUser, asyncWrapper(accountController.deleteAccountByIdHandler));
 

@@ -30,8 +30,16 @@ const router = express.Router();
  *                          $ref: '#/components/schemas/CreateUserResponse'
  *          400:
  *              description: Bad request
+ *              content:
+ *                  application/json:
+ *                      schema:
+ *                          $ref: '#/components/schemas/Error'
  *          409:
  *              description: Conflict
+ *              content:
+ *                  application/json:
+ *                      schema:
+ *                          $ref: '#/components/schemas/Error'
  */
 router.post('/', validateRequest(createUserRequestSchema), asyncWrapper(userController.createUserHandler));
 

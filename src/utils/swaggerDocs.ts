@@ -42,6 +42,24 @@ const options: swaggerJSDoc.Options = {
           bearerFormat: 'JWT',
         },
       },
+      schemas: {
+        Error: {
+          type: 'object',
+          properties: {
+            error: {
+              type: 'object',
+              properties: {
+                status: {
+                  type: 'integer',
+                },
+                message: {
+                  type: 'string',
+                },
+              },
+            },
+          },
+        },
+      },
       parameters: {
         skipParam: {
           in: 'query',
