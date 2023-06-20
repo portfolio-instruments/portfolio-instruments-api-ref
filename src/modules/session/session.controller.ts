@@ -1,6 +1,6 @@
 import type { Response } from 'express';
 import { type CreateSessionContext, createSession } from './session.service';
-import type { BaseRequest } from '../../IBaseRequest';
+import type { BaseRequest } from '../../BaseRequest';
 import type { CreateSessionRequest } from './session.request.schema';
 
 /** Create */

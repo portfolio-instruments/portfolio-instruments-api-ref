@@ -10,7 +10,7 @@ import type { CreateUserContext } from './user.service';
 import { createUser, createUserSettings, getUsers } from './user.service';
 import { parseCreateUser } from './user.utils';
 import ApiError from '../../errors/ApiError';
-import type { BaseRequest } from '../../IBaseRequest';
+import type { BaseRequest } from '../../BaseRequest';
 
 /** Create */
 /**

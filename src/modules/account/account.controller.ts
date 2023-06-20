@@ -9,7 +9,7 @@ import type { Account } from '@prisma/client';
 import ApiError from '../../errors/ApiError';
 import type { ParsedQuery } from '../../utils/parseQuery';
 import { parseQuery } from '../../utils/parseQuery';
-import type { BaseRequest } from '../../IBaseRequest';
+import type { BaseRequest } from '../../BaseRequest';
 
 /** Create */
 /**
