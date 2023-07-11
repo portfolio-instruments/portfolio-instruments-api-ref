@@ -13,7 +13,15 @@ export async function createAccount(createAccountContext: CreateAccountContext):
 /** Read */
 export async function getAccounts(userId: number, options?: ParsedQuery): Promise<Account[]> {
   return await prisma.account.findMany<Prisma.AccountFindManyArgs>({
-    where: { userId },
+    where: {
+      userId: !options?.filter.AND ? userId : undefined,
+      AND: options?.filter.AND ? options.filter.AND?.concat({ userId }) : undefined,
+      createdAt: {
+        gte: options?.filter.startDate,
+        lte: options?.filter.endDate,
+      },
+    },
+    select: options?.select,
     take: options?.take,
     skip: options?.skip,
     cursor: options?.cursor,
