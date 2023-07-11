@@ -5,19 +5,40 @@ import ApiError from '../errors/ApiError';
 import { formatZodErrorMessage } from '../errors/formatErrors';
 
 const querySchema = object({
-  sort: string({ required_error: 'Sort query is invalid' }).optional(),
+  // e.g. filter=[institution=Vanguard;active=true]
+  filter: string().optional(),
+
+  // e.g. startDate=2023-01-10
+  startDate: coerce.date({ invalid_type_error: 'Start date format is invalid.' }).optional(),
+
+  // e.g. endDate=2023-01-10
+  endDate: coerce.date({ invalid_type_error: 'End date format is invalid.' }).optional(),
+
+  // e.g. select=id,institution,active
+  select: string().optional(),
+
+  // e.g. sort=id,updatedAt / sort=-createdAt
+  sort: string().optional(),
+
+  // e.g. take=5
   take: coerce
     .number({ required_error: 'Take query is invalid' })
     .min(-20, 'Take query must be at least -20')
     .max(20, 'Take query can be at most 20')
     .optional(),
+
+  // e.g. skip=5
   skip: coerce
     .number({ required_error: 'Skip query is invalid' })
     .min(0, 'Skip query must be at least 0')
     .max(50, 'Skip query can be at most 50')
     .optional(),
+
+  // e.g. cursor=5
   cursor: coerce.number({ required_error: 'Cursor query is invalid' }).int({ message: 'Cursor query must be a whole number' }).optional(),
-  expand: string({ required_error: 'Expand query is invalid' }).optional(),
+
+  // e.g. expand=true
+  expand: coerce.boolean({ invalid_type_error: 'Expand query is invalid.' }).optional(),
 });
 
 function validateRequest(schema?: AnyZodObject | ZodEffects<AnyZodObject>) {
