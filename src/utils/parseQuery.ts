@@ -87,7 +87,6 @@ function getSelectOptions(select: string): Record<string, boolean> {
   return selectOptions;
 }
 
-/** Sorting options passed in a form that Prisma likes */
 export function getSortingOptions(sort: string, validKeys: string[]): SortingOption[] {
   const sortingOptions: SortingOption[] = [];
   const sortingFields: string[] = sort.split(',');
