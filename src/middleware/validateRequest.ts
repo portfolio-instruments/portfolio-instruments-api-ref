@@ -41,6 +41,13 @@ const querySchema = object({
   expand: coerce.boolean({ invalid_type_error: 'Expand query is invalid.' }).optional(),
 });
 
+/**
+ * Used to validate various request parameters.  By default, it will validate any query parameters
+ * regardless of whether or not a schema is passed in.  If a schema is passed in, it will
+ * also use that to validate any request body and params.
+ *
+ * @param schema Zod schema to validate request body and params
+ */
 function validateRequest(schema?: AnyZodObject | ZodEffects<AnyZodObject>) {
   return (req: Request, __: Response, next: NextFunction) => {
     try {

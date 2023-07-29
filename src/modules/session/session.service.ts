@@ -1,10 +1,7 @@
 import type { User } from '@prisma/client';
-import * as bcrypt from 'bcryptjs';
-import { omit } from 'lodash';
-import { getUserByEmail } from '../user/user.service';
 import ApiError from '../../errors/ApiError';
 import { nonNullProp } from '../../utils/nonNull';
-import { signJwt } from './session.utils';
+import { signJwt, validateCredentials } from './session.utils';
 import config from '../../config';
 
 /** Create */
@@ -17,12 +14,4 @@ export async function createSession(context: CreateSessionContext): Promise<stri
   }
 
   return signJwt(user, nonNullProp(config, 'JWT_ACCESS_TOKEN_SECRET'), context.expiresIn);
-}
-
-export async function validateCredentials(email: string, password: string): Promise<Omit<User, 'password'> | null> {
-  const user: User | null = await getUserByEmail(email);
-  if (!user || !(await bcrypt.compare(password, user.password))) {
-    return null;
-  }
-  return omit(user, ['password']);
 }

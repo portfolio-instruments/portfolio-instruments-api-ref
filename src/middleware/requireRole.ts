@@ -1,11 +1,12 @@
 import { Role } from '@prisma/client';
-import type { NextFunction, Request, Response } from 'express';
+import type { NextFunction, Response } from 'express';
 import ApiError from '../errors/ApiError';
 import type { ValidUserRequest } from './deserializeUser';
+import type { BaseRequest } from '../BaseRequest';
 
 const unauthorized: string = 'Missing the credentials required to access this resource.';
 
-export function requireUser(req: Request & ValidUserRequest, __: Response, next: NextFunction): void {
+export function requireUser(req: BaseRequest & ValidUserRequest, __: Response, next: NextFunction): void {
   if (!req.user) {
     next(ApiError.unauthorized(unauthorized));
     return;
@@ -13,7 +14,7 @@ export function requireUser(req: Request & ValidUserRequest, __: Response, next:
   next();
 }
 
-export function requireAdmin(req: Request & ValidUserRequest, __: Response, next: NextFunction): void {
+export function requireAdmin(req: BaseRequest & ValidUserRequest, __: Response, next: NextFunction): void {
   if (!req.user) {
     next(ApiError.unauthorized(unauthorized));
     return;
