@@ -1,4 +1,8 @@
 import * as jwt from 'jsonwebtoken';
+import { getUserByEmail } from '../user/user.service';
+import type { User } from '@prisma/client';
+import { omit } from 'lodash';
+import * as bcrypt from 'bcryptjs';
 
 export interface VerifiedJwt<T> {
   valid: boolean;
@@ -26,4 +30,12 @@ export function verifyJwt<T extends object>(token: string, secret: string): Veri
       decoded: null,
     };
   }
+}
+
+export async function validateCredentials(email: string, password: string): Promise<Omit<User, 'password'> | null> {
+  const user: User | null = await getUserByEmail(email);
+  if (!user || !(await bcrypt.compare(password, user.password))) {
+    return null;
+  }
+  return omit(user, ['password']);
 }

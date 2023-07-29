@@ -1,10 +1,12 @@
 import type { User } from '@prisma/client';
-import type { NextFunction, Request, Response } from 'express';
+import type { NextFunction, Response } from 'express';
 import config from '../config';
 import type { VerifiedJwt } from '../modules/session/session.utils';
 import { verifyJwt } from '../modules/session/session.utils';
 import { nonNullProp } from '../utils/nonNull';
 import ApiError from '../errors/ApiError';
+import type { BaseRequest } from '../BaseRequest';
+import { convertUnixTimestampToDateString } from '../utils/convertUnixTimestampToDateString';
 
 export interface ValidUserRequest {
   user?: {
@@ -12,10 +14,14 @@ export interface ValidUserRequest {
     name: string;
     email: string;
     role: string;
+    issuedAt: string;
+    expiresAt: string;
   };
 }
 
-export default function deserializeUser(req: Request & ValidUserRequest, __: Response, next: NextFunction): void {
+export type ValidUser = ValidUserRequest['user'];
+
+export default function deserializeUser(req: BaseRequest & ValidUserRequest, __: Response, next: NextFunction): void {
   const accessToken = req.headers.authorization?.replace(/^Bearer\s/, '');
 
   if (!accessToken) {
@@ -39,6 +45,8 @@ export default function deserializeUser(req: Request & ValidUserRequest, __: Res
     name: user.name,
     email: user.email,
     role: user.role,
+    issuedAt: convertUnixTimestampToDateString(user.iat),
+    expiresAt: convertUnixTimestampToDateString(user.exp),
   };
 
   next();

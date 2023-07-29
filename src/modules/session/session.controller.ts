@@ -2,6 +2,11 @@ import type { Response } from 'express';
 import { type CreateSessionContext, createSession } from './session.service';
 import type { BaseRequest } from '../../BaseRequest';
 import type { CreateSessionRequest } from './session.request.schema';
+import type { ValidUser, ValidUserRequest } from '../../middleware/deserializeUser';
+import { getUserByEmail } from '../user/user.service';
+import type { User } from '@prisma/client';
+import ApiError from '../../errors/ApiError';
+import { nonNullValue } from '../../utils/nonNull';
 
 /** Create */
 /**
@@ -30,4 +35,24 @@ export async function createUserSessionHandler(req: CreateUserSessionHandlerRequ
   });
 }
 
-export default { createUserSessionHandler };
+/** Read */
+type GetUserSessionHandlerRequest = BaseRequest & ValidUserRequest;
+
+export async function getUserSessionHandler(req: GetUserSessionHandlerRequest, res: Response): Promise<void> {
+  const reqUser: ValidUser = nonNullValue(req.user);
+  const user: User | null = await getUserByEmail(reqUser.email);
+  if (!user) {
+    throw ApiError.notFound('User with this session does not exist.');
+  }
+
+  res.status(200).json({
+    id: reqUser.id,
+    name: reqUser.name,
+    email: reqUser.email,
+    role: reqUser.role,
+    issuedAt: reqUser.issuedAt,
+    expiresAt: reqUser.expiresAt,
+  });
+}
+
+export default { createUserSessionHandler, getUserSessionHandler };

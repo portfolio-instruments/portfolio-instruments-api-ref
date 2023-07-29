@@ -3,6 +3,7 @@ import asyncWrapper from '../../middleware/asyncWrapper';
 import validateRequest from '../../middleware/validateRequest';
 import sessionController from './session.controller';
 import { createSessionRequestSchema } from './session.request.schema';
+import { requireUser } from '../../middleware/requireRole';
 
 const router = express.Router();
 
@@ -41,5 +42,8 @@ const router = express.Router();
  *                          $ref: '#/components/schemas/Error'
  */
 router.post('/', validateRequest(createSessionRequestSchema), asyncWrapper(sessionController.createUserSessionHandler));
+
+/** Read */
+router.get('/', requireUser, asyncWrapper(sessionController.getUserSessionHandler));
 
 export default router;
