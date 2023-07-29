@@ -36,7 +36,7 @@ CREATE TABLE "Account" (
     "institution" VARCHAR(255) NOT NULL,
     "taxShelter" "TaxShelter" NOT NULL,
     "description" TEXT,
-    "active" BOOLEAN DEFAULT true,
+    "active" BOOLEAN NOT NULL DEFAULT true,
     "createdAt" TIMESTAMP(3) NOT NULL DEFAULT CURRENT_TIMESTAMP,
     "updatedAt" TIMESTAMP(3) NOT NULL,
 
