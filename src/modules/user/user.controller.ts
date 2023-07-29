@@ -8,9 +8,9 @@ import type { CreateUserRequest } from './user.request.schema';
 import { queryAbleUserKeys } from './user.request.schema';
 import type { CreateUserContext } from './user.service';
 import { createUser, createUserSettings, getUsers } from './user.service';
-import { parseCreateUser } from './user.utils';
 import ApiError from '../../errors/ApiError';
 import type { BaseRequest } from '../../BaseRequest';
+import { hashPassword } from './user.utils';
 
 /** Create */
 /**
@@ -38,7 +38,7 @@ import type { BaseRequest } from '../../BaseRequest';
 type CreateUserHandlerRequest = BaseRequest & CreateUserRequest;
 
 async function createUserHandler(req: CreateUserHandlerRequest, res: Response): Promise<void> {
-  const createUserContext: CreateUserContext = parseCreateUser(req);
+  const createUserContext: CreateUserContext = { ...req.body, password: hashPassword(req.body.password) };
 
   try {
     const user: User = await createUser(createUserContext);
