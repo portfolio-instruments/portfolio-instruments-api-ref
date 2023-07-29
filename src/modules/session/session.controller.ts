@@ -36,6 +36,26 @@ export async function createUserSessionHandler(req: CreateUserSessionHandlerRequ
 }
 
 /** Read */
+/**
+ * @openapi
+ * components:
+ *  schemas:
+ *    GetSessionResponse:
+ *      type: object
+ *      properties:
+ *        id:
+ *          type: string
+ *        name:
+ *          type: string
+ *        email:
+ *          type: string
+ *        role:
+ *          type: string
+ *        issuedAt:
+ *          type: string
+ *        expiresAt:
+ *          type: string
+ */
 type GetUserSessionHandlerRequest = BaseRequest & ValidUserRequest;
 
 export async function getUserSessionHandler(req: GetUserSessionHandlerRequest, res: Response): Promise<void> {
