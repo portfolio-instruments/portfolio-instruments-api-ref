@@ -16,7 +16,7 @@ export interface ExportData {
   collectionName: string;
   dateExported: string;
   version: string;
-  folders: any[];
+  folders: unknown[];
   requests: RequestObject[];
 }
 
