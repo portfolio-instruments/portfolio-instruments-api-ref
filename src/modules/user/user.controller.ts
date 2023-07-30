@@ -1,16 +1,18 @@
 import type { Settings, User } from '@prisma/client';
 import type { Response } from 'express';
 import { omit } from 'lodash';
-import type { ValidUserRequest } from '../../middleware/deserializeUser';
+import type { ValidUser, ValidUserRequest } from '../../middleware/deserializeUser';
 import type { ParsedQuery } from '../../utils/parseQuery';
 import { parseQuery } from '../../utils/parseQuery';
-import type { CreateUserRequest } from './user.request.schema';
+import type { CreateUserRequest, GetUserSettingsByIdRequest } from './user.request.schema';
 import { queryAbleUserKeys } from './user.request.schema';
 import type { CreateUserContext } from './user.service';
+import { getUserSettingsById } from './user.service';
 import { createUser, createUserSettings, getUsers } from './user.service';
 import ApiError from '../../errors/ApiError';
 import type { BaseRequest } from '../../BaseRequest';
 import { hashPassword } from './user.utils';
+import { nonNullValue } from '../../utils/nonNull';
 
 /** Create */
 /**
@@ -70,4 +72,22 @@ async function getUsersHandler(req: GetUsersHandlerRequest, res: Response): Prom
   res.status(200).json(redactedUsers);
 }
 
-export default { getUsersHandler, createUserHandler };
+type GetUserSettingsByIdHandlerRequest = BaseRequest & ValidUserRequest & GetUserSettingsByIdRequest;
+
+async function getUserSettingsByIdHandler(req: GetUserSettingsByIdHandlerRequest, res: Response): Promise<void> {
+  const user: ValidUser = nonNullValue(req.user);
+  const userId: number = Number(req.params.userId);
+
+  if (user.id !== userId) {
+    throw ApiError.forbidden('You are not authorized to access this resource.');
+  }
+
+  const settings: Settings | null = await getUserSettingsById(userId);
+  if (!settings) {
+    throw ApiError.notFound('User settings not found.');
+  }
+
+  res.status(200).json(omit(settings, 'userId'));
+}
+
+export default { getUsersHandler, getUserSettingsByIdHandler, createUserHandler };

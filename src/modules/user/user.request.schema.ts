@@ -1,8 +1,16 @@
 import type { TypeOf } from 'zod';
+import { coerce } from 'zod';
 import { object, string } from 'zod';
 
 /** Query-able keys */
 export const queryAbleUserKeys: string[] = ['id', 'email', 'name', 'password', 'role', 'createdAt', 'updatedAt'];
+
+const paramsSchema = object({
+  userId: coerce
+    .number({ invalid_type_error: 'The userId must be a positive whole number' })
+    .int('The userId must be a whole number')
+    .positive('The userId must be a positive number'),
+});
 
 /** Create */
 /**
@@ -53,3 +61,10 @@ export const createUserRequestSchema = object({
 });
 
 export type CreateUserRequest = TypeOf<typeof createUserRequestSchema>;
+
+/** Read */
+export const getUserSettingsByIdRequestSchema = object({
+  params: paramsSchema.strict(),
+});
+
+export type GetUserSettingsByIdRequest = { params: { userId: string } };
