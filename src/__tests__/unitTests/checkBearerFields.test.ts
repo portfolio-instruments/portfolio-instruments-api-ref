@@ -21,10 +21,8 @@ export interface ExportData {
 }
 
 describe('Thunderclient collection', () => {
-  /** 201 */
   it('should not source control bearer token data', async () => {
     const collectionPath: string = path.join(__dirname, '..', '..', '..', '.thunderclient', 'Portfolio-Instruments-API.json');
-
     const collectionData: ExportData = JSON.parse(await fse.readFile(collectionPath, 'utf8'));
 
     const hasPopulatedBearerToken: boolean = collectionData.requests.some((request) => {
