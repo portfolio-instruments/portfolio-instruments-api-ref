@@ -1,4 +1,4 @@
-import type { Config } from './IConfig';
+import type { Config } from './Config';
 
 function getDevelopmentEnvironment(): Config {
   return {
