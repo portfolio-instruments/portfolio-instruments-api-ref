@@ -3,7 +3,7 @@ import asyncWrapper from '../../middleware/asyncWrapper';
 import { requireUser } from '../../middleware/requireRole';
 import validateRequest from '../../middleware/validateRequest';
 import userController from './user.controller';
-import { createUserRequestSchema } from './user.request.schema';
+import { createUserRequestSchema, getUserSettingsByIdRequestSchema } from './user.request.schema';
 
 const router = express.Router();
 
@@ -45,5 +45,12 @@ router.post('/', validateRequest(createUserRequestSchema), asyncWrapper(userCont
 
 /** Read */
 router.get('/', validateRequest(), requireUser, asyncWrapper(userController.getUsersHandler));
+
+router.get(
+  '/:userId/settings',
+  validateRequest(getUserSettingsByIdRequestSchema),
+  requireUser,
+  asyncWrapper(userController.getUserSettingsByIdHandler)
+);
 
 export default router;
