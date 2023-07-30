@@ -41,7 +41,7 @@
             "params": [],
             "auth": {
                 "type": "bearer",
-                "bearer": "eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpZCI6MSwiZW1haWwiOiJtd2Zpc2hlcjkxQGdtYWlsLmNvbSIsIm5hbWUiOiJNYXR0IEZpc2hlciIsInJvbGUiOiJVU0VSIiwiY3JlYXRlZEF0IjoiMjAyMy0wNy0yOVQxOTowODoxOC45NTdaIiwidXBkYXRlZEF0IjoiMjAyMy0wNy0yOVQxOTowODoxOC45NTdaIiwiaWF0IjoxNjkwNjU3NzA2LCJleHAiOjE2OTA2NjQ5MDZ9.bEMdN1ev-csj_wPn5MJNr3giBWceFZl_zmDrJBnN_Hc"
+                "bearer": ""
             },
             "tests": []
         },
@@ -78,7 +78,7 @@
             "params": [],
             "auth": {
                 "type": "bearer",
-                "bearer": "eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpZCI6MSwiZW1haWwiOiJtd2Zpc2hlcjkxQGdtYWlsLmNvbSIsIm5hbWUiOiJNYXR0IEZpc2hlciIsInJvbGUiOiJVU0VSIiwiY3JlYXRlZEF0IjoiMjAyMy0wNi0wMlQwODowMTo0OS4zOTJaIiwidXBkYXRlZEF0IjoiMjAyMy0wNi0wMlQwODowMTo0OS4zOTJaIiwiaWF0IjoxNjg1ODE3Njc4LCJleHAiOjE2ODU4MjQ4Nzh9.PEChdjs2xSS3hDfSCfleweX29YkHvUiqqYBIlOjFC_U"
+                "bearer": ""
             },
             "tests": []
         },
@@ -101,7 +101,7 @@
             },
             "auth": {
                 "type": "bearer",
-                "bearer": "eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpZCI6MSwiZW1haWwiOiJtd2Zpc2hlcjkxQGdtYWlsLmNvbSIsIm5hbWUiOiJNYXR0IEZpc2hlciIsInJvbGUiOiJVU0VSIiwiY3JlYXRlZEF0IjoiMjAyMy0wNi0wMlQwODowMTo0OS4zOTJaIiwidXBkYXRlZEF0IjoiMjAyMy0wNi0wMlQwODowMTo0OS4zOTJaIiwiaWF0IjoxNjg1ODE3Njc4LCJleHAiOjE2ODU4MjQ4Nzh9.PEChdjs2xSS3hDfSCfleweX29YkHvUiqqYBIlOjFC_U"
+                "bearer": ""
             },
             "tests": []
         },
@@ -119,7 +119,7 @@
             "params": [],
             "auth": {
                 "type": "bearer",
-                "bearer": "eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpZCI6MSwiZW1haWwiOiJtd2Zpc2hlcjkxQGdtYWlsLmNvbSIsIm5hbWUiOiJNYXR0IEZpc2hlciIsInJvbGUiOiJVU0VSIiwiY3JlYXRlZEF0IjoiMjAyMy0wNy0zMFQwMjoxNDozMC45MzdaIiwidXBkYXRlZEF0IjoiMjAyMy0wNy0zMFQwMjoxNDozMC45MzdaIiwiaWF0IjoxNjkwNjgzMjc0LCJleHAiOjE2OTA2OTA0NzR9.8kOdSA2MMekPx3ccMV7HkI5bxaC3wkWJceVxZmDJdKs"
+                "bearer": ""
             },
             "tests": []
         },
@@ -156,7 +156,7 @@
             "params": [],
             "auth": {
                 "type": "bearer",
-                "bearer": "eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpZCI6MSwiZW1haWwiOiJtd2Zpc2hlcjkxQGdtYWlsLmNvbSIsIm5hbWUiOiJNYXR0IEZpc2hlciIsInJvbGUiOiJVU0VSIiwiY3JlYXRlZEF0IjoiMjAyMy0wNi0wMlQwODowMTo0OS4zOTJaIiwidXBkYXRlZEF0IjoiMjAyMy0wNi0wMlQwODowMTo0OS4zOTJaIiwiaWF0IjoxNjg1ODI1OTkwLCJleHAiOjE2ODU4MzMxOTB9.RPP8OXim5x3ST-Kmf1w9H7cGxfnNe-DWLUsSV1O_Hv8"
+                "bearer": ""
             },
             "tests": []
         },
@@ -179,7 +179,7 @@
             },
             "auth": {
                 "type": "bearer",
-                "bearer": "eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpZCI6MSwiZW1haWwiOiJtd2Zpc2hlcjkxQGdtYWlsLmNvbSIsIm5hbWUiOiJNYXR0IEZpc2hlciIsInJvbGUiOiJVU0VSIiwiY3JlYXRlZEF0IjoiMjAyMy0wNi0wMlQwODowMTo0OS4zOTJaIiwidXBkYXRlZEF0IjoiMjAyMy0wNi0wMlQwODowMTo0OS4zOTJaIiwiaWF0IjoxNjg1ODIzMDI4LCJleHAiOjE2ODU4MzAyMjh9.1klqTptWMr_eG6b9cqG1qca0jeFD0nVwpXepgGxMJb4"
+                "bearer": ""
             },
             "tests": []
         },
@@ -197,7 +197,7 @@
             "params": [],
             "auth": {
                 "type": "bearer",
-                "bearer": "eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpZCI6MSwiZW1haWwiOiJtd2Zpc2hlcjkxQGdtYWlsLmNvbSIsIm5hbWUiOiJNYXR0IEZpc2hlciIsInJvbGUiOiJVU0VSIiwiY3JlYXRlZEF0IjoiMjAyMy0wNi0wMlQwODowMTo0OS4zOTJaIiwidXBkYXRlZEF0IjoiMjAyMy0wNi0wMlQwODowMTo0OS4zOTJaIiwiaWF0IjoxNjg1ODI1OTkwLCJleHAiOjE2ODU4MzMxOTB9.RPP8OXim5x3ST-Kmf1w9H7cGxfnNe-DWLUsSV1O_Hv8"
+                "bearer": ""
             },
             "tests": []
         },
@@ -215,7 +215,7 @@
             "params": [],
             "auth": {
                 "type": "bearer",
-                "bearer": "eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpZCI6MSwiZW1haWwiOiJtd2Zpc2hlcjkxQGdtYWlsLmNvbSIsIm5hbWUiOiJNYXR0IEZpc2hlciIsInJvbGUiOiJVU0VSIiwiY3JlYXRlZEF0IjoiMjAyMy0wNi0wMlQwODowMTo0OS4zOTJaIiwidXBkYXRlZEF0IjoiMjAyMy0wNi0wMlQwODowMTo0OS4zOTJaIiwiaWF0IjoxNjg1ODE3Njc4LCJleHAiOjE2ODU4MjQ4Nzh9.PEChdjs2xSS3hDfSCfleweX29YkHvUiqqYBIlOjFC_U"
+                "bearer": ""
             },
             "tests": []
         }
