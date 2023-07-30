@@ -1,9 +1,9 @@
 import supertest from 'supertest';
-import * as UserService from '../../modules/user/user.service';
-import app from '../testApp';
-import * as UserMocks from '../user/user.integration.mocks';
-import * as SessionMocks from './session.integration.mocks';
-import { hashPassword } from '../../modules/user/user.utils';
+import * as UserService from '../../../modules/user/user.service';
+import app from '../../testApp';
+import * as UserMocks from '../user/user.mocks';
+import * as SessionMocks from './session.mocks';
+import { hashPassword } from '../../../modules/user/user.utils';
 
 /** POST /sessions */
 describe('Session', () => {
