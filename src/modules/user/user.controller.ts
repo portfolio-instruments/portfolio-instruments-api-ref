@@ -72,6 +72,26 @@ async function getUsersHandler(req: GetUsersHandlerRequest, res: Response): Prom
   res.status(200).json(redactedUsers);
 }
 
+/**
+ * @openapi
+ * components:
+ *  schemas:
+ *    GetUserSettingsResponse:
+ *      type: object
+ *      properties:
+ *        id:
+ *          type: number
+ *        vpThreshold:
+ *          type: number
+ *        rebalanceThreshold:
+ *          type: number
+ *        createdAt:
+ *          type: string
+ *          format: date-time
+ *        updatedAt:
+ *          type: string
+ *          format: date-time
+ */
 type GetUserSettingsByIdHandlerRequest = BaseRequest & ValidUserRequest & GetUserSettingsByIdRequest;
 
 async function getUserSettingsByIdHandler(req: GetUserSettingsByIdHandlerRequest, res: Response): Promise<void> {
