@@ -66,10 +66,32 @@ async function getUsersHandler(req: GetUsersHandlerRequest, res: Response): Prom
   const email: string | undefined = req.user?.role === 'USER' ? req.user.email : undefined;
   const parsedQuery: ParsedQuery = parseQuery(req, queryAbleUserKeys);
   const users: User[] = await getUsers(email, parsedQuery);
-  const redactedUsers: Omit<User, 'password' | 'role'>[] = users.map((user) => omit(user, ['password', 'role']));
+  const redactedUsers: Omit<User, 'password'>[] = users.map((user) => omit(user, 'password'));
   res.status(200).json(redactedUsers);
 }
 
+/**
+ * @openapi
+ * components:
+ *  schemas:
+ *    GetUserResponse:
+ *      type: object
+ *      properties:
+ *        id:
+ *          type: number
+ *        email:
+ *          type: string
+ *        name:
+ *          type: string
+ *        role:
+ *          type: string
+ *        createdAt:
+ *          type: string
+ *          format: date-time
+ *        updatedAt:
+ *          type: string
+ *          format: date-time
+ */
 type GetUserByIdHandlerRequest = BaseRequest & ValidUserRequest & GetUserByIdRequest;
 
 async function getUserByIdHandler(req: GetUserByIdHandlerRequest, res: Response): Promise<void> {
@@ -85,7 +107,7 @@ async function getUserByIdHandler(req: GetUserByIdHandlerRequest, res: Response)
     ApiError.notFound('User not found.');
   }
 
-  const redactedUser: Omit<User, 'password' | 'role'> = omit(user, ['password', 'role']);
+  const redactedUser: Omit<User, 'password'> = omit(user, 'password');
   res.status(200).json(redactedUser);
 }
 
