@@ -142,11 +142,6 @@ router.get('/:userId', validateRequest(getUserByIdRequestSchema), requireUser, a
  *                      schema:
  *                          $ref: '#/components/schemas/Error'
  */
-router.get(
-  '/:userId/settings',
-  validateRequest(getUserByIdRequestSchema),
-  requireUser,
-  asyncWrapper(userController.getUserSettingsByIdHandler)
-);
+router.get('/:userId/settings', validateRequest(getUserByIdRequestSchema), requireUser, asyncWrapper(userController.getUserSettingsByIdHandler));
 
 export default router;
