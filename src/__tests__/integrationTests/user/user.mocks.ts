@@ -41,4 +41,4 @@ export const createUserPayload: User & { settings: createUserSettingsPayload } =
 
 /** Misc */
 export const jwtUserPayload: Omit<User, 'password'> = omit(userPayloadBase, 'password');
-export const getUsersPayload: Omit<User, 'password' | 'role'> = omit(userPayloadBase, ['password', 'role']);
+export const getUsersPayload: Omit<User, 'password'> = jwtUserPayload;
