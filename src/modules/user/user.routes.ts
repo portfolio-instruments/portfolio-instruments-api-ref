@@ -3,7 +3,7 @@ import asyncWrapper from '../../middleware/asyncWrapper';
 import { requireUser } from '../../middleware/requireRole';
 import validateRequest from '../../middleware/validateRequest';
 import userController from './user.controller';
-import { createUserRequestSchema, getUserSettingsByIdRequestSchema } from './user.request.schema';
+import { createUserRequestSchema, getUserByIdRequestSchema } from './user.request.schema';
 
 const router = express.Router();
 
@@ -45,6 +45,8 @@ router.post('/', validateRequest(createUserRequestSchema), asyncWrapper(userCont
 
 /** Read */
 router.get('/', validateRequest(), requireUser, asyncWrapper(userController.getUsersHandler));
+
+router.get('/:userId', validateRequest(getUserByIdRequestSchema), requireUser, asyncWrapper(userController.getUserByIdHandler));
 
 /**
  * @openapi
@@ -99,7 +101,7 @@ router.get('/', validateRequest(), requireUser, asyncWrapper(userController.getU
  */
 router.get(
   '/:userId/settings',
-  validateRequest(getUserSettingsByIdRequestSchema),
+  validateRequest(getUserByIdRequestSchema),
   requireUser,
   asyncWrapper(userController.getUserSettingsByIdHandler)
 );

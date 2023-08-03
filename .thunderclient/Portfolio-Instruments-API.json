@@ -1,7 +1,7 @@
 {
     "client": "Thunder Client",
     "collectionName": "Portfolio-Instruments-API",
-    "dateExported": "2023-07-30T02:22:05.048Z",
+    "dateExported": "2023-08-03T08:08:00.130Z",
     "version": "1.1",
     "folders": [
         {
@@ -73,7 +73,7 @@
             "method": "GET",
             "sortNum": 10000,
             "created": "2023-07-29T19:04:12.716Z",
-            "modified": "2023-07-29T19:04:12.716Z",
+            "modified": "2023-08-03T08:06:04.610Z",
             "headers": [],
             "params": [],
             "auth": {
@@ -106,6 +106,24 @@
             "tests": []
         },
         {
+            "_id": "233d484f-b39f-449b-90b8-49db15d7d679",
+            "colId": "85e7f2f9-04f5-48e8-b711-5b4eb0e353fd",
+            "containerId": "55306291-f5fc-4d90-bfbd-748f9ae1469a",
+            "name": "/users/:userId (Get User)",
+            "url": "http://localhost:3001/v1/users/1",
+            "method": "GET",
+            "sortNum": 12500,
+            "created": "2023-08-03T08:04:34.804Z",
+            "modified": "2023-08-03T08:05:55.835Z",
+            "headers": [],
+            "params": [],
+            "auth": {
+                "type": "bearer",
+                "bearer": ""
+            },
+            "tests": []
+        },
+        {
             "_id": "6bd2e9ed-af43-41b7-a2f8-88329f4b4138",
             "colId": "85e7f2f9-04f5-48e8-b711-5b4eb0e353fd",
             "containerId": "55306291-f5fc-4d90-bfbd-748f9ae1469a",
@@ -114,7 +132,7 @@
             "method": "GET",
             "sortNum": 15000,
             "created": "2023-07-30T02:12:29.947Z",
-            "modified": "2023-07-30T02:14:44.015Z",
+            "modified": "2023-08-02T07:18:28.214Z",
             "headers": [],
             "params": [],
             "auth": {

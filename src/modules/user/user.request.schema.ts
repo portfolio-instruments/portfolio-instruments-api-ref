@@ -63,8 +63,11 @@ export const createUserRequestSchema = object({
 export type CreateUserRequest = TypeOf<typeof createUserRequestSchema>;
 
 /** Read */
-export const getUserSettingsByIdRequestSchema = object({
+export const getUserByIdRequestSchema = object({
   params: paramsSchema.strict(),
 });
 
-export type GetUserSettingsByIdRequest = { params: { userId: string } };
+export const getUserSettingsByIdRequestSchema = getUserByIdRequestSchema;
+
+export type GetUserByIdRequest = { params: { userId: string } };
+export type GetUserSettingsByIdRequest = GetUserByIdRequest;
