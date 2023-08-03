@@ -3,7 +3,7 @@ import asyncWrapper from '../../middleware/asyncWrapper';
 import { requireUser } from '../../middleware/requireRole';
 import validateRequest from '../../middleware/validateRequest';
 import userController from './user.controller';
-import { createUserRequestSchema, getUserSettingsByIdRequestSchema } from './user.request.schema';
+import { createUserRequestSchema, getUserByIdRequestSchema } from './user.request.schema';
 
 const router = express.Router();
 
@@ -48,6 +48,59 @@ router.get('/', validateRequest(), requireUser, asyncWrapper(userController.getU
 
 /**
  * @openapi
+ * /users/{userId}:
+ *    get:
+ *      summary: Retrieve a user
+ *      tags:
+ *        - User
+ *      security:
+ *        - bearerAuth: []
+ *      parameters:
+ *       - $ref: '#/components/parameters/userId'
+ *      responses:
+ *          200:
+ *              description: Successfully retrieved a user
+ *              content:
+ *                  application/json:
+ *                      schema:
+ *                          $ref: '#/components/schemas/GetUserResponse'
+ *          400:
+ *              description: Bad Request
+ *              content:
+ *                  application/json:
+ *                      schema:
+ *                          $ref: '#/components/schemas/Error'
+ *          401:
+ *              description: Unauthorized
+ *              content:
+ *                  application/json:
+ *                      schema:
+ *                          $ref: '#/components/schemas/Error'
+ *          403:
+ *              description: Forbidden
+ *              content:
+ *                  application/json:
+ *                      schema:
+ *                          $ref: '#/components/schemas/Error'
+ *          404:
+ *              description: Not Found
+ *              content:
+ *                  application/json:
+ *                      schema:
+ *                          $ref: '#/components/schemas/Error'
+ *
+ * components:
+ *   parameters:
+ *     userId:
+ *         name: userId
+ *         in: path
+ *         description: The id of user
+ *         required: true
+ */
+router.get('/:userId', validateRequest(getUserByIdRequestSchema), requireUser, asyncWrapper(userController.getUserByIdHandler));
+
+/**
+ * @openapi
  * /users/{userId}/settings:
  *    get:
  *      summary: Retrieve a list of user settings
@@ -88,20 +141,7 @@ router.get('/', validateRequest(), requireUser, asyncWrapper(userController.getU
  *                  application/json:
  *                      schema:
  *                          $ref: '#/components/schemas/Error'
- *
- * components:
- *   parameters:
- *     userId:
- *         name: userId
- *         in: path
- *         description: The id of user
- *         required: true
  */
-router.get(
-  '/:userId/settings',
-  validateRequest(getUserSettingsByIdRequestSchema),
-  requireUser,
-  asyncWrapper(userController.getUserSettingsByIdHandler)
-);
+router.get('/:userId/settings', validateRequest(getUserByIdRequestSchema), requireUser, asyncWrapper(userController.getUserSettingsByIdHandler));
 
 export default router;

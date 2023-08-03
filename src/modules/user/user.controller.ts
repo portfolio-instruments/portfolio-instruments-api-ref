@@ -4,10 +4,10 @@ import { omit } from 'lodash';
 import type { ValidUser, ValidUserRequest } from '../../middleware/deserializeUser';
 import type { ParsedQuery } from '../../utils/parseQuery';
 import { parseQuery } from '../../utils/parseQuery';
-import type { CreateUserRequest, GetUserSettingsByIdRequest } from './user.request.schema';
+import type { CreateUserRequest, GetUserByIdRequest, GetUserSettingsByIdRequest } from './user.request.schema';
 import { queryAbleUserKeys } from './user.request.schema';
 import type { CreateUserContext } from './user.service';
-import { getUserSettingsById } from './user.service';
+import { getUserByEmail, getUserSettingsById } from './user.service';
 import { createUser, createUserSettings, getUsers } from './user.service';
 import ApiError from '../../errors/ApiError';
 import type { BaseRequest } from '../../BaseRequest';
@@ -62,14 +62,53 @@ async function createUserHandler(req: CreateUserHandlerRequest, res: Response): 
 /** Read */
 type GetUsersHandlerRequest = BaseRequest & ValidUserRequest;
 
-// Add and only allow req.expand on getUserHandler for 'settngs'...
-
 async function getUsersHandler(req: GetUsersHandlerRequest, res: Response): Promise<void> {
   const email: string | undefined = req.user?.role === 'USER' ? req.user.email : undefined;
   const parsedQuery: ParsedQuery = parseQuery(req, queryAbleUserKeys);
   const users: User[] = await getUsers(email, parsedQuery);
-  const redactedUsers: Omit<User, 'password' | 'role'>[] = users.map((user) => omit(user, ['password', 'role']));
+  const redactedUsers: Omit<User, 'password'>[] = users.map((user) => omit(user, 'password'));
   res.status(200).json(redactedUsers);
+}
+
+/**
+ * @openapi
+ * components:
+ *  schemas:
+ *    GetUserResponse:
+ *      type: object
+ *      properties:
+ *        id:
+ *          type: number
+ *        email:
+ *          type: string
+ *        name:
+ *          type: string
+ *        role:
+ *          type: string
+ *        createdAt:
+ *          type: string
+ *          format: date-time
+ *        updatedAt:
+ *          type: string
+ *          format: date-time
+ */
+type GetUserByIdHandlerRequest = BaseRequest & ValidUserRequest & GetUserByIdRequest;
+
+async function getUserByIdHandler(req: GetUserByIdHandlerRequest, res: Response): Promise<void> {
+  const userReq: ValidUser = nonNullValue(req.user);
+  const userId: number = Number(req.params.userId);
+
+  if (userReq.id !== userId) {
+    throw ApiError.forbidden('You are not authorized to access this resource.');
+  }
+
+  const user: User | null = await getUserByEmail(userReq.email);
+  if (!user) {
+    ApiError.notFound('User not found.');
+  }
+
+  const redactedUser: Omit<User, 'password'> = omit(user, 'password');
+  res.status(200).json(redactedUser);
 }
 
 /**
@@ -110,4 +149,4 @@ async function getUserSettingsByIdHandler(req: GetUserSettingsByIdHandlerRequest
   res.status(200).json(omit(settings, 'userId'));
 }
 
-export default { getUsersHandler, getUserSettingsByIdHandler, createUserHandler };
+export default { getUsersHandler, getUserByIdHandler, getUserSettingsByIdHandler, createUserHandler };
