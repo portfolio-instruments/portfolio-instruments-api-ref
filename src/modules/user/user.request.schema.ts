@@ -71,3 +71,20 @@ export const getUserSettingsByIdRequestSchema = getUserByIdRequestSchema;
 
 export type GetUserByIdRequest = { params: { userId: string } };
 export type GetUserSettingsByIdRequest = GetUserByIdRequest;
+
+/** Update */
+export const putUserSettingsByIdRequestSchema = object({
+  body: object({
+    vpThreshold: coerce
+      .number({ invalid_type_error: 'The vpThreshold must be a positive whole number' })
+      .int('The vpThreshold must be a whole number')
+      .positive('The vpThreshold must be a positive number'),
+    rebalanceThreshold: coerce
+      .number({ invalid_type_error: 'The rebalanceThreshold must be a positive whole number' })
+      .int('The rebalanceThreshold must be a whole number')
+      .positive('The rebalanceThreshold must be a positive number'),
+  }).strict(),
+  params: paramsSchema.strict(),
+});
+
+export type PutUserSettingsByIdRequest = { body: TypeOf<typeof putUserSettingsByIdRequestSchema>['body'] } & { params: { userId: string } };
