@@ -150,6 +150,26 @@ async function getUserSettingsByIdHandler(req: GetUserSettingsByIdHandlerRequest
 }
 
 /** Update */
+/**
+ * @openapi
+ * components:
+ *  schemas:
+ *    PutUserSettingsResponse:
+ *      type: object
+ *      properties:
+ *        id:
+ *          type: number
+ *        vpThreshold:
+ *          type: string
+ *        rebalanceThreshold:
+ *          type: string
+ *        createdAt:
+ *          type: string
+ *          format: date-time
+ *        updatedAt:
+ *          type: string
+ *          format: date-time
+ */
 type PutUserSettingsByIdHandlerRequest = BaseRequest & ValidUserRequest & PutUserSettingsByIdRequest;
 
 async function putUserSettingsByIdHandler(req: PutUserSettingsByIdHandlerRequest, res: Response): Promise<void> {

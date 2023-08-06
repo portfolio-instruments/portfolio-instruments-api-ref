@@ -73,6 +73,23 @@ export type GetUserByIdRequest = { params: { userId: string } };
 export type GetUserSettingsByIdRequest = GetUserByIdRequest;
 
 /** Update */
+/**
+ * @openapi
+ * components:
+ *  schemas:
+ *    PutUserSettingsInput:
+ *      type: object
+ *      required:
+ *        - vpThreshold
+ *        - rebalanceThreshold
+ *      properties:
+ *        vpThreshold:
+ *          type: number
+ *          default: 10
+ *        rebalanceThreshold:
+ *          type: number
+ *          default: 10
+ */
 export const putUserSettingsByIdRequestSchema = object({
   body: object({
     vpThreshold: coerce
