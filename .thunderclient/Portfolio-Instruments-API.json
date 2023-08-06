@@ -1,7 +1,7 @@
 {
     "client": "Thunder Client",
     "collectionName": "Portfolio-Instruments-API",
-    "dateExported": "2023-08-06T21:44:29.031Z",
+    "dateExported": "2023-08-06T21:45:43.493Z",
     "version": "1.1",
     "folders": [
         {
@@ -206,11 +206,11 @@
             "colId": "85e7f2f9-04f5-48e8-b711-5b4eb0e353fd",
             "containerId": "55306291-f5fc-4d90-bfbd-748f9ae1469a",
             "name": "/users/:userId/settings (Put User Settings)",
-            "url": "http://localhost:3001/v1/users/2/settings",
+            "url": "http://localhost:3001/v1/users/1/settings",
             "method": "PUT",
             "sortNum": 30000,
             "created": "2023-08-06T19:33:54.431Z",
-            "modified": "2023-08-06T19:37:13.809Z",
+            "modified": "2023-08-06T21:45:36.609Z",
             "headers": [],
             "params": [],
             "body": {
