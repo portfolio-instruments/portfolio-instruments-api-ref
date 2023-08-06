@@ -6,8 +6,8 @@ import { omit } from 'lodash';
 /** Create */
 export type CreateUserContext = Omit<User, 'id' | 'role' | 'createdAt' | 'updatedAt'>;
 
-export async function createUser(createUserContext: CreateUserContext): Promise<User> {
-  return await prisma.user.create({ data: createUserContext });
+export async function createUser(context: CreateUserContext): Promise<User> {
+  return await prisma.user.create({ data: context });
 }
 
 export function createUserSettings(userId: number): Promise<Settings> {
