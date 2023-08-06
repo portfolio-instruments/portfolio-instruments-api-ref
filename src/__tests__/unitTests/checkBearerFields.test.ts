@@ -1,6 +1,6 @@
 import * as fse from 'fs-extra';
 import * as path from 'path';
-import { ThunderClientCollection } from '../../../.thunderclient/ThunderClientCollection';
+import type { ThunderClientCollection } from '../../../.thunderclient/ThunderClientCollection';
 
 describe('Thunder Client collection', () => {
   it('should not source control bearer token data', async () => {
