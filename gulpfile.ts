@@ -1,6 +1,6 @@
 import * as path from 'path';
 import * as fse from 'fs-extra';
-import { ThunderClientCollection } from './src/__tests__/unitTests/checkBearerFields.test';
+import { ThunderClientCollection } from './.thunderclient/ThunderClientCollection';
 
 // Replace all `bearer` values with an empty string
 async function sanitizeThunderclientCollection(): Promise<void> {
