@@ -4,10 +4,10 @@ import { omit } from 'lodash';
 import type { ValidUser, ValidUserRequest } from '../../middleware/deserializeUser';
 import type { ParsedQuery } from '../../utils/parseQuery';
 import { parseQuery } from '../../utils/parseQuery';
-import type { CreateUserRequest, GetUserByIdRequest, GetUserSettingsByIdRequest } from './user.request.schema';
+import type { CreateUserRequest, GetUserByIdRequest, GetUserSettingsByIdRequest, PutUserSettingsByIdRequest } from './user.request.schema';
 import { queryAbleUserKeys } from './user.request.schema';
 import type { CreateUserContext } from './user.service';
-import { getUserByEmail, getUserSettingsById } from './user.service';
+import { getUserByEmail, getUserSettingsById, updateUserSettingsById } from './user.service';
 import { createUser, createUserSettings, getUsers } from './user.service';
 import ApiError from '../../errors/ApiError';
 import type { BaseRequest } from '../../BaseRequest';
@@ -149,4 +149,43 @@ async function getUserSettingsByIdHandler(req: GetUserSettingsByIdHandlerRequest
   res.status(200).json(omit(settings, 'userId'));
 }
 
-export default { getUsersHandler, getUserByIdHandler, getUserSettingsByIdHandler, createUserHandler };
+/** Update */
+/**
+ * @openapi
+ * components:
+ *  schemas:
+ *    PutUserSettingsResponse:
+ *      type: object
+ *      properties:
+ *        id:
+ *          type: number
+ *        vpThreshold:
+ *          type: string
+ *        rebalanceThreshold:
+ *          type: string
+ *        createdAt:
+ *          type: string
+ *          format: date-time
+ *        updatedAt:
+ *          type: string
+ *          format: date-time
+ */
+type PutUserSettingsByIdHandlerRequest = BaseRequest & ValidUserRequest & PutUserSettingsByIdRequest;
+
+async function putUserSettingsByIdHandler(req: PutUserSettingsByIdHandlerRequest, res: Response): Promise<void> {
+  const user: ValidUser = nonNullValue(req.user);
+  const userId: number = Number(req.params.userId);
+
+  if (user.id !== userId) {
+    throw ApiError.forbidden('You are not authorized to access this resource.');
+  }
+
+  const settings: Settings | null = await updateUserSettingsById({ ...req.body, userId });
+  if (!settings) {
+    throw ApiError.notFound('User settings not found.');
+  }
+
+  res.status(200).json(omit(settings, 'userId'));
+}
+
+export default { getUsersHandler, getUserByIdHandler, getUserSettingsByIdHandler, createUserHandler, putUserSettingsByIdHandler };

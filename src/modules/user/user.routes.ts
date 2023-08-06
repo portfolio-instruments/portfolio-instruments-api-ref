@@ -3,7 +3,12 @@ import asyncWrapper from '../../middleware/asyncWrapper';
 import { requireUser } from '../../middleware/requireRole';
 import validateRequest from '../../middleware/validateRequest';
 import userController from './user.controller';
-import { createUserRequestSchema, getUserByIdRequestSchema } from './user.request.schema';
+import {
+  createUserRequestSchema,
+  getUserByIdRequestSchema,
+  getUserSettingsByIdRequestSchema,
+  putUserSettingsByIdRequestSchema,
+} from './user.request.schema';
 
 const router = express.Router();
 
@@ -142,6 +147,68 @@ router.get('/:userId', validateRequest(getUserByIdRequestSchema), requireUser, a
  *                      schema:
  *                          $ref: '#/components/schemas/Error'
  */
-router.get('/:userId/settings', validateRequest(getUserByIdRequestSchema), requireUser, asyncWrapper(userController.getUserSettingsByIdHandler));
+router.get(
+  '/:userId/settings',
+  validateRequest(getUserSettingsByIdRequestSchema),
+  requireUser,
+  asyncWrapper(userController.getUserSettingsByIdHandler)
+);
+
+/** Update */
+/**
+ * @openapi
+ * /users/{userId}/settings:
+ *    put:
+ *      summary: Completely update a user's settings
+ *      tags:
+ *        - User
+ *      security:
+ *        - bearerAuth: []
+ *      parameters:
+ *       - $ref: '#/components/parameters/userId'
+ *      requestBody:
+ *          required: true
+ *          content:
+ *              application/json:
+ *                  schema:
+ *                      $ref: '#/components/schemas/PutUserSettingsInput'
+ *      responses:
+ *          200:
+ *              description: Successfully updated a user's settings
+ *              content:
+ *                  application/json:
+ *                      schema:
+ *                          $ref: '#/components/schemas/PutUserSettingsResponse'
+ *          400:
+ *              description: Bad Request
+ *              content:
+ *                  application/json:
+ *                      schema:
+ *                          $ref: '#/components/schemas/Error'
+ *          401:
+ *              description: Unauthorized
+ *              content:
+ *                  application/json:
+ *                      schema:
+ *                          $ref: '#/components/schemas/Error'
+ *          403:
+ *              description: Forbidden
+ *              content:
+ *                  application/json:
+ *                      schema:
+ *                          $ref: '#/components/schemas/Error'
+ *          404:
+ *              description: Not Found
+ *              content:
+ *                  application/json:
+ *                      schema:
+ *                          $ref: '#/components/schemas/Error'
+ */
+router.put(
+  '/:userId/settings',
+  validateRequest(putUserSettingsByIdRequestSchema),
+  requireUser,
+  asyncWrapper(userController.putUserSettingsByIdHandler)
+);
 
 export default router;

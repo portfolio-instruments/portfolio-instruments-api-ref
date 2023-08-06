@@ -1,7 +1,7 @@
 {
     "client": "Thunder Client",
     "collectionName": "Portfolio-Instruments-API",
-    "dateExported": "2023-08-03T08:08:00.130Z",
+    "dateExported": "2023-08-06T21:45:43.493Z",
     "version": "1.1",
     "folders": [
         {
@@ -193,6 +193,29 @@
             "body": {
                 "type": "json",
                 "raw": "{\n  \"institution\": \"Fidelity\",\n  \"taxShelter\": \"TRADITIONAL\",\n  \"description\": \"Main\"\n}",
+                "form": []
+            },
+            "auth": {
+                "type": "bearer",
+                "bearer": ""
+            },
+            "tests": []
+        },
+        {
+            "_id": "67c9a33a-d6f7-4abe-ab95-c7fc41c4e7ab",
+            "colId": "85e7f2f9-04f5-48e8-b711-5b4eb0e353fd",
+            "containerId": "55306291-f5fc-4d90-bfbd-748f9ae1469a",
+            "name": "/users/:userId/settings (Put User Settings)",
+            "url": "http://localhost:3001/v1/users/1/settings",
+            "method": "PUT",
+            "sortNum": 30000,
+            "created": "2023-08-06T19:33:54.431Z",
+            "modified": "2023-08-06T21:45:36.609Z",
+            "headers": [],
+            "params": [],
+            "body": {
+                "type": "json",
+                "raw": "{\n  \"vpThreshold\": 10,\n  \"rebalanceThreshold\": 10\n}",
                 "form": []
             },
             "auth": {
