@@ -270,6 +270,45 @@ router.patch(
 );
 
 /** Delete */
+/**
+ * @openapi
+ * '/users/{userId}':
+ *   delete:
+ *     tags:
+ *       - User
+ *     summary: Delete a user
+ *     security:
+ *        - bearerAuth: []
+ *     parameters:
+ *       - $ref: '#/components/parameters/userId'
+ *     responses:
+ *       '204':
+ *         description: Successfully deleted a user
+ *       '400':
+ *         description: Bad Request
+ *         content:
+ *             application/json:
+ *                 schema:
+ *                     $ref: '#/components/schemas/Error'
+ *       '401':
+ *         description: Unauthorized
+ *         content:
+ *             application/json:
+ *                 schema:
+ *                     $ref: '#/components/schemas/Error'
+ *       '403':
+ *         description: Forbidden
+ *         content:
+ *             application/json:
+ *                 schema:
+ *                     $ref: '#/components/schemas/Error'
+ *       '404':
+ *         description: Account not found
+ *         content:
+ *             application/json:
+ *                 schema:
+ *                     $ref: '#/components/schemas/Error'
+ */
 router.delete('/:userId', validateRequest(deleteUserByIdRequestSchema), requireUser, asyncWrapper(userController.deleteUserByIdHandler));
 
 export default router;
