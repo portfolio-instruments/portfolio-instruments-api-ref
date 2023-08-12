@@ -4,7 +4,13 @@ import { omit } from 'lodash';
 import type { ValidUser, ValidUserRequest } from '../../middleware/deserializeUser';
 import type { ParsedQuery } from '../../utils/parseQuery';
 import { parseQuery } from '../../utils/parseQuery';
-import type { CreateUserRequest, GetUserByIdRequest, GetUserSettingsByIdRequest, PutUserSettingsByIdRequest } from './user.request.schema';
+import type {
+  CreateUserRequest,
+  GetUserByIdRequest,
+  GetUserSettingsByIdRequest,
+  PatchUserSettingsByIdRequest,
+  PutUserSettingsByIdRequest,
+} from './user.request.schema';
 import { queryAbleUserKeys } from './user.request.schema';
 import type { CreateUserContext } from './user.service';
 import { getUserByEmail, getUserSettingsById, updateUserSettingsById } from './user.service';
@@ -120,9 +126,9 @@ async function getUserByIdHandler(req: GetUserByIdHandlerRequest, res: Response)
  *      properties:
  *        id:
  *          type: number
- *        vpThreshold:
+ *        vpThresholdPercent:
  *          type: number
- *        rebalanceThreshold:
+ *        rebalanceThresholdPercent:
  *          type: number
  *        createdAt:
  *          type: string
@@ -159,10 +165,10 @@ async function getUserSettingsByIdHandler(req: GetUserSettingsByIdHandlerRequest
  *      properties:
  *        id:
  *          type: number
- *        vpThreshold:
- *          type: string
- *        rebalanceThreshold:
- *          type: string
+ *        vpThresholdPercent:
+ *          type: number
+ *        rebalanceThresholdPercent:
+ *          type: number
  *        createdAt:
  *          type: string
  *          format: date-time
@@ -172,7 +178,31 @@ async function getUserSettingsByIdHandler(req: GetUserSettingsByIdHandlerRequest
  */
 type PutUserSettingsByIdHandlerRequest = BaseRequest & ValidUserRequest & PutUserSettingsByIdRequest;
 
-async function putUserSettingsByIdHandler(req: PutUserSettingsByIdHandlerRequest, res: Response): Promise<void> {
+/**
+ * @openapi
+ * components:
+ *  schemas:
+ *    PatchUserSettingsResponse:
+ *      type: object
+ *      properties:
+ *        id:
+ *          type: number
+ *        vpThresholdPercent:
+ *          type: number
+ *        rebalanceThresholdPercent:
+ *          type: number
+ *        createdAt:
+ *          type: string
+ *          format: date-time
+ *        updatedAt:
+ *          type: string
+ *          format: date-time
+ */
+type PatchUserSettingsByIdHandlerRequest = BaseRequest & ValidUserRequest & PatchUserSettingsByIdRequest;
+
+type UpdateUserSettingsByIdHandlerRequest = PutUserSettingsByIdHandlerRequest | PatchUserSettingsByIdHandlerRequest;
+
+async function updateUserSettingsByIdHandler(req: UpdateUserSettingsByIdHandlerRequest, res: Response): Promise<void> {
   const user: ValidUser = nonNullValue(req.user);
   const userId: number = Number(req.params.userId);
 
@@ -188,4 +218,4 @@ async function putUserSettingsByIdHandler(req: PutUserSettingsByIdHandlerRequest
   res.status(200).json(omit(settings, 'userId'));
 }
 
-export default { getUsersHandler, getUserByIdHandler, getUserSettingsByIdHandler, createUserHandler, putUserSettingsByIdHandler };
+export default { getUsersHandler, getUserByIdHandler, getUserSettingsByIdHandler, createUserHandler, updateUserSettingsByIdHandler };

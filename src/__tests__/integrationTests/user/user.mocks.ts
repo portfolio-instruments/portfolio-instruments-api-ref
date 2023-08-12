@@ -5,8 +5,8 @@ import { omit } from 'lodash';
 export const userSettingsPayloadBase: Settings = {
   id: 1,
   userId: 1,
-  vpThreshold: 10,
-  rebalanceThreshold: 10,
+  vpThresholdPercent: 10,
+  rebalanceThresholdPercent: 10,
   createdAt: '2021-09-30T13:31:07.674Z' as unknown as Date,
   updatedAt: '2021-09-30T13:31:07.674Z' as unknown as Date,
 };
@@ -34,8 +34,8 @@ type createUserSettingsPayload = Omit<Settings, 'id' | 'userId' | 'createdAt' | 
 export const createUserPayload: User & { settings: createUserSettingsPayload } = {
   ...userPayloadBase,
   settings: {
-    vpThreshold: userSettingsPayloadBase.vpThreshold,
-    rebalanceThreshold: userSettingsPayloadBase.rebalanceThreshold,
+    vpThresholdPercent: userSettingsPayloadBase.vpThresholdPercent,
+    rebalanceThresholdPercent: userSettingsPayloadBase.rebalanceThresholdPercent,
   },
 };
 
