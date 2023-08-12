@@ -96,7 +96,7 @@ async function getAccountByIdHandler(req: GetAccountByIdHandlerRequest, res: Res
 
   const account: Account | null = await getAccountById(userId, accountId);
   if (!account) {
-    throw ApiError.notFound(`Account with id "${accountId}" not found for the logged in user.`);
+    throw ApiError.notFound(`Account not found.`);
   }
 
   res.status(200).json(account);
@@ -120,13 +120,13 @@ async function updateAccountByIdHandler(req: UpdateAccountByIdHandlerRequest, re
    */
   const peekAccount: Account | null = await getAccountById(userId, context.id);
   if (!peekAccount) {
-    throw ApiError.notFound(`Account with id "${context.id}" was not found.`);
+    throw ApiError.notFound(`Account was not found.`);
   } else if (peekAccount.userId !== userId) {
-    throw ApiError.forbidden(`Account with id "${context.id}" does not belong to the current user.`);
+    throw ApiError.forbidden(`Account does not belong to the current user.`);
   }
 
   /** Update the resource */
-  const account: Account = await updateAccount(context);
+  const account = await updateAccount(context);
   res.status(200).json(account);
 }
 
@@ -143,12 +143,11 @@ async function deleteAccountByIdHandler(req: DeleteAccountByIdHandlerRequest, re
    */
   const peekAccount: Account | null = await getAccountById(userId, accountId);
   if (!peekAccount) {
-    throw ApiError.notFound(`Account with id "${accountId}" was not found.`);
+    throw ApiError.notFound(`Account was not found.`);
   } else if (peekAccount.userId !== userId) {
-    throw ApiError.forbidden(`Account with id "${accountId}" does not belong to the current user.`);
+    throw ApiError.forbidden(`Account does not belong to the current user.`);
   }
 
-  /** Delete the resource */
   await deleteAccount(accountId);
   res.status(204).json();
 }

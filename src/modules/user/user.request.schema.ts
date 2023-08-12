@@ -134,3 +134,10 @@ export const patchUserSettingsByIdRequestSchema = object({
 });
 
 export type PatchUserSettingsByIdRequest = { body: TypeOf<typeof patchUserSettingsByIdRequestSchema>['body'] } & { params: { userId: string } };
+
+/** Delete */
+export const deleteUserByIdRequestSchema = object({
+  params: paramsSchema.strict(),
+});
+
+export type DeleteUserByIdRequest = GetUserByIdRequest;
