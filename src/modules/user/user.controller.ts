@@ -6,13 +6,14 @@ import type { ParsedQuery } from '../../utils/parseQuery';
 import { parseQuery } from '../../utils/parseQuery';
 import type {
   CreateUserRequest,
+  DeleteUserByIdRequest,
   GetUserByIdRequest,
   GetUserSettingsByIdRequest,
   PatchUserSettingsByIdRequest,
   PutUserSettingsByIdRequest,
 } from './user.request.schema';
 import { queryAbleUserKeys } from './user.request.schema';
-import type { CreateUserContext } from './user.service';
+import { CreateUserContext, deleteUserById, getUserById } from './user.service';
 import { getUserByEmail, getUserSettingsById, updateUserSettingsById } from './user.service';
 import { createUser, createUserSettings, getUsers } from './user.service';
 import ApiError from '../../errors/ApiError';
@@ -210,12 +211,36 @@ async function updateUserSettingsByIdHandler(req: UpdateUserSettingsByIdHandlerR
     throw ApiError.forbidden('You are not authorized to access this resource.');
   }
 
-  const settings: Settings | null = await updateUserSettingsById({ ...req.body, userId });
-  if (!settings) {
-    throw ApiError.notFound('User settings not found.');
-  }
-
+  // If user has no settings (potentially unreachable edge-case), Prisma will automatically try to create
+  const settings: Settings = await updateUserSettingsById({ ...req.body, userId });
   res.status(200).json(omit(settings, 'userId'));
 }
 
-export default { getUsersHandler, getUserByIdHandler, getUserSettingsByIdHandler, createUserHandler, updateUserSettingsByIdHandler };
+/** Delete */
+type DeleteUserByIdHandlerRequest = BaseRequest & ValidUserRequest & DeleteUserByIdRequest;
+
+async function deleteUserByIdHandler(req: DeleteUserByIdHandlerRequest, res: Response): Promise<void> {
+  const user: ValidUser = nonNullValue(req.user);
+  const userId: number = Number(req.params.userId);
+
+  if (user.id !== userId) {
+    throw ApiError.forbidden('You are not authorized to access this resource.');
+  }
+
+  const peekUser: User | null = await getUserById(userId);
+  if (!peekUser) {
+    throw ApiError.notFound('User not found.');
+  }
+
+  await deleteUserById(userId);
+  res.status(204).json();
+}
+
+export default {
+  createUserHandler,
+  deleteUserByIdHandler,
+  getUsersHandler,
+  getUserByIdHandler,
+  getUserSettingsByIdHandler,
+  updateUserSettingsByIdHandler,
+};

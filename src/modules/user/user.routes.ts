@@ -5,6 +5,7 @@ import validateRequest from '../../middleware/validateRequest';
 import userController from './user.controller';
 import {
   createUserRequestSchema,
+  deleteUserByIdRequestSchema,
   getUserByIdRequestSchema,
   getUserSettingsByIdRequestSchema,
   patchUserSettingsByIdRequestSchema,
@@ -267,5 +268,8 @@ router.patch(
   requireUser,
   asyncWrapper(userController.updateUserSettingsByIdHandler)
 );
+
+/** Delete */
+router.delete('/:userId', validateRequest(deleteUserByIdRequestSchema), requireUser, asyncWrapper(userController.deleteUserByIdHandler));
 
 export default router;
