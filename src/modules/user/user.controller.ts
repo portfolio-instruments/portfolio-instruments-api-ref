@@ -166,9 +166,9 @@ async function getUserSettingsByIdHandler(req: GetUserSettingsByIdHandlerRequest
  *        id:
  *          type: number
  *        vpThresholdPercent:
- *          type: string
+ *          type: number
  *        rebalanceThresholdPercent:
- *          type: string
+ *          type: number
  *        createdAt:
  *          type: string
  *          format: date-time
@@ -178,6 +178,26 @@ async function getUserSettingsByIdHandler(req: GetUserSettingsByIdHandlerRequest
  */
 type PutUserSettingsByIdHandlerRequest = BaseRequest & ValidUserRequest & PutUserSettingsByIdRequest;
 
+/**
+ * @openapi
+ * components:
+ *  schemas:
+ *    PatchUserSettingsResponse:
+ *      type: object
+ *      properties:
+ *        id:
+ *          type: number
+ *        vpThresholdPercent:
+ *          type: number
+ *        rebalanceThresholdPercent:
+ *          type: number
+ *        createdAt:
+ *          type: string
+ *          format: date-time
+ *        updatedAt:
+ *          type: string
+ *          format: date-time
+ */
 type PatchUserSettingsByIdHandlerRequest = BaseRequest & ValidUserRequest & PatchUserSettingsByIdRequest;
 
 type UpdateUserSettingsByIdHandlerRequest = PutUserSettingsByIdHandlerRequest | PatchUserSettingsByIdHandlerRequest;

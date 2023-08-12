@@ -212,6 +212,55 @@ router.put(
   asyncWrapper(userController.updateUserSettingsByIdHandler)
 );
 
+/**
+ * @openapi
+ * /users/{userId}/settings:
+ *    patch:
+ *      summary: Partially update a user's settings
+ *      tags:
+ *        - User
+ *      security:
+ *        - bearerAuth: []
+ *      parameters:
+ *       - $ref: '#/components/parameters/userId'
+ *      requestBody:
+ *          required: true
+ *          content:
+ *              application/json:
+ *                  schema:
+ *                      $ref: '#/components/schemas/PatchUserSettingsInput'
+ *      responses:
+ *          200:
+ *              description: Successfully updated a user's settings
+ *              content:
+ *                  application/json:
+ *                      schema:
+ *                          $ref: '#/components/schemas/PatchUserSettingsResponse'
+ *          400:
+ *              description: Bad Request
+ *              content:
+ *                  application/json:
+ *                      schema:
+ *                          $ref: '#/components/schemas/Error'
+ *          401:
+ *              description: Unauthorized
+ *              content:
+ *                  application/json:
+ *                      schema:
+ *                          $ref: '#/components/schemas/Error'
+ *          403:
+ *              description: Forbidden
+ *              content:
+ *                  application/json:
+ *                      schema:
+ *                          $ref: '#/components/schemas/Error'
+ *          404:
+ *              description: Not Found
+ *              content:
+ *                  application/json:
+ *                      schema:
+ *                          $ref: '#/components/schemas/Error'
+ */
 router.patch(
   '/:userId/settings',
   validateRequest(patchUserSettingsByIdRequestSchema),

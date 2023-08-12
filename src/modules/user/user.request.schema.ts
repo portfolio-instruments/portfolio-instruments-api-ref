@@ -112,6 +112,22 @@ export const putUserSettingsByIdRequestSchema = object({
 
 export type PutUserSettingsByIdRequest = { body: TypeOf<typeof putUserSettingsByIdRequestSchema>['body'] } & { params: { userId: string } };
 
+/**
+ * @openapi
+ * components:
+ *  schemas:
+ *    PatchUserSettingsInput:
+ *      type: object
+ *      properties:
+ *        vpThresholdPercent:
+ *          type: number
+ *          default: 10
+ *        rebalanceThresholdPercent:
+ *          type: number
+ *          default: 10
+ *      example:
+ *        rebalanceThresholdPercent: 15
+ */
 export const patchUserSettingsByIdRequestSchema = object({
   body: settingsBodySchema.partial().strict(),
   params: paramsSchema.strict(),
