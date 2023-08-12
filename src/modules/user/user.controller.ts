@@ -13,7 +13,8 @@ import type {
   PutUserSettingsByIdRequest,
 } from './user.request.schema';
 import { queryAbleUserKeys } from './user.request.schema';
-import { CreateUserContext, deleteUserById, getUserById } from './user.service';
+import type { CreateUserContext } from './user.service';
+import { deleteUserById, getUserById } from './user.service';
 import { getUserByEmail, getUserSettingsById, updateUserSettingsById } from './user.service';
 import { createUser, createUserSettings, getUsers } from './user.service';
 import ApiError from '../../errors/ApiError';
