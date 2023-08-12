@@ -7,6 +7,7 @@ import {
   createUserRequestSchema,
   getUserByIdRequestSchema,
   getUserSettingsByIdRequestSchema,
+  patchUserSettingsByIdRequestSchema,
   putUserSettingsByIdRequestSchema,
 } from './user.request.schema';
 
@@ -208,7 +209,14 @@ router.put(
   '/:userId/settings',
   validateRequest(putUserSettingsByIdRequestSchema),
   requireUser,
-  asyncWrapper(userController.putUserSettingsByIdHandler)
+  asyncWrapper(userController.updateUserSettingsByIdHandler)
+);
+
+router.patch(
+  '/:userId/settings',
+  validateRequest(patchUserSettingsByIdRequestSchema),
+  requireUser,
+  asyncWrapper(userController.updateUserSettingsByIdHandler)
 );
 
 export default router;

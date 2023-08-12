@@ -38,9 +38,9 @@ export function getUserSettingsById(userId: number): Promise<Settings | null> {
 }
 
 /** Update */
-type PutUserSettingsByIdContext = Pick<Settings, 'userId' | 'rebalanceThreshold' | 'vpThreshold'>;
+type UpdateUserSettingsByIdContext = Partial<Pick<Settings, 'rebalanceThresholdPercent' | 'vpThresholdPercent'>> & { userId: number };
 
-export function updateUserSettingsById(context: PutUserSettingsByIdContext): Promise<Settings | null> {
+export function updateUserSettingsById(context: UpdateUserSettingsByIdContext): Promise<Settings | null> {
   return prisma.settings.update({
     where: { userId: context.userId },
     data: omit(context, 'userId'),

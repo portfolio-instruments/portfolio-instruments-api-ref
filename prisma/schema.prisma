@@ -23,13 +23,13 @@ model User {
 }
 
 model Settings {
-  id                 Int      @id @default(autoincrement())
-  user               User     @relation(fields: [userId], references: [id])
-  userId             Int      @unique
-  vpThreshold        Int      @default(10)
-  rebalanceThreshold Int      @default(10)
-  createdAt          DateTime @default(now())
-  updatedAt          DateTime @updatedAt
+  id                        Int      @id @default(autoincrement())
+  user                      User     @relation(fields: [userId], references: [id])
+  userId                    Int      @unique
+  vpThresholdPercent        Int      @default(10)
+  rebalanceThresholdPercent Int      @default(10)
+  createdAt                 DateTime @default(now())
+  updatedAt                 DateTime @updatedAt
 }
 
 enum Role {

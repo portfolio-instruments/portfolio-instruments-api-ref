@@ -21,8 +21,8 @@ CREATE TABLE "User" (
 CREATE TABLE "Settings" (
     "id" SERIAL NOT NULL,
     "userId" INTEGER NOT NULL,
-    "vpThreshold" INTEGER NOT NULL DEFAULT 10,
-    "rebalanceThreshold" INTEGER NOT NULL DEFAULT 10,
+    "vpThresholdPercent" INTEGER NOT NULL DEFAULT 10,
+    "rebalanceThresholdPercent" INTEGER NOT NULL DEFAULT 10,
     "createdAt" TIMESTAMP(3) NOT NULL DEFAULT CURRENT_TIMESTAMP,
     "updatedAt" TIMESTAMP(3) NOT NULL,
 
