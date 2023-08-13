@@ -11,21 +11,24 @@ datasource db {
 }
 
 model User {
-  id        Int       @id @default(autoincrement())
-  email     String    @unique @db.VarChar(255)
-  name      String    @db.VarChar(255)
-  password  String    @db.VarChar(255)
-  role      Role      @default(USER)
-  settings  Settings?
-  Account   Account[]
-  createdAt DateTime  @default(now())
-  updatedAt DateTime  @updatedAt
+  id           Int         @id @default(autoincrement())
+  email        String      @unique @db.VarChar(255)
+  name         String      @db.VarChar(255)
+  password     String      @db.VarChar(255)
+  role         Role        @default(USER)
+  settings     Settings?
+  Benchmark    Benchmark[]
+  Account      Account[]
+  createdAt    DateTime    @default(now())
+  updatedAt    DateTime    @updatedAt
+  benchmarksId Int?
 }
 
 model Settings {
   id                        Int      @id @default(autoincrement())
   user                      User     @relation(fields: [userId], references: [id])
   userId                    Int      @unique
+  benchmarkId               Int?     @unique
   vpThresholdPercent        Int      @default(10)
   rebalanceThresholdPercent Int      @default(10)
   createdAt                 DateTime @default(now())
@@ -35,6 +38,19 @@ model Settings {
 enum Role {
   USER
   ADMIN
+}
+
+model Benchmark {
+  id          Int      @id @default(autoincrement())
+  userId      Int?     @unique
+  user        User?    @relation(fields: [userId], references: [id])
+  name        String   @db.VarChar(255)
+  description String   @db.VarChar(255)
+  // assetBreakdown
+  // assetPercent
+  // investigate other fields
+  createdAt   DateTime @default(now())
+  updatedAt   DateTime @updatedAt
 }
 
 // To avoid extra security complexities associated with passing and storing accountIds, 
