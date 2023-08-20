@@ -5,7 +5,7 @@ import { object, string } from 'zod';
 /** Query-able keys */
 export const queryAbleUserKeys: string[] = ['id', 'email', 'name', 'password', 'role', 'createdAt', 'updatedAt'];
 
-const paramsSchema = object({
+export const paramsSchema = object({
   userId: coerce
     .number({ invalid_type_error: 'The userId must be a positive whole number' })
     .int('The userId must be a whole number')
@@ -55,10 +55,10 @@ const settingsBodySchema = object({
  */
 export const createUserRequestSchema = object({
   body: object({
-    email: string({ required_error: 'Email is required' }).email({ message: 'Not a valid email' }),
-    name: string({ required_error: 'Name is required' })
-      .min(2, 'Name must be at least 2 characters long')
-      .max(255, 'Name can be at most 255 characters long'),
+    email: string({ required_error: 'Email is required' })
+      .email({ message: 'Not a valid email' })
+      .max(150, 'Email can be at most 150 characters long'),
+    name: string({ required_error: 'Name is required' }).max(150, 'Name can be at most 150 characters long'),
     password: string({ required_error: 'Password is required' })
       .min(6, 'Password must be at least 6 characters long')
       .max(255, 'Password can be at most 255 characters long'),

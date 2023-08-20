@@ -30,6 +30,8 @@ export default function createServer(): Express {
   /** Swagger docs */
   swaggerDocs(app);
 
+  /** Ensure benchmark portfolios exist */
+
   /** API rules */
   app.use((req: Request, res: Response, next: NextFunction): void => {
     res.header('Access-Control-Allow-Origin', '*');

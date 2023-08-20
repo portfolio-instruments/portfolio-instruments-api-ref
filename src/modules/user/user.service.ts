@@ -19,7 +19,7 @@ export function getUsers(email?: string, options?: ParsedQuery): Promise<User[]>
   return prisma.user.findMany<Prisma.UserFindManyArgs>({
     where: { email },
     include: {
-      settings: !!options?.expand,
+      Settings: !!options?.expand,
     },
     select: options?.select,
     take: options?.take,
