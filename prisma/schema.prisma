@@ -39,7 +39,7 @@ enum Role {
 model Benchmark {
   id                   Int         @id @default(autoincrement())
   user                 User?       @relation(fields: [userId], references: [id])
-  userId               Int?        @unique
+  userId               Int?
   title                String      @db.VarChar(150)
   shortDescription     String?     @db.VarChar(255)
   longDescription      String?     @db.Text

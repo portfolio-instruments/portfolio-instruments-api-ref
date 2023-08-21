@@ -50,6 +50,7 @@ type CreateUserHandlerRequest = BaseRequest & CreateUserRequest;
 async function createUserHandler(req: CreateUserHandlerRequest, res: Response): Promise<void> {
   const createUserContext: CreateUserContext = { ...omit(req.body, 'confirmPassword'), password: hashPassword(req.body.password) };
 
+  // Instead of doing this, can probably just do a get request first
   try {
     const user: User = await createUser(createUserContext);
     const settings: Settings = await createUserSettings(user.id);

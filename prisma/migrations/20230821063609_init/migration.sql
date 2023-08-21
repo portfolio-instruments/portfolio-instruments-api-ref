@@ -46,8 +46,8 @@ CREATE TABLE "Benchmark" (
     "worstDrawdownPercent" DOUBLE PRECISION,
     "longestDrawdownYears" DOUBLE PRECISION,
     "assets" "AssetCode"[],
-    "assetsPercent" INTEGER[],
-    "assetsViewHexColors" TEXT[] DEFAULT ARRAY[]::TEXT[],
+    "assetPercents" INTEGER[],
+    "assetViewHexColors" TEXT[] DEFAULT ARRAY[]::TEXT[],
     "createdAt" TIMESTAMP(3) NOT NULL DEFAULT CURRENT_TIMESTAMP,
     "updatedAt" TIMESTAMP(3) NOT NULL,
 
@@ -76,9 +76,6 @@ CREATE UNIQUE INDEX "Settings_userId_key" ON "Settings"("userId");
 
 -- CreateIndex
 CREATE UNIQUE INDEX "Settings_defaultBenchmarkId_key" ON "Settings"("defaultBenchmarkId");
-
--- CreateIndex
-CREATE UNIQUE INDEX "Benchmark_userId_key" ON "Benchmark"("userId");
 
 -- AddForeignKey
 ALTER TABLE "Settings" ADD CONSTRAINT "Settings_userId_fkey" FOREIGN KEY ("userId") REFERENCES "User"("id") ON DELETE RESTRICT ON UPDATE CASCADE;

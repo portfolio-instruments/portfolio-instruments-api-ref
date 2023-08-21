@@ -39,7 +39,7 @@ export const createBenchmarkRequestSchema = object({
       .array()
       .refine((assets) => new Set(assets).size === assets.length && assets.length >= 2, 'Must supply at least two assets, and they must be unique.')
       .refine(
-        (assets) => assets.every((asset) => Object.keys(AssetCode).includes(asset.toUpperCase())),
+        (assets) => assets.every((asset) => Object.keys(AssetCode).includes(asset)),
         `Assets must be one of the following types: ${Object.keys(AssetCode).join(', ')}`
       ),
     assetPercents: number({ required_error: 'Asset percentages (assetPercents) are required.' })
@@ -64,4 +64,4 @@ export const createBenchmarkRequestSchema = object({
     ),
 });
 
-export type CreateBenchmarkRequest = TypeOf<typeof createBenchmarkRequestSchema>;
+export type CreateBenchmarkRequest = TypeOf<typeof createBenchmarkRequestSchema> & { body: { assets: AssetCode[] } };
